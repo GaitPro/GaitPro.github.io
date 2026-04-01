@@ -102,7 +102,43 @@
     }
 
     /* 主題說明 */
-    .topic-content p { margin-bottom: 14px; }
+    .topic-content {
+      line-height: 1.8;
+      color: #333;
+      padding: 20px;
+    }
+
+/* 標題加強：賦予側邊裝飾線 */
+.topic-content strong {
+  display: block;
+  font-size: 1.1rem;
+  color: #0056b3;
+  margin: 15px 0 8px 0;
+  border-left: 4px solid #0056b3;
+  padding-left: 10px;
+}
+
+/* 內容縮排：讓內容不要跟標題切齊，更有層次 */
+.topic-content p, 
+.topic-content ul, 
+.layer-item {
+  margin-left: 14px;
+  margin-bottom: 12px;
+  text-align: justify;
+}
+
+/* 清單樣式優化 */
+.topic-content ul {
+  list-style: none;
+  padding: 0;
+}
+
+.topic-content li span, 
+.layer-item span {
+  font-weight: bold;
+  color: #444;
+  margin-right: 5px;
+}
 
     /* 成員卡片 */
     .members-grid {
@@ -217,10 +253,32 @@
   <div class="tab-panel active" id="topic">
     <h2>主題說明</h2>
     <div class="topic-content">
-      <p><strong>研究動機：</strong>請在此描述為什麼選擇這個題目，想解決什麼問題。</p>
-      <p><strong>研究目的：</strong>請在此說明專題預期達成的目標與成果。</p>
-      <p><strong>系統架構：</strong>請在此概述系統的整體架構、使用的技術或方法。</p>
-      <p><strong>預期成果：</strong>請在此說明完成後預期呈現的成品或結論。</p>
+  <section>
+    <strong>研究動機：</strong>
+    <p>
+      隨著安防需求提升，傳統生物辨識（如臉部、指紋）在實際應用中面臨兩大挑戰：<br>
+      <span class="sub-point">一、 <b>通行效率與距離限制</b>：接觸式或近距離辨識在尖峰時段易造成排隊瓶頸。</span><br>
+      <span class="sub-point">二、 <b>偽造風險與隱私干擾</b>：照片或面具易破解且受光影影響大。</span><br>
+      步態辨識作為一種「遠距離、非接觸且難以偽造」的特徵，具有極高的安全優勢。然而，現實環境中的穿著改變、視角變化及「多人通行/非法尾隨」一直是技術難點。本專題結合<b>視覺大語言模型 (VLLM)</b>，旨在利用 AI 的多模態泛化能力，解決複雜場景下的辨識精準度與異常行為判定問題。
+    </p>
+  </section>
+
+  <section>
+    <strong>研究目的：</strong>
+    <ul>
+      <li><span>1.</span> 提升辨識韌性：利用 VLLM 克服視角、光線及穿著等共變異因素對步態辨識的干擾。</li>
+      <li><span>2.</span> 強化安防邏輯：開發具備語意理解能力的「智慧反尾隨監測模組」。</li>
+      <li><span>3.</span> 優化推論效能：建置一套兼具高辨識率與低延遲處理能力的系統。</li>
+    </ul>
+  </section>
+
+    <section>
+          <strong>系統架構：</strong>
+          <p>本系統採用分層式架構，整合電腦視覺與檢索增強生成技術：</p>
+          <div class="layer-item"><span> 感知層：</span>利用 OpenGait 框架搭載 ST-GCN 提取步態特徵。</div>
+          <div class="layer-item"><span> 認知層：</span>採用 VLLM (如 LLaVA) 賦予系統理解語意能力。</div>
+          <div class="layer-item"><span> 決策層：</span>引入 Agentic RAG 進行邏輯判斷。</div>
+        </section>
     </div>
   </div>
 
@@ -235,23 +293,13 @@
       </div>
       <div class="member-card">
         <div class="avatar">A</div>
-        <h3>學生 A</h3>
-        <p class="role">組長 / 系統設計</p>
+        <h3>蕭羽彤</h3>
+        <p class="role">組長 / 系統設計 / 模型微調 / 辨識邏輯開發 / 論文撰寫</p>
       </div>
       <div class="member-card">
         <div class="avatar">B</div>
-        <h3>學生 B</h3>
-        <p class="role">前端開發</p>
-      </div>
-      <div class="member-card">
-        <div class="avatar">C</div>
-        <h3>學生 C</h3>
-        <p class="role">後端開發</p>
-      </div>
-      <div class="member-card">
-        <div class="avatar">D</div>
-        <h3>學生 D</h3>
-        <p class="role">資料分析 / 測試</p>
+        <h3>劉映岑</h3>
+        <p class="role">數據蒐集 / RAG資料庫建置 / 法規設計 / 文件與簡報</p>
       </div>
     </div>
   </div>
