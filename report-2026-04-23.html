@@ -123,6 +123,20 @@
       font-size: .96rem;
     }
 
+    .code-block {
+      background: #1e1e2e;
+      color: #cdd6f4;
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: .88rem;
+      line-height: 1.7;
+      overflow-x: auto;
+      margin: 10px 0;
+    }
+    .code-block .comment { color: #6c7086; }
+    .code-block .cmd { color: #89dceb; }
+
     .note-box {
       background: #fffbea;
       border: 1px solid #f0c040;
@@ -132,6 +146,52 @@
       color: #555;
     }
     .note-box strong { color: #856404; }
+
+    .task-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: .94rem;
+    }
+    .task-table th {
+      background: #1a3a5c;
+      color: #fff;
+      padding: 10px 16px;
+      text-align: left;
+    }
+    .task-table td {
+      padding: 10px 16px;
+      border-bottom: 1px solid #eef1f5;
+    }
+    .task-table tr:last-child td { border-bottom: none; }
+    .task-table tr:nth-child(even) td { background: #f8fafc; }
+    .task-table code {
+      background: #eef1f5;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: .88rem;
+      color: #0056b3;
+    }
+
+    .bullet-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 8px;
+    }
+    .bullet-list li {
+      padding: 6px 0 6px 20px;
+      position: relative;
+      font-size: .96rem;
+      border-bottom: 1px solid #eef1f5;
+    }
+    .bullet-list li:last-child { border-bottom: none; }
+    .bullet-list li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: #2a6496;
+    }
 
     footer {
       text-align: center;
@@ -152,7 +212,7 @@
 <body>
 
 <header>
-  <h1>專題進度報告</h1>
+  <h1>Claude Code 環境建置與應用</h1>
   <p>應用視覺大語言模型於步態分析 — 2026 年 4 月 23 日</p>
 </header>
 
@@ -166,39 +226,87 @@
       <span><strong>目前階段：</strong>工具學習與環境建置</span>
     </div>
 
-    <!-- 本次進度摘要 -->
+    <!-- 進度摘要 -->
     <section>
-      <h3>本次進度摘要</h3>
+      <h3>進度摘要</h3>
       <div class="summary-text">
-        學習使用 Claude Code 維護專題進度。經由老師提供的 API 金鑰練習使用 Claude Code 維護專題網站，建立專題時間軸並定期更新，以維護畢業專題。
+        學習並實作使用 Claude Code 工具進行畢業專題進度維護與網站更新。
       </div>
     </section>
 
-    <!-- 操作步驟 -->
+    <!-- 1. 環境準備 -->
     <section>
-      <h3>操作步驟</h3>
+      <h3>1. 環境準備</h3>
+      <p style="margin-bottom:12px;">在 Google Colab 中，我們需要先確認 Node.js 環境。Colab 通常預裝了 Node.js，但建議檢查版本。</p>
+      <div class="code-block">
+        <span class="comment"># 檢查 Node.js 版本</span><br>
+        <span class="cmd">!node -v</span><br>
+        <span class="cmd">!npm -v</span>
+      </div>
+      <p style="margin: 12px 0 8px;">使用 npm 全域安裝 Claude Code：</p>
+      <div class="code-block">
+        <span class="comment"># 安裝 Claude Code</span><br>
+        <span class="cmd">!npm install -g @anthropic-ai/claude-code</span>
+      </div>
+    </section>
+
+    <!-- 2. 操作步驟 -->
+    <section>
+      <h3>2. 操作步驟 (Standard Operating Procedures)</h3>
       <ol class="steps-list">
-        <li><span class="step-text">安裝 Node.js</span></li>
-        <li><span class="step-text">下載 Claude Code</span></li>
-        <li><span class="step-text">設定 API 金鑰</span></li>
-        <li><span class="step-text">啟動 Claude</span></li>
-        <li><span class="step-text">輸入 <code>/status</code> 確認設定</span></li>
+        <li>
+          <span class="step-text">
+            <strong>設定 API 金鑰</strong><br>
+            將指導老師提供的 API Key 設定為環境變數：
+            <div class="code-block" style="margin-top:8px;">
+              import os<br>
+              os.environ[<span style="color:#a6e3a1;">"ANTHROPIC_API_KEY"</span>] = <span style="color:#a6e3a1;">"YOUR_API_KEY"</span><br>
+              print(<span style="color:#a6e3a1;">"API 金鑰已設定。"</span>)
+            </div>
+          </span>
+        </li>
+        <li>
+          <span class="step-text">
+            <strong>啟動與驗證</strong><br>
+            在終端機啟動 Claude 並確認目前系統狀態。
+            <div class="code-block" style="margin-top:8px;">
+              <span class="comment"># 啟動 claude（建議在本地端 VS Code 操作）</span><br>
+              <span class="cmd">claude /status</span>
+            </div>
+            <div class="note-box" style="margin-top:10px;">
+              <strong>注意：</strong>在 Colab 中直接執行互動式 CLI 可能會有輸入限制，建議在本地端開發環境（如 VS Code）操作更佳。
+            </div>
+          </span>
+        </li>
       </ol>
     </section>
 
-    <!-- 成果說明 -->
+    <!-- 3. 專題維護任務 -->
     <section>
-      <h3>成果說明</h3>
-      <div class="note-box">
-        <strong>完成事項：</strong>成功使用 Claude Code 維護專題網站，建立專題時間軸，後續將定期更新進度以記錄畢業專題各階段發展。
-      </div>
+      <h3>3. 專題維護任務 (Project Tasks)</h3>
+      <p style="margin-bottom:14px;">利用 Claude Code 的自動化能力，針對畢業專題（視覺大語言模型之居家高齡者步態異常預警系統）進行以下維護：</p>
+      <ul class="bullet-list">
+        <li><strong>建立時間軸：</strong>紀錄開發里程碑（如：VLLM 模型選用、OpenGait 整合進度）。</li>
+        <li><strong>定期更新：</strong>設定每週進度更新機制。</li>
+        <li><strong>網站同步：</strong>確保前端展示頁面反映最新的開發狀態。</li>
+      </ul>
+      <table class="task-table" style="margin-top:20px;">
+        <thead>
+          <tr><th>功能</th><th>指令</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>確認狀態</td><td><code>/status</code></td></tr>
+          <tr><td>尋求協助</td><td><code>/help</code></td></tr>
+          <tr><td>退出程式</td><td><code>/exit</code></td></tr>
+        </tbody>
+      </table>
     </section>
 
   </div>
 </div>
 
 <footer>
-  &copy; 靜宜大學資訊工程學系 — 114 學年度第 2 學期 專題製作
+  &copy; 靜宜大學資訊工程學系 — 115 學年度第 1 學期 專題製作
 </footer>
 
 </body>
