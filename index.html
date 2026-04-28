@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>專題製作</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     body {
       font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif;
@@ -21,8 +26,16 @@
       text-align: center;
       padding: 60px 20px 40px;
     }
-    header h1 { font-size: 2.4rem; margin-bottom: 12px; }
-    header p  { font-size: 1.15rem; opacity: .85; }
+
+    header h1 {
+      font-size: 2.4rem;
+      margin-bottom: 12px;
+    }
+
+    header p {
+      font-size: 1.15rem;
+      opacity: .85;
+    }
 
     /* Tabs 容器 */
     .tabs {
@@ -40,13 +53,14 @@
       margin-top: -20px;
       position: relative;
       z-index: 10;
-      box-shadow: 0 2px 8px rgba(0,0,0,.15);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
     }
+
     .tab-btn {
       flex: 1;
       background: none;
       border: none;
-      color: rgba(255,255,255,.7);
+      color: rgba(255, 255, 255, .7);
       font-family: inherit;
       font-size: 1rem;
       padding: 16px 12px;
@@ -54,15 +68,18 @@
       transition: background .2s, color .2s;
       position: relative;
     }
+
     .tab-btn:hover {
-      background: rgba(255,255,255,.1);
+      background: rgba(255, 255, 255, .1);
       color: #fff;
     }
+
     .tab-btn.active {
       background: #fff;
       color: #1a3a5c;
       font-weight: bold;
     }
+
     .tab-btn.active::after {
       content: "";
       position: absolute;
@@ -81,16 +98,25 @@
       background: #fff;
       border-radius: 0 0 12px 12px;
       padding: 48px 36px;
-      box-shadow: 0 4px 16px rgba(0,0,0,.08);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .08);
       margin-bottom: 40px;
       animation: fadeIn .3s ease;
     }
+
     .tab-panel.active {
       display: block;
     }
+
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .tab-panel h2 {
@@ -108,37 +134,37 @@
       padding: 20px;
     }
 
-/* 標題加強：賦予側邊裝飾線 */
-.topic-content strong {
-  display: block;
-  font-size: 1.1rem;
-  color: #0056b3;
-  margin: 15px 0 8px 0;
-  border-left: 4px solid #0056b3;
-  padding-left: 10px;
-}
+    /* 標題加強：賦予側邊裝飾線 */
+    .topic-content strong {
+      display: block;
+      font-size: 1.1rem;
+      color: #0056b3;
+      margin: 15px 0 8px 0;
+      border-left: 4px solid #0056b3;
+      padding-left: 10px;
+    }
 
-/* 內容縮排：讓內容不要跟標題切齊，更有層次 */
-.topic-content p, 
-.topic-content ul, 
-.layer-item {
-  margin-left: 14px;
-  margin-bottom: 12px;
-  text-align: justify;
-}
+    /* 內容縮排：讓內容不要跟標題切齊，更有層次 */
+    .topic-content p,
+    .topic-content ul,
+    .layer-item {
+      margin-left: 14px;
+      margin-bottom: 12px;
+      text-align: justify;
+    }
 
-/* 清單樣式優化 */
-.topic-content ul {
-  list-style: none;
-  padding: 0;
-}
+    /* 清單樣式優化 */
+    .topic-content ul {
+      list-style: none;
+      padding: 0;
+    }
 
-.topic-content li span, 
-.layer-item span {
-  font-weight: bold;
-  color: #444;
-  margin-right: 5px;
-}
+    .topic-content li span,
+    .layer-item span {
+      font-weight: bold;
+      color: #444;
+      margin-right: 5px;
+    }
 
     /* 成員卡片 */
     .members-grid {
@@ -146,6 +172,7 @@
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 20px;
     }
+
     .member-card {
       background: #f0f4f8;
       border-radius: 10px;
@@ -153,12 +180,15 @@
       text-align: center;
       transition: transform .2s, box-shadow .2s;
     }
+
     .member-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 6px 16px rgba(0,0,0,.1);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, .1);
     }
+
     .member-card .avatar {
-      width: 80px; height: 80px;
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
       background: #2a6496;
       color: #fff;
@@ -168,201 +198,260 @@
       justify-content: center;
       margin: 0 auto 14px;
     }
-    .member-card h3 { font-size: 1.1rem; margin-bottom: 4px; }
-    .member-card .role { font-size: .9rem; color: #666; }
+
+    .member-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+
+    .member-card .role {
+      font-size: .9rem;
+      color: #666;
+    }
 
     /* 進度時間軸 */
-    .timeline { position: relative; padding-left: 28px; }
+    .timeline {
+      position: relative;
+      padding-left: 28px;
+    }
+
     .timeline::before {
       content: "";
       position: absolute;
-      left: 8px; top: 0; bottom: 0;
+      left: 8px;
+      top: 0;
+      bottom: 0;
       width: 3px;
       background: #2a6496;
       border-radius: 2px;
     }
+
     .timeline-item {
       position: relative;
       margin-bottom: 32px;
     }
+
     .timeline-item::before {
       content: "";
       position: absolute;
-      left: -24px; top: 6px;
-      width: 14px; height: 14px;
+      left: -24px;
+      top: 6px;
+      width: 14px;
+      height: 14px;
       background: #fff;
       border: 3px solid #2a6496;
       border-radius: 50%;
     }
-    .timeline-item.done::before { background: #2a6496; }
+
+    .timeline-item.done::before {
+      background: #2a6496;
+    }
+
     .timeline-item .date {
       font-size: .85rem;
       color: #2a6496;
       font-weight: bold;
       margin-bottom: 2px;
     }
-    .timeline-item h3 { font-size: 1.05rem; margin-bottom: 4px; }
-    .timeline-item p  { font-size: .95rem; color: #555; }
+
+    .timeline-item h3 {
+      font-size: 1.05rem;
+      margin-bottom: 4px;
+    }
+
+    .timeline-item p {
+      font-size: .95rem;
+      color: #555;
+    }
 
     /* 參考資料 */
-    .ref-list { list-style: decimal; padding-left: 24px; }
+    .ref-list {
+      list-style: decimal;
+      padding-left: 24px;
+    }
+
     .ref-list li {
       margin-bottom: 12px;
       line-height: 1.7;
     }
-    .ref-list a { color: #2a6496; text-decoration: none; }
-    .ref-list a:hover { text-decoration: underline; }
+
+    .ref-list a {
+      color: #2a6496;
+      text-decoration: none;
+    }
+
+    .ref-list a:hover {
+      text-decoration: underline;
+    }
 
     /* 頁尾 */
     footer {
       text-align: center;
       padding: 24px;
       background: #1a3a5c;
-      color: rgba(255,255,255,.7);
+      color: rgba(255, 255, 255, .7);
       font-size: .85rem;
     }
 
     /* RWD */
     @media (max-width: 600px) {
-      header h1 { font-size: 1.8rem; }
-      .tabs { padding: 0 12px; }
-      .tab-nav { flex-wrap: wrap; border-radius: 10px 10px 0 0; }
-      .tab-btn { flex: 1 1 50%; font-size: .9rem; padding: 14px 8px; }
-      .tab-panel { padding: 32px 20px; }
+      header h1 {
+        font-size: 1.8rem;
+      }
+
+      .tabs {
+        padding: 0 12px;
+      }
+
+      .tab-nav {
+        flex-wrap: wrap;
+        border-radius: 10px 10px 0 0;
+      }
+
+      .tab-btn {
+        flex: 1 1 50%;
+        font-size: .9rem;
+        padding: 14px 8px;
+      }
+
+      .tab-panel {
+        padding: 32px 20px;
+      }
     }
   </style>
 </head>
+
 <body>
 
-<!-- 主視覺 -->
-<header>
-  <h1>應用視覺大語言模型於步態分析</h1>
-  <p>靜宜大學資訊工程學系 — 115 學年度第 1 學期</p>
-</header>
+  <!-- 主視覺 -->
+  <header>
+    <h1>應用視覺大語言模型於步態分析</h1>
+    <p>靜宜大學資訊工程學系 — 115 學年度第 1 學期</p>
+  </header>
 
-<!-- Tabs -->
-<div class="tabs">
-  <div class="tab-nav">
-    <button class="tab-btn active" data-tab="topic">主題說明</button>
-    <button class="tab-btn" data-tab="members">計畫成員</button>
-    <button class="tab-btn" data-tab="progress">專題進度</button>
-    <button class="tab-btn" data-tab="references">參考資料</button>
-  </div>
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab-nav">
+      <button class="tab-btn active" data-tab="topic">主題說明</button>
+      <button class="tab-btn" data-tab="members">計畫成員</button>
+      <button class="tab-btn" data-tab="progress">專題進度</button>
+      <button class="tab-btn" data-tab="references">參考資料</button>
+    </div>
 
-  <!-- 一、主題說明 -->
-  <div class="tab-panel active" id="topic">
-    <h2>主題說明</h2>
-    <div class="topic-content">
-  <section>
-    <strong>研究動機：</strong>
-    <p>
-      隨著安防需求提升，傳統生物辨識（如臉部、指紋）在實際應用中面臨兩大挑戰：<br>
-      <span class="sub-point">一、 <b>通行效率與距離限制</b>：接觸式或近距離辨識在尖峰時段易造成排隊瓶頸。</span><br>
-      <span class="sub-point">二、 <b>偽造風險與隱私干擾</b>：照片或面具易破解且受光影影響大。</span><br>
-      步態辨識作為一種「遠距離、非接觸且難以偽造」的特徵，具有極高的安全優勢。然而，現實環境中的穿著改變、視角變化及「多人通行/非法尾隨」一直是技術難點。本專題結合<b>視覺大語言模型 (VLLM)</b>，旨在利用 AI 的多模態泛化能力，解決複雜場景下的辨識精準度與異常行為判定問題。
-    </p>
-  </section>
+    <!-- 一、主題說明 -->
+    <div class="tab-panel active" id="topic">
+      <h2>主題說明</h2>
+      <div class="topic-content">
+        <section>
+          <strong>研究動機：</strong>
+          <p>
+            隨著安防需求提升，傳統生物辨識（如臉部、指紋）在實際應用中面臨兩大挑戰：<br>
+            <span class="sub-point">一、 <b>通行效率與距離限制</b>：接觸式或近距離辨識在尖峰時段易造成排隊瓶頸。</span><br>
+            <span class="sub-point">二、 <b>偽造風險與隱私干擾</b>：照片或面具易破解且受光影影響大。</span><br>
+            步態辨識作為一種「遠距離、非接觸且難以偽造」的特徵，具有極高的安全優勢。然而，現實環境中的穿著改變、視角變化及「多人通行/非法尾隨」一直是技術難點。本專題結合<b>視覺大語言模型 (VLLM)</b>，旨在利用 AI
+            的多模態泛化能力，解決複雜場景下的辨識精準度與異常行為判定問題。
+          </p>
+        </section>
 
-  <section>
-    <strong>研究目的：</strong>
-    <ul>
-      <li><span>1.</span> 提升辨識韌性：利用 VLLM 克服視角、光線及穿著等共變異因素對步態辨識的干擾。</li>
-      <li><span>2.</span> 強化安防邏輯：開發具備語意理解能力的「智慧反尾隨監測模組」。</li>
-      <li><span>3.</span> 優化推論效能：建置一套兼具高辨識率與低延遲處理能力的系統。</li>
-    </ul>
-  </section>
+        <section>
+          <strong>研究目的：</strong>
+          <ul>
+            <li><span>1.</span> 提升辨識韌性：利用 VLLM 克服視角、光線及穿著等共變異因素對步態辨識的干擾。</li>
+            <li><span>2.</span> 強化安防邏輯：開發具備語意理解能力的「智慧反尾隨監測模組」。</li>
+            <li><span>3.</span> 優化推論效能：建置一套兼具高辨識率與低延遲處理能力的系統。</li>
+          </ul>
+        </section>
 
-    <section>
+        <section>
           <strong>系統架構：</strong>
           <p>本系統採用分層式架構，整合電腦視覺與檢索增強生成技術：</p>
           <div class="layer-item"><span> 感知層：</span>利用 OpenGait 框架搭載 ST-GCN 提取步態特徵。</div>
           <div class="layer-item"><span> 認知層：</span>採用 VLLM (如 LLaVA) 賦予系統理解語意能力。</div>
           <div class="layer-item"><span> 決策層：</span>引入 Agentic RAG 進行邏輯判斷。</div>
         </section>
+      </div>
+    </div>
+
+    <!-- 二、計畫成員 -->
+    <div class="tab-panel" id="members">
+      <h2>計畫成員</h2>
+      <div class="members-grid">
+        <div class="member-card">
+          <div class="avatar">指</div>
+          <h3>朱學亭老師</h3>
+          <p class="role">指導教授</p>
+        </div>
+        <div class="member-card">
+          <div class="avatar">A</div>
+          <h3>蕭羽彤</h3>
+          <p class="role">組長 / 系統設計 / 模型微調 / 辨識邏輯開發 / 論文撰寫</p>
+        </div>
+        <div class="member-card">
+          <div class="avatar">B</div>
+          <h3>劉映岑</h3>
+          <p class="role">數據蒐集 / RAG資料庫建置 / 法規設計 / 文件與簡報</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 三、專題進度 -->
+    <div class="tab-panel" id="progress">
+      <h2>專題進度</h2>
+      <div class="timeline">
+        <div class="timeline-item done">
+          <div class="specific-day">3/19</div>
+          <h3>題目確認與文獻蒐集</h3>
+          <p>確定專題方向，蒐集相關論文與技術資料。</p>
+        </div>
+        <div class="timeline-item done">
+          <div class="date">2026 / 4 / 23</div>
+          <h3>進度報告</h3>
+          <p>設定 Claude Code 環境，練習使用 Claude Code 進行專題維護。</p>
+          <a href="report-2026-04-23.html"
+            style="display:inline-block;margin-top:8px;padding:5px 16px;background:#2a6496;color:#fff;border-radius:6px;font-size:.88rem;text-decoration:none;">查看完整報告
+            →</a>
+        </div>
+        <div class="timeline-item">
+          <div class="date">2026 年 5 月</div>
+          <h3>系統整合與測試</h3>
+          <p>前後端整合、撰寫測試案例並修正問題。</p>
+        </div>
+        <div class="timeline-item">
+          <div class="date">2026 年 6 月</div>
+          <h3>報告撰寫與成果展示</h3>
+          <p>撰寫專題報告，準備口頭報告與展示。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 四、參考資料 -->
+    <div class="tab-panel" id="references">
+      <h2>參考資料</h2>
+      <ol class="ref-list">
+        <li>作者（年份）。論文名稱。<em>期刊名稱</em>，卷(期)，頁碼。</li>
+        <li>作者（年份）。書名。出版社。</li>
+        <li>網站名稱。<a href="https://example.com" target="_blank">https://example.com</a>（存取日期：2026 年 2 月）。</li>
+        <li>請依照指導教授要求的引用格式，持續新增參考文獻。</li>
+      </ol>
     </div>
   </div>
 
-  <!-- 二、計畫成員 -->
-  <div class="tab-panel" id="members">
-    <h2>計畫成員</h2>
-    <div class="members-grid">
-      <div class="member-card">
-        <div class="avatar">指</div>
-        <h3>朱學亭老師</h3>
-        <p class="role">指導教授</p>
-      </div>
-      <div class="member-card">
-        <div class="avatar">A</div>
-        <h3>蕭羽彤</h3>
-        <p class="role">組長 / 系統設計 / 模型微調 / 辨識邏輯開發 / 論文撰寫</p>
-      </div>
-      <div class="member-card">
-        <div class="avatar">B</div>
-        <h3>劉映岑</h3>
-        <p class="role">數據蒐集 / RAG資料庫建置 / 法規設計 / 文件與簡報</p>
-      </div>
-    </div>
-  </div>
+  <!-- 頁尾 -->
+  <footer>
+    &copy; 靜宜大學資訊工程學系 — 115 學年度第 1 學期 專題製作
+  </footer>
 
-  <!-- 三、專題進度 -->
-  <div class="tab-panel" id="progress">
-    <h2>專題進度</h2>
-    <div class="timeline">
-      <div class="timeline-item done">
-        <div class="date">2026 年 2 月</div>
-        <h3>題目確認與文獻蒐集</h3>
-        <p>確定專題方向，蒐集相關論文與技術資料。</p>
-      </div>
-      <div class="timeline-item">
-        <div class="date">2026 年 3 月</div>
-        <h3>需求分析與系統規劃</h3>
-        <p>完成需求訪談、功能規格書與系統架構設計。</p>
-      </div>
-      <div class="timeline-item">
-        <div class="date">2026 年 4 月</div>
-        <h3>雛型開發</h3>
-        <p>完成核心功能原型，進行初步測試。</p>
-      </div>
-      <div class="timeline-item">
-        <div class="date">2026 年 5 月</div>
-        <h3>系統整合與測試</h3>
-        <p>前後端整合、撰寫測試案例並修正問題。</p>
-      </div>
-      <div class="timeline-item">
-        <div class="date">2026 年 6 月</div>
-        <h3>報告撰寫與成果展示</h3>
-        <p>撰寫專題報告，準備口頭報告與展示。</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- 四、參考資料 -->
-  <div class="tab-panel" id="references">
-    <h2>參考資料</h2>
-    <ol class="ref-list">
-      <li>作者（年份）。論文名稱。<em>期刊名稱</em>，卷(期)，頁碼。</li>
-      <li>作者（年份）。書名。出版社。</li>
-      <li>網站名稱。<a href="https://example.com" target="_blank">https://example.com</a>（存取日期：2026 年 2 月）。</li>
-      <li>請依照指導教授要求的引用格式，持續新增參考文獻。</li>
-    </ol>
-  </div>
-</div>
-
-<!-- 頁尾 -->
-<footer>
-  &copy; 靜宜大學資訊工程學系 — 115 學年度第 1 學期 專題製作
-</footer>
-
-<script>
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById(btn.dataset.tab).classList.add('active');
+  <script>
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      });
     });
-  });
-</script>
+  </script>
 
 </body>
+
 </html>

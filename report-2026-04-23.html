@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>進度報告 — 2026/4/23</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+      color: #333;
+      line-height: 1.8;
+      background: #f5f7fa;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1a3a5c, #2a6496);
+      color: #fff;
+      text-align: center;
+      padding: 50px 20px 36px;
+    }
+    header h1 { font-size: 2rem; margin-bottom: 10px; }
+    header p  { font-size: 1rem; opacity: .85; }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px 60px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: 28px 0 0 0;
+      color: #2a6496;
+      text-decoration: none;
+      font-size: .95rem;
+      font-weight: bold;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 36px 40px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.08);
+      margin-top: 28px;
+    }
+
+    .card h2 {
+      font-size: 1.4rem;
+      color: #1a3a5c;
+      border-left: 4px solid #2a6496;
+      padding-left: 12px;
+      margin-bottom: 20px;
+    }
+
+    .meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      background: #f0f4f8;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 28px;
+      font-size: .92rem;
+      color: #555;
+    }
+    .meta span strong { color: #1a3a5c; }
+
+    section { margin-bottom: 32px; }
+
+    section h3 {
+      font-size: 1.05rem;
+      color: #0056b3;
+      border-left: 3px solid #0056b3;
+      padding-left: 10px;
+      margin-bottom: 14px;
+    }
+
+    .summary-text {
+      background: #f0f4f8;
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-size: .96rem;
+      color: #444;
+      border-left: 4px solid #2a6496;
+    }
+
+    .steps-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 8px;
+      counter-reset: step-counter;
+    }
+    .steps-list li {
+      counter-increment: step-counter;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid #eef1f5;
+    }
+    .steps-list li:last-child { border-bottom: none; }
+    .steps-list li::before {
+      content: counter(step-counter);
+      min-width: 32px;
+      height: 32px;
+      background: #2a6496;
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .88rem;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+    .steps-list li .step-text {
+      padding-top: 4px;
+      font-size: .96rem;
+    }
+
+    .note-box {
+      background: #fffbea;
+      border: 1px solid #f0c040;
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-size: .93rem;
+      color: #555;
+    }
+    .note-box strong { color: #856404; }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      background: #1a3a5c;
+      color: rgba(255,255,255,.7);
+      font-size: .85rem;
+    }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.5rem; }
+      .container { padding: 0 14px 48px; }
+      .card { padding: 24px 20px; }
+      .meta { flex-direction: column; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>專題進度報告</h1>
+  <p>應用視覺大語言模型於步態分析 — 2026 年 4 月 23 日</p>
+</header>
+
+<div class="container">
+  <a class="back-link" href="index.html">← 返回主頁</a>
+
+  <div class="card">
+    <div class="meta">
+      <span><strong>報告日期：</strong>2026 年 4 月 23 日</span>
+      <span><strong>指導教授：</strong>朱學亭老師</span>
+      <span><strong>目前階段：</strong>工具學習與環境建置</span>
+    </div>
+
+    <!-- 本次進度摘要 -->
+    <section>
+      <h3>本次進度摘要</h3>
+      <div class="summary-text">
+        學習使用 Claude Code 維護專題進度。經由老師提供的 API 金鑰練習使用 Claude Code 維護專題網站，建立專題時間軸並定期更新，以維護畢業專題。
+      </div>
+    </section>
+
+    <!-- 操作步驟 -->
+    <section>
+      <h3>操作步驟</h3>
+      <ol class="steps-list">
+        <li><span class="step-text">安裝 Node.js</span></li>
+        <li><span class="step-text">下載 Claude Code</span></li>
+        <li><span class="step-text">設定 API 金鑰</span></li>
+        <li><span class="step-text">啟動 Claude</span></li>
+        <li><span class="step-text">輸入 <code>/status</code> 確認設定</span></li>
+      </ol>
+    </section>
+
+    <!-- 成果說明 -->
+    <section>
+      <h3>成果說明</h3>
+      <div class="note-box">
+        <strong>完成事項：</strong>成功使用 Claude Code 維護專題網站，建立專題時間軸，後續將定期更新進度以記錄畢業專題各階段發展。
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<footer>
+  &copy; 靜宜大學資訊工程學系 — 114 學年度第 2 學期 專題製作
+</footer>
+
+</body>
+</html>
