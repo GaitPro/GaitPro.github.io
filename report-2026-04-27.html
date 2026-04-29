@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>進度報告 — 2026/4/27</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+      color: #333;
+      line-height: 1.8;
+      background: #f5f7fa;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1a3a5c, #2a6496);
+      color: #fff;
+      text-align: center;
+      padding: 50px 20px 36px;
+    }
+    header h1 { font-size: 2rem; margin-bottom: 10px; }
+    header p  { font-size: 1rem; opacity: .85; }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px 60px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: 28px 0 0 0;
+      color: #2a6496;
+      text-decoration: none;
+      font-size: .95rem;
+      font-weight: bold;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 36px 40px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.08);
+      margin-top: 28px;
+    }
+
+    .meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      background: #f0f4f8;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 28px;
+      font-size: .92rem;
+      color: #555;
+    }
+    .meta span strong { color: #1a3a5c; }
+
+    section { margin-bottom: 36px; }
+
+    section h3 {
+      font-size: 1.05rem;
+      color: #0056b3;
+      border-left: 3px solid #0056b3;
+      padding-left: 10px;
+      margin-bottom: 14px;
+    }
+
+    .summary-text {
+      background: #f0f4f8;
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-size: .96rem;
+      color: #444;
+      border-left: 4px solid #2a6496;
+    }
+
+    .code-block {
+      background: #1e1e2e;
+      color: #cdd6f4;
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: .88rem;
+      line-height: 1.7;
+      overflow-x: auto;
+      margin: 10px 0;
+    }
+    .code-block .comment { color: #6c7086; }
+    .code-block .cmd     { color: #89dceb; }
+    .code-block .kw      { color: #cba6f7; }
+    .code-block .str     { color: #a6e3a1; }
+    .code-block .fn      { color: #89b4fa; }
+
+    .result-box {
+      background: #f0fff4;
+      border: 1px solid #68d391;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: .93rem;
+      color: #276749;
+      margin-top: 10px;
+    }
+    .result-box strong { color: #1a5236; }
+
+    .warning-box {
+      background: #fff8e1;
+      border: 1px solid #f0c040;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: .93rem;
+      color: #555;
+      margin-top: 14px;
+    }
+    .warning-box strong { color: #856404; }
+
+    .figure-block {
+      margin: 20px 0;
+      border: 1px solid #e0e6ef;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .figure-block img {
+      width: 100%;
+      display: block;
+    }
+
+    .figure-caption {
+      background: #f0f4f8;
+      padding: 10px 16px;
+      font-size: .87rem;
+      color: #555;
+      text-align: center;
+    }
+    .figure-caption strong { color: #1a3a5c; }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .bullet-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 8px;
+    }
+    .bullet-list li {
+      padding: 6px 0 6px 20px;
+      position: relative;
+      font-size: .95rem;
+      border-bottom: 1px solid #eef1f5;
+    }
+    .bullet-list li:last-child { border-bottom: none; }
+    .bullet-list li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: #2a6496;
+    }
+
+    .next-steps {
+      background: #eef4ff;
+      border-radius: 10px;
+      padding: 20px 24px;
+    }
+    .next-steps h4 {
+      font-size: 1rem;
+      color: #1a3a5c;
+      margin-bottom: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      background: #1a3a5c;
+      color: rgba(255,255,255,.7);
+      font-size: .85rem;
+    }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.5rem; }
+      .container { padding: 0 14px 48px; }
+      .card { padding: 24px 20px; }
+      .meta { flex-direction: column; gap: 8px; }
+      .two-col { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>CSI 鏡頭驅動成功與 GStreamer 整合</h1>
+  <p>應用視覺大語言模型於步態分析 — 2026 年 4 月 27 日</p>
+</header>
+
+<div class="container">
+  <a class="back-link" href="index.html">← 返回主頁</a>
+
+  <div class="card">
+    <div class="meta">
+      <span><strong>日期：</strong>2026 年 4 月 27 日</span>
+      <span><strong>指導教授：</strong>朱學亭老師</span>
+      <span><strong>目前階段：</strong>CSI 鏡頭驅動與影像串流整合</span>
+    </div>
+
+    <!-- 進度摘要 -->
+    <section>
+      <h3>進度摘要</h3>
+      <div class="summary-text">
+        成功解決上週 Jetson Nano 的 CSI 鏡頭驅動問題。透過 GStreamer Pipeline 驗證硬體連接正常，並完成 Python / OpenCV 程式整合，最終成功於螢幕上即時顯示鏡頭畫面，為後續步態分析模型的影像輸入奠定基礎。
+      </div>
+    </section>
+
+    <!-- 一、硬體裝置檢查 -->
+    <section>
+      <h3>一、硬體裝置檢查</h3>
+      <p style="margin-bottom:12px;">確認系統是否正確識別 CSI 鏡頭裝置，執行以下指令：</p>
+      <div class="code-block">
+        <span class="cmd">ls /dev/video*</span>
+      </div>
+      <div class="result-box">
+        <strong>裝置確認：</strong>系統回傳 <code style="background:rgba(0,0,0,.08);padding:1px 6px;border-radius:3px;">/dev/video0</code>，代表 CSI 鏡頭硬體已成功掛載。<br>
+        <strong>裝置名稱：</strong>vi-output, imx219 6-0010 &nbsp;｜&nbsp; <strong>平台位置：</strong>platform:54080000.vi:0
+      </div>
+
+      <div class="figure-block" style="margin-top:20px;">
+        <img src="images/report-0427-fig1.jpg" alt="終端機確認裝置路徑與 GStreamer 指令執行">
+        <div class="figure-caption"><strong>圖 1：</strong>終端機確認 <code>/dev/video0</code> 裝置路徑，並輸入 GStreamer Pipeline 測試指令</div>
+      </div>
+    </section>
+
+    <!-- 二、GStreamer 管道測試 -->
+    <section>
+      <h3>二、GStreamer 管道（Pipeline）測試</h3>
+      <p style="margin-bottom:12px;">在進入程式開發前，先以指令介面直接測試 <code style="background:#eef1f5;padding:1px 6px;border-radius:3px;font-family:monospace;">nvarguscamerasrc</code> 插件能否正常驅動鏡頭：</p>
+      <div class="code-block">
+        <span class="cmd">gst-launch-1.0 nvarguscamerasrc ! \</span><br>
+        <span class="cmd">&nbsp;&nbsp;'video/x-raw(memory:NVMM), width=640, height=480, framerate=30/1, format=NV12' ! \</span><br>
+        <span class="cmd">&nbsp;&nbsp;nvvidconv flip-method=0 ! \</span><br>
+        <span class="cmd">&nbsp;&nbsp;nvoverlaysink -e</span>
+      </div>
+
+      <div class="result-box" style="margin-top:10px;">
+        <strong>GST_ARGUS: Setup Complete</strong> — 驅動程式與鏡頭握手成功。<br>
+        <strong>Producer has connected; continuing.</strong> — 影像串流開始傳輸。<br>
+        系統輸出詳細鏡頭參數，確認支援 1280×720 @ 120fps 等多種模式。
+      </div>
+
+      <div class="figure-block" style="margin-top:20px;">
+        <img src="images/report-0427-fig2.jpg" alt="GStreamer 啟動過程與鏡頭參數輸出">
+        <div class="figure-caption"><strong>圖 2：</strong>終端機顯示 GST_ARGUS 完整啟動過程，最終輸出 <code>Done Success</code> 確認串流結束正常</div>
+      </div>
+    </section>
+
+    <!-- 三、Python 與 OpenCV 程式整合 -->
+    <section>
+      <h3>三、Python 與 OpenCV 程式整合</h3>
+      <p style="margin-bottom:12px;">將測試成功的 GStreamer 語法封裝進 Python 函式，以便後續進行影像處理。定義 <code style="background:#eef1f5;padding:1px 6px;border-radius:3px;font-family:monospace;">gstreamer_pipeline</code> 函式，將硬體加速格式轉換為 OpenCV 易於處理的 BGR 格式：</p>
+      <div class="code-block">
+        <span class="kw">import</span> cv2<br><br>
+        <span class="kw">def</span> <span class="fn">gstreamer_pipeline</span>(width=<span class="str">1280</span>, height=<span class="str">720</span>, fps=<span class="str">30</span>):<br>
+        &nbsp;&nbsp;<span class="kw">return</span> (<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="str">f"nvarguscamerasrc ! "</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="str">f"video/x-raw(memory:NVMM), width={width}, height={height}, "</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="str">f"format=NV12, framerate={fps}/1 ! "</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="str">f"nvvidconv ! video/x-raw, format=BGRx ! "</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="str">f"videoconvert ! video/x-raw, format=BGR ! appsink"</span><br>
+        &nbsp;&nbsp;)<br><br>
+        cap = cv2.<span class="fn">VideoCapture</span>(<span class="fn">gstreamer_pipeline</span>(), cv2.CAP_GSTREAMER)
+      </div>
+
+      <div class="figure-block" style="margin-top:20px;">
+        <img src="images/report-0427-fig3.jpg" alt="在 Jetson Nano 上以 Vim 編輯 Python 腳本">
+        <div class="figure-caption"><strong>圖 3：</strong>在 Jetson Nano 上以 Vim 編輯 Python 腳本，實作 GStreamer Pipeline 並呼叫 <code>cv2.VideoCapture</code></div>
+      </div>
+    </section>
+
+    <!-- 四、最終測試結果 -->
+    <section>
+      <h3>四、最終測試結果</h3>
+      <p style="margin-bottom:14px;">成功執行 Python 腳本，畫面順利顯示於螢幕上，延遲極低且符合硬體加速預期。</p>
+
+      <div class="figure-block">
+        <img src="images/report-0427-fig4.jpg" alt="CSI 鏡頭成功捕捉畫面並顯示於螢幕">
+        <div class="figure-caption"><strong>圖 4：</strong>CSI 鏡頭即時畫面成功顯示於螢幕，確認影像串流端到端運作正常</div>
+      </div>
+
+      <div class="warning-box" style="margin-top:20px;">
+        <strong>已知警告（非阻斷性）：</strong>OpenCV 啟動時出現 <code style="background:rgba(0,0,0,.06);padding:1px 6px;border-radius:3px;font-family:monospace;">Cannot query video position</code> 警告，屬 GStreamer 與 OpenCV 整合時的已知提示，不影響影像串流正常運作，後續可優化日誌設定以提升整潔度。
+      </div>
+    </section>
+
+    <!-- 下一步計畫 -->
+    <section>
+      <h3>下一步計畫</h3>
+      <div class="next-steps">
+        <ul class="bullet-list">
+          <li>將影像串流接入 VLLM（視覺大語言模型）進行即時步態分析。</li>
+          <li>測試不同 <code style="background:rgba(0,0,0,.06);padding:1px 6px;border-radius:3px;font-family:monospace;">flip-method</code> 參數，調整鏡頭物理安裝角度的畫面翻轉方向。</li>
+          <li>優化 OpenCV GStreamer 警告輸出，提升系統日誌整潔度。</li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<footer>
+  &copy; 靜宜大學資訊工程學系 — 115 學年度第 1 學期 專題製作
+</footer>
+
+</body>
+</html>

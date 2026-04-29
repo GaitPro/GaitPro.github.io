@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>進度報告 — 2026/4/24</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+      color: #333;
+      line-height: 1.8;
+      background: #f5f7fa;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1a3a5c, #2a6496);
+      color: #fff;
+      text-align: center;
+      padding: 50px 20px 36px;
+    }
+    header h1 { font-size: 2rem; margin-bottom: 10px; }
+    header p  { font-size: 1rem; opacity: .85; }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px 60px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: 28px 0 0 0;
+      color: #2a6496;
+      text-decoration: none;
+      font-size: .95rem;
+      font-weight: bold;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 36px 40px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.08);
+      margin-top: 28px;
+    }
+
+    .card h2 {
+      font-size: 1.4rem;
+      color: #1a3a5c;
+      border-left: 4px solid #2a6496;
+      padding-left: 12px;
+      margin-bottom: 20px;
+    }
+
+    .meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      background: #f0f4f8;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 28px;
+      font-size: .92rem;
+      color: #555;
+    }
+    .meta span strong { color: #1a3a5c; }
+
+    section { margin-bottom: 32px; }
+
+    section h3 {
+      font-size: 1.05rem;
+      color: #0056b3;
+      border-left: 3px solid #0056b3;
+      padding-left: 10px;
+      margin-bottom: 14px;
+    }
+
+    .summary-text {
+      background: #f0f4f8;
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-size: .96rem;
+      color: #444;
+      border-left: 4px solid #2a6496;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .info-card {
+      background: #f0f4f8;
+      border-radius: 8px;
+      padding: 16px 18px;
+      font-size: .93rem;
+    }
+
+    .info-card .label {
+      font-weight: bold;
+      color: #1a3a5c;
+      margin-bottom: 6px;
+      font-size: .85rem;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .steps-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 8px;
+      counter-reset: step-counter;
+    }
+    .steps-list li {
+      counter-increment: step-counter;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid #eef1f5;
+    }
+    .steps-list li:last-child { border-bottom: none; }
+    .steps-list li::before {
+      content: counter(step-counter);
+      min-width: 32px;
+      height: 32px;
+      background: #2a6496;
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .88rem;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+    .steps-list li .step-text {
+      padding-top: 4px;
+      font-size: .96rem;
+    }
+
+    .issue-block {
+      border: 1px solid #e0e6ef;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .issue-header {
+      background: #1a3a5c;
+      color: #fff;
+      padding: 12px 18px;
+      font-weight: bold;
+      font-size: .95rem;
+    }
+
+    .issue-body {
+      padding: 16px 20px;
+      font-size: .95rem;
+    }
+
+    .issue-body p { margin-bottom: 10px; }
+
+    .issue-body .label {
+      font-weight: bold;
+      color: #0056b3;
+    }
+
+    .bullet-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 8px;
+    }
+    .bullet-list li {
+      padding: 6px 0 6px 20px;
+      position: relative;
+      font-size: .95rem;
+      border-bottom: 1px solid #eef1f5;
+    }
+    .bullet-list li:last-child { border-bottom: none; }
+    .bullet-list li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: #2a6496;
+    }
+
+    .warning-box {
+      background: #fff8e1;
+      border: 1px solid #f0c040;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: .93rem;
+      color: #555;
+      margin-top: 16px;
+    }
+    .warning-box strong { color: #856404; }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      background: #1a3a5c;
+      color: rgba(255,255,255,.7);
+      font-size: .85rem;
+    }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.5rem; }
+      .container { padding: 0 14px 48px; }
+      .card { padding: 24px 20px; }
+      .meta { flex-direction: column; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Jetson Nano 部署與問題排查</h1>
+  <p>應用視覺大語言模型於步態分析 — 2026 年 4 月 24 日</p>
+</header>
+
+<div class="container">
+  <a class="back-link" href="index.html">← 返回主頁</a>
+
+  <div class="card">
+    <div class="meta">
+      <span><strong>日期：</strong>2026 年 4 月 24 日</span>
+      <span><strong>指導教授：</strong>朱學亭老師</span>
+      <span><strong>目前階段：</strong>邊緣運算設備部署與環境建置</span>
+    </div>
+
+    <!-- 進度摘要 -->
+    <section>
+      <h3>進度摘要</h3>
+      <div class="summary-text">
+        進行 Jetson Nano 邊緣運算設備的環境建置與部署，記錄 SD 卡存儲不穩定及 MediaPipe 與 OpenCV 版本衝突等問題，並規劃對應解決方案，以確保後續步態分析模型能正常取得即時影像。
+      </div>
+    </section>
+
+    <!-- 1. Jetson Nano 基本介紹 -->
+    <section>
+      <h3>1. Jetson Nano 基本介紹</h3>
+      <p style="margin-bottom:14px;">Jetson Nano 是 NVIDIA 推出的嵌入式 AI 開發板，具備以下三項核心優勢，適合本專題的邊緣端推論需求：</p>
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="label">邊緣運算</div>
+          可在本地端直接處理感測器數據，不需上傳雲端，降低延遲並提高資料隱私性。
+        </div>
+        <div class="info-card">
+          <div class="label">模型訓練與推論</div>
+          支援 TensorFlow、PyTorch 等框架，可執行 OpenGait 或 VLLM 輕量化模型。
+        </div>
+        <div class="info-card">
+          <div class="label">高效能功耗比</div>
+          在低功耗下提供充足的 CUDA 核心運算能力，適合長時間連續部署。
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. 開發流程整理 -->
+    <section>
+      <h3>2. 開發流程整理</h3>
+      <ol class="steps-list">
+        <li>
+          <span class="step-text">
+            <strong>環境初始化</strong><br>
+            安裝 JetPack SDK 並燒錄系統鏡像至 SD 卡。
+          </span>
+        </li>
+        <li>
+          <span class="step-text">
+            <strong>基礎庫安裝</strong><br>
+            配置 Python 虛擬環境，安裝必要的開發依賴項。
+          </span>
+        </li>
+        <li>
+          <span class="step-text">
+            <strong>模型轉換</strong><br>
+            將預訓練模型轉換為 TensorRT 格式，以優化推論速度。
+          </span>
+        </li>
+        <li>
+          <span class="step-text">
+            <strong>視覺框架整合</strong><br>
+            引入電腦視覺庫進行影像串流處理。
+          </span>
+        </li>
+        <li>
+          <span class="step-text">
+            <strong>系統整合與測試</strong><br>
+            進行端到端測試，目前執行至此階段，遭遇以下問題待解決。
+          </span>
+        </li>
+      </ol>
+    </section>
+
+    <!-- 3. 目前遭遇問題與待辦事項 -->
+    <section>
+      <h3>3. 目前遭遇問題與待辦事項</h3>
+
+      <!-- 問題一 -->
+      <div class="issue-block">
+        <div class="issue-header">問題一：硬體層面 — 存儲介質不穩定</div>
+        <div class="issue-body">
+          <p><span class="label">問題描述：</span>記憶卡（SD Card）出現異常，導致系統在執行高負載任務時發生當機或讀取錯誤。</p>
+          <p><span class="label">預計對策：</span></p>
+          <ul class="bullet-list">
+            <li>檢查 SD 卡讀寫速度等級（建議使用 Class 10 / UHS-1 以上規格）。</li>
+            <li>嘗試重新燒錄系統鏡像，或更換更穩定的工業級記憶卡。</li>
+            <li>考慮掛載外部 SSD 作為系統開機碟，以提升整體穩定性。</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 問題二 -->
+      <div class="issue-block">
+        <div class="issue-header">問題二：軟體環境 — 函式庫版本衝突 (Dependency Conflict)</div>
+        <div class="issue-body">
+          <p><span class="label">問題描述：</span>安裝 MediaPipe 後，其依賴項覆蓋了 Jetson Nano 內建、經 NVIDIA 優化過的 OpenCV 版本。</p>
+          <p><span class="label">影響：</span>系統無法正確調用 CSI 鏡頭（CSI Camera 需特定含 GStreamer 支援的 OpenCV 版本）。</p>
+          <p><span class="label">預計對策：</span></p>
+          <ul class="bullet-list">
+            <li>移除目前衝突的 OpenCV 版本。</li>
+            <li>重新編譯或連結回支援 NVIDIA 加速的 OpenCV 版本（需包含 <code style="background:#eef1f5;padding:1px 6px;border-radius:3px;font-family:monospace;">WITH_GSTREAMER=ON</code> 編譯標誌）。</li>
+            <li>使用 Docker 容器化開發環境，將 MediaPipe 與系統層級的影像驅動庫隔離，避免版本干擾。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="warning-box">
+        <strong>本週優先任務：</strong>優先解決 CSI 鏡頭驅動問題，確保後續步態分析模型能正常取得即時影像串流，再推進模型推論整合。
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<footer>
+  &copy; 靜宜大學資訊工程學系 — 115 學年度第 1 學期 專題製作
+</footer>
+
+</body>
+</html>
