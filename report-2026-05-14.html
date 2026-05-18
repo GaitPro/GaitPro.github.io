@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>進度報告 — 2026/5/14</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+      color: #333;
+      line-height: 1.8;
+      background: #f5f7fa;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1a3a5c, #2a6496);
+      color: #fff;
+      text-align: center;
+      padding: 50px 20px 36px;
+    }
+    header h1 { font-size: 2rem; margin-bottom: 10px; }
+    header p  { font-size: 1rem; opacity: .85; }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px 60px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: 28px 0 0 0;
+      color: #2a6496;
+      text-decoration: none;
+      font-size: .95rem;
+      font-weight: bold;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 36px 40px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.08);
+      margin-top: 28px;
+    }
+
+    .meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      background: #f0f4f8;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 28px;
+      font-size: .92rem;
+      color: #555;
+    }
+    .meta span strong { color: #1a3a5c; }
+
+    section { margin-bottom: 36px; }
+
+    section h3 {
+      font-size: 1.05rem;
+      color: #0056b3;
+      border-left: 3px solid #0056b3;
+      padding-left: 10px;
+      margin-bottom: 14px;
+    }
+
+    section h4 {
+      font-size: .98rem;
+      color: #1a3a5c;
+      margin: 16px 0 8px 0;
+    }
+
+    .summary-text {
+      background: #f0f4f8;
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-size: .96rem;
+      color: #444;
+      border-left: 4px solid #2a6496;
+    }
+
+    .code-block {
+      background: #1e1e2e;
+      color: #cdd6f4;
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: .88rem;
+      line-height: 1.7;
+      overflow-x: auto;
+      margin: 10px 0;
+      white-space: pre;
+    }
+    .code-block .comment { color: #6c7086; }
+    .code-block .cmd     { color: #89dceb; }
+    .code-block .kw      { color: #cba6f7; }
+    .code-block .str     { color: #a6e3a1; }
+    .code-block .fn      { color: #89b4fa; }
+
+    .result-box {
+      background: #f0fff4;
+      border: 1px solid #68d391;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: .93rem;
+      color: #276749;
+      margin-top: 10px;
+    }
+    .result-box strong { color: #1a5236; }
+
+    .warning-box {
+      background: #fff8e1;
+      border: 1px solid #f0c040;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: .93rem;
+      color: #555;
+      margin-top: 14px;
+    }
+    .warning-box strong { color: #856404; }
+
+    .inline-code {
+      background: #eef1f5;
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: .9em;
+    }
+
+    table.issue-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: .92rem;
+    }
+    table.issue-table th,
+    table.issue-table td {
+      border: 1px solid #e0e6ef;
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    table.issue-table th {
+      background: #f0f4f8;
+      color: #1a3a5c;
+      font-weight: bold;
+    }
+    table.issue-table tr:nth-child(even) td {
+      background: #fafbfd;
+    }
+
+    .tree-block {
+      background: #1e1e2e;
+      color: #cdd6f4;
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: .88rem;
+      line-height: 1.7;
+      overflow-x: auto;
+      margin: 10px 0;
+      white-space: pre;
+    }
+
+    .bullet-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 8px;
+    }
+    .bullet-list li {
+      padding: 6px 0 6px 20px;
+      position: relative;
+      font-size: .95rem;
+      border-bottom: 1px solid #eef1f5;
+    }
+    .bullet-list li:last-child { border-bottom: none; }
+    .bullet-list li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: #2a6496;
+    }
+
+    .check-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 8px;
+    }
+    .check-list li {
+      padding: 6px 0 6px 28px;
+      position: relative;
+      font-size: .95rem;
+      border-bottom: 1px solid #eef1f5;
+    }
+    .check-list li:last-child { border-bottom: none; }
+    .check-list li.done::before {
+      content: "✓";
+      position: absolute;
+      left: 4px;
+      color: #38a169;
+      font-weight: bold;
+    }
+    .check-list li.todo::before {
+      content: "○";
+      position: absolute;
+      left: 4px;
+      color: #999;
+      font-weight: bold;
+    }
+
+    .next-steps {
+      background: #eef4ff;
+      border-radius: 10px;
+      padding: 20px 24px;
+    }
+    .next-steps h4 {
+      font-size: 1rem;
+      color: #1a3a5c;
+      margin-bottom: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      background: #1a3a5c;
+      color: rgba(255,255,255,.7);
+      font-size: .85rem;
+    }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.5rem; }
+      .container { padding: 0 14px 48px; }
+      .card { padding: 24px 20px; }
+      .meta { flex-direction: column; gap: 8px; }
+      table.issue-table { font-size: .82rem; }
+      table.issue-table th, table.issue-table td { padding: 8px 6px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Jetson Nano 步態辨識系統部署：套件安裝與相容性排查</h1>
+  <p>應用視覺大語言模型於步態分析 — 2026 年 5 月 14 日</p>
+</header>
+
+<div class="container">
+  <a class="back-link" href="index.html">← 返回主頁</a>
+
+  <div class="card">
+    <div class="meta">
+      <span><strong>日期：</strong>2026 年 5 月 14 日</span>
+      <span><strong>指導教授：</strong>朱學亭老師</span>
+      <span><strong>目前階段：</strong>Jetson Nano 套件部署與程式相容性修正</span>
+    </div>
+
+    <!-- 進度摘要 -->
+    <section>
+      <h3>進度摘要</h3>
+      <div class="summary-text">
+        在 Jetson Nano 上部署步態辨識門禁系統，完成 ultralytics、torch、torchvision、OpenCV 等核心套件安裝。針對 Jetson 內建 Python 3.6 與安裝環境 Python 3.8 共存的版本錯置問題，逐一修正程式中 <span class="inline-code">__future__ annotations</span>、新式型別標註與 <span class="inline-code">|</span> 聯合型別等不相容語法。另排查 CSI 鏡頭驅動失敗的根本原因為 <span class="inline-code">pip</span> 安裝之 OpenCV 未含 GStreamer 支援，目前以系統套件方式重新部署中。
+      </div>
+    </section>
+
+    <!-- 一、專案目錄結構 -->
+    <section>
+      <h3>一、專案目錄結構</h3>
+      <p style="margin-bottom:12px;">於 Jetson Nano 建立 <span class="inline-code">~/gait_system/</span> 工作目錄，分層存放相機讀取、姿態估計與資料庫等模組：</p>
+      <div class="tree-block">~/gait_system/
+├── camera.py       # CSI 鏡頭讀取
+├── pose.py         # YOLOv8 姿態估計
+├── main.py         # 主程式（登錄 / 門禁）
+├── models/         # 存放 yolov8n-pose.pt
+└── db/             # 存放步態特徵資料庫</div>
+    </section>
+
+    <!-- 二、套件安裝 -->
+    <section>
+      <h3>二、套件安裝</h3>
+      <p style="margin-bottom:12px;">使用 pip3 安裝 YOLOv8 與影像處理相關依賴，針對 Jetson Nano 網速不穩的情況加上逾時與快取設定：</p>
+      <div class="code-block"><span class="cmd">pip3 install ultralytics opencv-python numpy --timeout 300 --no-cache-dir</span></div>
+
+      <h4>遭遇問題與解決方式</h4>
+      <table class="issue-table">
+        <thead>
+          <tr>
+            <th>問題</th>
+            <th>原因</th>
+            <th>解決方式</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="inline-code">Defaulting to user installation</span></td>
+            <td>site-packages 無寫入權限</td>
+            <td>加上 <span class="inline-code">--user</span> 或 <span class="inline-code">sudo pip3</span></td>
+          </tr>
+          <tr>
+            <td><span class="inline-code">socket.timeout: Read timed out</span></td>
+            <td>網速僅約 18 kB/s，下載 matplotlib 逾時</td>
+            <td>加 <span class="inline-code">--timeout 300 --no-cache-dir</span> 重試</td>
+          </tr>
+          <tr>
+            <td>Hash mismatch 驗證失敗</td>
+            <td>下載檔案損壞</td>
+            <td><span class="inline-code">pip3 cache purge</span> 後重新安裝</td>
+          </tr>
+          <tr>
+            <td>安裝到 Python 3.8 但執行用 3.6</td>
+            <td>系統有兩個 Python 版本共存</td>
+            <td>統一改用 <span class="inline-code">python3.8</span> 執行所有指令</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="result-box">
+        <strong>最終安裝成功套件：</strong>ultralytics-8.4.50、torch-2.4.1、torchvision-0.19.1、opencv-python-4.13.0.92、numpy-1.24.4 等。
+      </div>
+    </section>
+
+    <!-- 三、程式碼相容性修正 -->
+    <section>
+      <h3>三、程式碼 Python 3.8 相容性修正</h3>
+      <p style="margin-bottom:12px;">原專案以較新版本 Python 撰寫，部署至 Jetson 環境後需逐項調整型別標註與語法。</p>
+
+      <h4>問題 1：<span class="inline-code">from __future__ import annotations</span></h4>
+      <p style="margin-bottom:8px;"><strong>原因：</strong>Python 3.8 以下不支援此語法。</p>
+      <div class="code-block"><span class="cmd">sed -i '/from __future__ import annotations/d' main.py pose.py camera.py</span></div>
+
+      <h4>問題 2：<span class="inline-code">list[...]</span>、<span class="inline-code">dict[...]</span>、<span class="inline-code">tuple[...]</span> 型別標註</h4>
+      <p style="margin-bottom:8px;"><strong>原因：</strong>Python 3.9 以上才支援內建型別直接作為泛型標註，需改用 <span class="inline-code">typing</span> 模組的 <span class="inline-code">List</span>、<span class="inline-code">Dict</span>、<span class="inline-code">Tuple</span>。</p>
+      <div class="code-block"><span class="cmd">sed -i 's/-> list\[/-> List[/g' main.py pose.py</span>
+<span class="cmd">sed -i 's/-> dict\[/-> Dict[/g' main.py pose.py</span>
+<span class="cmd">sed -i 's/-> tuple\[/-> Tuple[/g' main.py pose.py</span>
+<span class="cmd">sed -i 's/: list\[/: List[/g' main.py pose.py</span>
+<span class="cmd">sed -i 's/: dict\[/: Dict[/g' main.py pose.py</span>
+<span class="cmd">sed -i '1s/^/from typing import List, Dict, Optional, Tuple\n/' main.py pose.py</span></div>
+
+      <h4>問題 3：<span class="inline-code">int | None</span> 聯合型別語法</h4>
+      <p style="margin-bottom:8px;"><strong>原因：</strong>Python 3.10 以上才支援 <span class="inline-code">|</span> 聯合型別。</p>
+      <div class="code-block"><span class="cmd">sed -i 's/int | None/Optional[int]/g' main.py</span>
+<span class="cmd">sed -i 's/str | None/Optional[str]/g' main.py</span></div>
+
+      <h4>問題 4：<span class="inline-code">No module named 'dataclasses'</span></h4>
+      <p style="margin-bottom:8px;"><strong>原因：</strong>Python 3.6 沒有內建 dataclasses。</p>
+      <p><strong>解決：</strong>執行 <span class="inline-code">pip3 install dataclasses</span>（套件已安裝至 3.8 路徑，後續統一使用 <span class="inline-code">python3.8</span> 執行即可）。</p>
+    </section>
+
+    <!-- 四、CSI 鏡頭問題排查 -->
+    <section>
+      <h3>四、CSI 鏡頭問題排查</h3>
+      <p style="margin-bottom:12px;">執行 <span class="inline-code">camera.py</span> 出現 <span class="inline-code">RuntimeError：無法開啟 CSI 攝影機</span>，依序排查可能原因：</p>
+
+      <table class="issue-table">
+        <thead>
+          <tr>
+            <th>嘗試步驟</th>
+            <th>結果</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="inline-code">sudo modprobe nvhost_vi</span></td>
+            <td>FATAL: Module not found</td>
+          </tr>
+          <tr>
+            <td><span class="inline-code">ls /dev/video*</span></td>
+            <td>✅ /dev/video0 存在</td>
+          </tr>
+          <tr>
+            <td><span class="inline-code">gst-inspect-1.0 nvarguscamerasrc</span></td>
+            <td>Argus EndOfFile 錯誤</td>
+          </tr>
+          <tr>
+            <td><span class="inline-code">sudo systemctl restart nvargus-daemon</span></td>
+            <td>✅ Daemon 啟動成功</td>
+          </tr>
+          <tr>
+            <td>GStreamer pipeline 測試</td>
+            <td>❌ 開啟失敗</td>
+          </tr>
+          <tr>
+            <td>確認 OpenCV GStreamer 支援</td>
+            <td>❌ <span class="inline-code">GStreamer: NO</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="warning-box">
+        <strong>根本原因：</strong>pip 安裝的 <span class="inline-code">opencv-python</span> 不含 GStreamer 支援，需改用系統內建版本或重新編譯含 GStreamer 的 OpenCV。
+      </div>
+
+      <h4>目前進行中</h4>
+      <div class="code-block"><span class="cmd">sudo apt-get install -y libopencv-dev python3-opencv</span></div>
+    </section>
+
+    <!-- 五、目前進度 -->
+    <section>
+      <h3>五、目前進度</h3>
+      <ul class="check-list">
+        <li class="done">Tailscale 遠端連線設定完成</li>
+        <li class="done">SSH 連線成功</li>
+        <li class="done">專案目錄建立</li>
+        <li class="done">套件安裝完成（ultralytics、torch、torchvision 等）</li>
+        <li class="done">程式碼 Python 3.8 相容性修正</li>
+        <li class="done"><span class="inline-code">yolov8n-pose.pt</span> 模型下載完成</li>
+        <li class="todo">CSI 鏡頭 GStreamer 問題解決中</li>
+        <li class="todo">首次步態登錄（Alice）</li>
+        <li class="todo">門禁辨識測試</li>
+        <li class="todo">TensorRT 加速</li>
+      </ul>
+    </section>
+
+    <!-- 下一步計畫 -->
+    <section>
+      <h3>下一步計畫</h3>
+      <div class="next-steps">
+        <ul class="bullet-list">
+          <li>解決 OpenCV GStreamer 支援問題，使 Python 端能正常開啟 CSI Pipeline。</li>
+          <li>確認 CSI pipeline 可正常開啟鏡頭並串接 YOLOv8 姿態估計。</li>
+          <li>到 Jetson Nano 旁進行 Alice 步態登錄，來回走動約 40 秒以採集樣本。</li>
+          <li>測試門禁辨識功能，驗證特徵比對流程。</li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<footer>
+  &copy; 靜宜大學資訊工程學系 — 115 學年度第 1 學期 專題製作
+</footer>
+
+</body>
+</html>
