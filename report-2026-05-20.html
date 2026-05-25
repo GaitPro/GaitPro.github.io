@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>進度報告 — 2026/5/20</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+      color: #333;
+      line-height: 1.8;
+      background: #f5f7fa;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1a3a5c, #2a6496);
+      color: #fff;
+      text-align: center;
+      padding: 50px 20px 36px;
+    }
+    header h1 { font-size: 2rem; margin-bottom: 10px; }
+    header p  { font-size: 1rem; opacity: .85; }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px 60px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: 28px 0 0 0;
+      color: #2a6496;
+      text-decoration: none;
+      font-size: .95rem;
+      font-weight: bold;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 36px 40px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.08);
+      margin-top: 28px;
+    }
+
+    .meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      background: #f0f4f8;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 28px;
+      font-size: .92rem;
+      color: #555;
+    }
+    .meta span strong { color: #1a3a5c; }
+
+    section { margin-bottom: 36px; }
+
+    section h3 {
+      font-size: 1.05rem;
+      color: #0056b3;
+      border-left: 3px solid #0056b3;
+      padding-left: 10px;
+      margin-bottom: 14px;
+    }
+
+    section h4 {
+      font-size: .98rem;
+      color: #1a3a5c;
+      margin: 16px 0 8px 0;
+    }
+
+    .summary-text {
+      background: #f0f4f8;
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-size: .96rem;
+      color: #444;
+      border-left: 4px solid #2a6496;
+    }
+
+    .code-block {
+      background: #1e1e2e;
+      color: #cdd6f4;
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: .88rem;
+      line-height: 1.7;
+      overflow-x: auto;
+      margin: 10px 0;
+      white-space: pre;
+    }
+    .code-block .comment { color: #6c7086; }
+    .code-block .cmd     { color: #89dceb; }
+    .code-block .kw      { color: #cba6f7; }
+    .code-block .str     { color: #a6e3a1; }
+    .code-block .fn      { color: #89b4fa; }
+    .code-block .ok      { color: #a6e3a1; }
+    .code-block .err     { color: #f38ba8; }
+
+    .result-box {
+      background: #f0fff4;
+      border: 1px solid #68d391;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: .93rem;
+      color: #276749;
+      margin-top: 10px;
+    }
+    .result-box strong { color: #1a5236; }
+
+    .warning-box {
+      background: #fff8e1;
+      border: 1px solid #f0c040;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: .93rem;
+      color: #555;
+      margin-top: 14px;
+    }
+    .warning-box strong { color: #856404; }
+
+    .inline-code {
+      background: #eef1f5;
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: .9em;
+    }
+
+    table.issue-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: .92rem;
+    }
+    table.issue-table th,
+    table.issue-table td {
+      border: 1px solid #e0e6ef;
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    table.issue-table th {
+      background: #f0f4f8;
+      color: #1a3a5c;
+      font-weight: bold;
+    }
+    table.issue-table tr:nth-child(even) td {
+      background: #fafbfd;
+    }
+
+    .bullet-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 8px;
+    }
+    .bullet-list li {
+      padding: 6px 0 6px 20px;
+      position: relative;
+      font-size: .95rem;
+      border-bottom: 1px solid #eef1f5;
+    }
+    .bullet-list li:last-child { border-bottom: none; }
+    .bullet-list li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: #2a6496;
+    }
+
+    .next-steps {
+      background: #eef4ff;
+      border-radius: 10px;
+      padding: 20px 24px;
+    }
+    .next-steps h4 {
+      font-size: 1rem;
+      color: #1a3a5c;
+      margin-bottom: 10px;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      background: #000;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0,0,0,.15);
+      margin: 12px 0;
+    }
+    .video-wrapper video {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .video-caption {
+      font-size: .88rem;
+      color: #666;
+      text-align: center;
+      margin-top: 6px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      background: #1a3a5c;
+      color: rgba(255,255,255,.7);
+      font-size: .85rem;
+    }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.5rem; }
+      .container { padding: 0 14px 48px; }
+      .card { padding: 24px 20px; }
+      .meta { flex-direction: column; gap: 8px; }
+      table.issue-table { font-size: .82rem; }
+      table.issue-table th, table.issue-table td { padding: 8px 6px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>步態辨識門禁系統：使用者登錄與即時辨識實測</h1>
+  <p>應用視覺大語言模型於步態分析 — 2026 年 5 月 20 日</p>
+</header>
+
+<div class="container">
+  <a class="back-link" href="index.html">← 返回主頁</a>
+
+  <div class="card">
+    <div class="meta">
+      <span><strong>日期：</strong>2026 年 5 月 20 日</span>
+      <span><strong>指導教授：</strong>朱學亭老師</span>
+      <span><strong>目前階段：</strong>使用者登錄、即時辨識系統實測</span>
+    </div>
+
+    <!-- 進度摘要 -->
+    <section>
+      <h3>進度摘要</h3>
+      <div class="summary-text">
+        本次於 Jetson 平台上完成「步態辨識門禁系統 <span class="inline-code">galt_system</span>」的端到端實測，涵蓋使用者登錄、即時辨識與身分驗證。以 MediaPipe Pose 取代原本的 YOLOv8+TensorRT 流程，搭配 OpenCV（GStreamer）以 1280×720 @ 120 FPS 擷取影像。Alice、Bob 兩位使用者皆成功登錄 32 維步態特徵向量；通行測試中 Bob 分數穩定維持在 0.997～1.000 之間、未知人員以 0.776／0.667 低於門檻被正確拒絕，整體系統行為符合預期。
+      </div>
+    </section>
+
+    <!-- 一、基本資訊 -->
+    <section>
+      <h3>一、基本資訊</h3>
+      <table class="issue-table">
+        <thead>
+          <tr>
+            <th>項目</th>
+            <th>說明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>實作日期</td>
+            <td>2026 年 5 月 20 日</td>
+          </tr>
+          <tr>
+            <td>實作環境</td>
+            <td>Ubuntu Linux / Jetson（acer 顯示器）</td>
+          </tr>
+          <tr>
+            <td>系統名稱</td>
+            <td><span class="inline-code">galt_system</span>（步態辨識門禁系統）</td>
+          </tr>
+          <tr>
+            <td>Python 版本</td>
+            <td>Python 3.8</td>
+          </tr>
+          <tr>
+            <td>相機設定</td>
+            <td>1280 × 720 @ 120 FPS（Camera index=0, mode=5）</td>
+          </tr>
+          <tr>
+            <td>關鍵函式庫</td>
+            <td>MediaPipe Pose、OpenCV（GStreamer）、TensorFlow Lite XNNPACK</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 二、測試流程總覽 -->
+    <section>
+      <h3>二、測試流程總覽</h3>
+      <p style="margin-bottom:12px;">本次實作依序完成三個階段：</p>
+      <ul class="bullet-list">
+        <li>登錄使用者（<span class="inline-code">--enroll</span>）：收集步態特徵向量並存入資料庫。</li>
+        <li>啟動辨識系統（<span class="inline-code">--debug</span>）：開始即時步態辨識與身份驗證。</li>
+        <li>驗證辨識結果：確認已知使用者通行、未知人員拒絕。</li>
+      </ul>
+    </section>
+
+    <!-- 三、實際演示影片 -->
+    <section>
+      <h3>三、實際演示影片</h3>
+      <p style="margin-bottom:12px;">以下為 2026/5/20 於 Jetson 平台實機錄製之步態辨識門禁系統測試過程：</p>
+      <div class="video-wrapper">
+        <video controls preload="metadata" playsinline>
+          <source src="videos/report-2026-05-20.mp4" type="video/mp4">
+          您的瀏覽器不支援 HTML5 video 標籤，請<a href="videos/report-2026-05-20.mp4">點此下載影片</a>。
+        </video>
+      </div>
+      <p class="video-caption">▲ Jetson 步態辨識門禁系統 — 使用者登錄與通行辨識實機演示</p>
+    </section>
+
+    <!-- 四、階段一：使用者登錄 -->
+    <section>
+      <h3>四、階段一：使用者登錄</h3>
+
+      <h4>4.1 Alice 登錄</h4>
+      <p style="margin-bottom:8px;">執行使用者登錄指令，系統以 120 FPS 連續採集 5 週期步態影像：</p>
+      <div class="code-block"><span class="ok">週期 1/5 蒐集完成</span>
+<span class="ok">週期 2/5 蒐集完成</span>
+<span class="ok">週期 3/5 蒐集完成</span>
+<span class="ok">週期 4/5 蒐集完成</span>
+<span class="ok">週期 5/5 蒐集完成</span>
+CONSUMER: Done Success
+GST_ARGUS: Done Success
+[DB] 已儲存使用者：Alice  (dim=(32,))
+[登錄] <span class="ok">✓ 完成！使用者「Alice」已儲存到資料庫</span></div>
+      <div class="result-box">
+        <strong>結果：</strong>Alice 登錄成功，32 維特徵向量已寫入資料庫。
+      </div>
+
+      <h4>4.2 Bob 登錄</h4>
+      <p style="margin-bottom:8px;">重複同樣流程登錄第二位使用者：</p>
+      <div class="code-block"><span class="ok">週期 1/5 蒐集完成</span>
+<span class="ok">週期 2/5 蒐集完成</span>
+<span class="ok">週期 3/5 蒐集完成</span>
+<span class="ok">週期 4/5 蒐集完成</span>
+<span class="ok">週期 5/5 蒐集完成</span>
+CONSUMER: Done Success
+GST_ARGUS: Done Success
+[DB] 已儲存使用者：Bob  (dim=(32,))
+[登錄] <span class="ok">✓ 完成！使用者「Bob」已儲存到資料庫</span></div>
+      <div class="result-box">
+        <strong>結果：</strong>Bob 登錄成功，資料庫現有 Alice、Bob 兩位使用者。
+      </div>
+    </section>
+
+    <!-- 五、階段二：啟動辨識系統 -->
+    <section>
+      <h3>五、階段二：啟動辨識系統</h3>
+      <p style="margin-bottom:12px;">登錄完成後，以 <span class="inline-code">debug</span> 模式啟動主程式進行即時辨識：</p>
+      <div class="code-block"><span class="cmd">python3.8 main.py --debug</span>
+[PoseEstimator] 初始化 MediaPipe Pose...
+[PoseEstimator] MediaPipe Pose 就緒
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.</div>
+      <p style="margin-top:10px;">系統啟動後以 120 FPS 擷取鏡頭影像，透過 MediaPipe Pose 進行骨架偵測，並與資料庫中的特徵向量進行比對。</p>
+    </section>
+
+    <!-- 六、階段三：辨識結果 -->
+    <section>
+      <h3>六、階段三：辨識結果</h3>
+
+      <h4>6.1 Bob 單人通行測試</h4>
+      <p style="margin-bottom:8px;">Bob 行走通過鏡頭，系統連續辨識結果如下：</p>
+      <div class="code-block">[<span class="ok">✓ 通行</span>] Bob  score=0.997
+[<span class="ok">✓ 通行</span>] Bob  score=0.999
+[<span class="ok">✓ 通行</span>] Bob  score=0.997
+[<span class="ok">✓ 通行</span>] Bob  score=1.000
+[<span class="ok">✓ 通行</span>] Bob  score=0.998
+[<span class="err">✗ 拒絕</span>] 未知人員  best_score=0.776</div>
+      <div class="result-box">
+        <strong>結果：</strong>Bob 辨識率極高（分數 0.997～1.000），未知人員分數 0.776 低於門檻，正確拒絕。
+      </div>
+
+      <h4>6.2 Alice + Bob 混合通行測試</h4>
+      <p style="margin-bottom:8px;">兩位使用者輪流或混合出現，辨識結果如下（部分紀錄）：</p>
+      <div class="code-block">[<span class="ok">✓ 通行</span>] Alice  score=0.999
+[<span class="ok">✓ 通行</span>] Bob    score=0.996
+[<span class="ok">✓ 通行</span>] Alice  score=0.998
+[<span class="ok">✓ 通行</span>] Bob    score=0.998
+[<span class="ok">✓ 通行</span>] Bob    score=0.855
+[<span class="ok">✓ 通行</span>] Bob    score=0.989
+[<span class="ok">✓ 通行</span>] Bob    score=0.999
+[<span class="ok">✓ 通行</span>] Bob    score=0.949
+...
+[<span class="err">✗ 拒絕</span>] 未知人員  best_score=0.667
+[<span class="ok">✓ 通行</span>] Bob    score=0.995
+[<span class="ok">✓ 通行</span>] Bob    score=0.999</div>
+      <div class="result-box">
+        <strong>結果：</strong>系統能正確區分 Alice 與 Bob，未知人員（score=0.667）再次被正確拒絕。
+      </div>
+    </section>
+
+    <!-- 七、辨識效能摘要 -->
+    <section>
+      <h3>七、辨識效能摘要</h3>
+      <table class="issue-table">
+        <thead>
+          <tr>
+            <th>項目</th>
+            <th>說明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Alice 辨識分數範圍</td>
+            <td>0.998 ～ 0.999（樣本數少，穩定）</td>
+          </tr>
+          <tr>
+            <td>Bob 辨識分數範圍</td>
+            <td>0.855 ～ 1.000（平均 &gt; 0.97）</td>
+          </tr>
+          <tr>
+            <td>未知人員最高分數</td>
+            <td>0.776 / 0.667（均低於門檻，正確拒絕）</td>
+          </tr>
+          <tr>
+            <td>系統 FPS</td>
+            <td>約 10～15 FPS（MediaPipe on CPU）</td>
+          </tr>
+          <tr>
+            <td>特徵向量維度</td>
+            <td>32 維</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 八、已知問題與注意事項 -->
+    <section>
+      <h3>八、已知問題與注意事項</h3>
+
+      <h4>8.1 OpenCV / GStreamer 警告</h4>
+      <div class="code-block">[ WARN ] global cap_gstreamer.cpp:1728 open OpenCV | GStreamer warning:
+Cannot query video position: status=0, value=-1, duration=-1</div>
+      <p style="margin-top:10px;">此警告為 GStreamer 後端不支援 position query 的已知問題，不影響影像擷取功能。</p>
+      <div class="warning-box">
+        <strong>⚠️ 注意：</strong>任何 <span class="inline-code">pip install opencv</span> 相關套件將覆蓋 GStreamer 支援，導致鏡頭無法啟動。
+      </div>
+
+      <h4>8.2 程式中止（KeyboardInterrupt）</h4>
+      <p>以 <span class="inline-code">Ctrl+C</span> 中止程式後出現 Traceback，為正常手動中止行為，非程式錯誤。MediaPipe 在 <span class="inline-code">graph.wait_until_idle()</span> 階段被中斷，下次啟動可正常執行。</p>
+
+      <h4>8.3 MediaPipe 限制</h4>
+      <ul class="bullet-list">
+        <li>由於 Jetson 板無法安裝 PyTorch，改用 MediaPipe Pose 替代 YOLOv8+TensorRT。</li>
+        <li>效能：預期 30 FPS+ 降至實際 10～15 FPS。</li>
+        <li>多人場景：目前版本不支援多人同時辨識。</li>
+        <li>單人進出場景下，10～15 FPS 的效能已足夠運作。</li>
+      </ul>
+
+      <h4>8.4 使用者辨識混淆問題 ⚠️</h4>
+      <p style="margin-bottom:8px;">現象：系統在多使用者情境下，有時未能準確區分不同使用者（如 Alice 與 Bob 被誤認）。</p>
+      <table class="issue-table">
+        <thead>
+          <tr>
+            <th>項目</th>
+            <th>說明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>問題描述</td>
+            <td>不同使用者的步態特徵向量相似度過高，導致辨識結果混淆。</td>
+          </tr>
+          <tr>
+            <td>根本原因</td>
+            <td>登錄週期數（目前 5 週期）不足，採集的步態樣本量偏少，特徵向量代表性不夠。</td>
+          </tr>
+          <tr>
+            <td>影響範圍</td>
+            <td>多使用者環境下辨識準確率下降，誤通行風險提高。</td>
+          </tr>
+          <tr>
+            <td>待改善方向</td>
+            <td>增加登錄週期數，擴大每位使用者的步態樣本量，提升特徵向量的穩定性與區辨性。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 九、後續建議 -->
+    <section>
+      <h3>九、後續建議</h3>
+      <div class="next-steps">
+        <ul class="bullet-list">
+          <li><strong>【優先】</strong>增加登錄週期數：將目前 5 週期提升至 10～20 週期，增加步態樣本覆蓋率，改善多人辨識準確率。</li>
+          <li>資料庫擴充：增加更多使用者並測試辨識準確率變化。</li>
+          <li>門檻調校：根據實際環境調整通行分數門檻（目前約 0.8 以上通行）。</li>
+          <li>32 維特徵向量優化：可研究升維或改用其他骨架特徵提升辨識率。</li>
+          <li>多人場景：如需支援，考慮整合人員追蹤（tracking）模組。</li>
+          <li>保護 OpenCV：在 README 及 <span class="inline-code">requirements.txt</span> 旁加入警告，避免誤裝覆蓋 GStreamer。</li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<footer>
+  &copy; 靜宜大學資訊工程學系 — 115 學年度第 1 學期 專題製作
+</footer>
+
+</body>
+</html>
