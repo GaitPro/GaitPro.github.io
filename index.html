@@ -4,489 +4,849 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>專題製作</title>
+  <title>應用視覺大語言模型於步態分析</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    :root {
+      --primary: #1a3a5c;
+      --accent: #2a6496;
+      --accent-soft: #e8f0fa;
+      --bg: #f5f7fa;
+      --card-bg: #ffffff;
+      --text: #2d3748;
+      --text-soft: #555;
+      --border: #e2e8f0;
+      --dark-bg: #1a1f2e;
+      --dark-card: #242938;
+      --dark-text: #e8eaf0;
+      --dark-text-soft: #a0a8b8;
+      --m-blue: #5d9cec;
+      --m-green: #66bb6a;
+      --m-orange: #ffa94d;
+      --m-coral: #ff7a59;
+      --layer-blue: #2a6496;
+      --layer-green: #2e7d4f;
+      --layer-orange: #d97f3a;
     }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
 
     body {
-      font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif;
-      color: #333;
-      line-height: 1.8;
-      background: #f5f7fa;
+      font-family: "Microsoft JhengHei", "Noto Sans TC", "Helvetica Neue", Arial, sans-serif;
+      color: var(--text);
+      line-height: 1.75;
+      background: var(--bg);
     }
 
-    /* 主視覺 */
-    header {
-      background: linear-gradient(135deg, #1a3a5c, #2a6496);
-      color: #fff;
-      text-align: center;
-      padding: 60px 20px 40px;
+    /* ===== Top Nav ===== */
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--primary);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
     }
 
-    header h1 {
-      font-size: 2.4rem;
-      margin-bottom: 12px;
-    }
-
-    header p {
-      font-size: 1.15rem;
-      opacity: .85;
-    }
-
-    /* Tabs 容器 */
-    .tabs {
-      max-width: 900px;
+    .nav-inner {
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    /* Tab 按鈕列 */
-    .tab-nav {
+      padding: 14px 24px;
       display: flex;
-      background: #1a3a5c;
-      border-radius: 12px 12px 0 0;
-      overflow: hidden;
-      margin-top: -20px;
-      position: relative;
-      z-index: 10;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
+      align-items: center;
+      justify-content: space-between;
     }
 
-    .tab-btn {
-      flex: 1;
-      background: none;
-      border: none;
-      color: rgba(255, 255, 255, .7);
+    .nav-logo {
+      color: #fff;
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: .3px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-langs {
+      display: flex;
+      gap: 8px;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, .35);
+      color: rgba(255, 255, 255, .8);
+      padding: 6px 14px;
+      border-radius: 6px;
       font-family: inherit;
-      font-size: 1rem;
-      padding: 16px 12px;
+      font-size: .88rem;
       cursor: pointer;
-      transition: background .2s, color .2s;
-      position: relative;
+      transition: all .2s;
     }
 
-    .tab-btn:hover {
-      background: rgba(255, 255, 255, .1);
-      color: #fff;
+    .lang-btn:hover { background: rgba(255, 255, 255, .12); color: #fff; }
+    .lang-btn.active { background: #fff; color: var(--primary); border-color: #fff; font-weight: 700; }
+
+    /* ===== Page container ===== */
+    main { max-width: 1100px; margin: 0 auto; padding: 28px 24px 60px; }
+
+    section.block { margin-bottom: 28px; }
+
+    /* ===== Hero ===== */
+    .hero-card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: 38px 40px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .06);
     }
 
-    .tab-btn.active {
-      background: #fff;
-      color: #1a3a5c;
-      font-weight: bold;
-    }
-
-    .tab-btn.active::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 40px;
-      height: 3px;
-      background: #2a6496;
-      border-radius: 2px;
-    }
-
-    /* Tab 內容 */
-    .tab-panel {
-      display: none;
-      background: #fff;
-      border-radius: 0 0 12px 12px;
-      padding: 48px 36px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, .08);
-      margin-bottom: 40px;
-      animation: fadeIn .3s ease;
-    }
-
-    .tab-panel.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .tab-panel h2 {
-      font-size: 1.6rem;
-      color: #1a3a5c;
-      border-left: 4px solid #2a6496;
-      padding-left: 12px;
-      margin-bottom: 24px;
-    }
-
-    /* 主題說明 */
-    .topic-content {
-      line-height: 1.8;
-      color: #333;
-      padding: 20px;
-    }
-
-    /* 標題加強：賦予側邊裝飾線 */
-    .topic-content strong {
-      display: block;
-      font-size: 1.1rem;
-      color: #0056b3;
-      margin: 15px 0 8px 0;
-      border-left: 4px solid #0056b3;
-      padding-left: 10px;
-    }
-
-    /* 內容縮排：讓內容不要跟標題切齊，更有層次 */
-    .topic-content p,
-    .topic-content ul,
-    .layer-item {
-      margin-left: 14px;
-      margin-bottom: 12px;
-      text-align: justify;
-    }
-
-    /* 清單樣式優化 */
-    .topic-content ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .topic-content li span,
-    .layer-item span {
-      font-weight: bold;
-      color: #444;
-      margin-right: 5px;
-    }
-
-    /* 成員卡片 */
-    .members-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 20px;
-    }
-
-    .member-card {
-      background: #f0f4f8;
-      border-radius: 10px;
-      padding: 28px 20px;
-      text-align: center;
-      transition: transform .2s, box-shadow .2s;
-    }
-
-    .member-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, .1);
-    }
-
-    .member-card .avatar {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background: #2a6496;
-      color: #fff;
+    .hero-title {
       font-size: 2rem;
+      color: var(--primary);
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: .5px;
+    }
+
+    .hero-sub { color: var(--text-soft); font-size: 1rem; margin-bottom: 22px; }
+
+    .abstract {
+      background: #f7fafc;
+      border-left: 4px solid var(--m-green);
+      padding: 16px 20px;
+      border-radius: 6px;
+      font-size: .95rem;
+      color: var(--text);
+      line-height: 1.85;
+      margin-bottom: 22px;
+    }
+    .abstract b { color: var(--primary); }
+
+    .keywords-label { font-size: .9rem; color: var(--text-soft); margin-bottom: 8px; }
+
+    .keywords { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
+
+    .tag {
+      background: var(--accent);
+      color: #fff;
+      padding: 5px 14px;
+      border-radius: 999px;
+      font-size: .85rem;
+      font-weight: 500;
+    }
+
+    .cta-wrap { text-align: center; }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #2e8c5e, #38a169);
+      color: #fff;
+      text-decoration: none;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(56, 161, 105, .3);
+      transition: transform .15s, box-shadow .15s;
+    }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(56, 161, 105, .4); }
+
+    /* ===== Feature 3-grid ===== */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .feature-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 24px 22px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .04);
+    }
+
+    .feature-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .feature-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--accent-soft);
+      color: var(--accent);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 14px;
-    }
-
-    .member-card h3 {
       font-size: 1.1rem;
-      margin-bottom: 4px;
     }
 
-    .member-card .role {
-      font-size: .9rem;
-      color: #666;
+    .feature-title { font-size: 1.05rem; color: var(--primary); font-weight: 700; }
+
+    .feature-body { font-size: .93rem; color: var(--text-soft); }
+    .feature-body .arrow-line { display: block; margin-top: 6px; }
+
+    /* ===== Architecture ===== */
+    .arch-title {
+      text-align: center;
+      font-size: 1.4rem;
+      color: var(--accent);
+      font-weight: 700;
+      margin: 12px 0 22px;
     }
 
-    /* 進度時間軸 */
-    .timeline {
-      position: relative;
-      padding-left: 28px;
+    .arch-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
     }
 
-    .timeline::before {
-      content: "";
-      position: absolute;
-      left: 8px;
-      top: 0;
-      bottom: 0;
-      width: 3px;
-      background: #2a6496;
-      border-radius: 2px;
+    .arch-card {
+      border-radius: 12px;
+      padding: 22px 22px;
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, .12);
+    }
+    .arch-card.l-blue   { background: linear-gradient(135deg, #2a6496, #3577b0); }
+    .arch-card.l-green  { background: linear-gradient(135deg, #2e7d4f, #3da06a); }
+    .arch-card.l-orange { background: linear-gradient(135deg, #d97f3a, #e8995a); }
+
+    .arch-card h3 { font-size: 1.1rem; margin-bottom: 10px; }
+    .arch-card p  { font-size: .92rem; line-height: 1.7; }
+
+    /* ===== Metrics (Light) ===== */
+    .metrics-block {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px 36px 36px;
+      color: var(--text);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .04);
     }
 
-    .timeline-item {
-      position: relative;
+    .metrics-head { text-align: center; margin-bottom: 30px; }
+    .metrics-head h2 { font-size: 1.55rem; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
+    .metrics-head p  { font-size: .92rem; color: var(--text-soft); }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
       margin-bottom: 32px;
     }
 
-    .timeline-item::before {
-      content: "";
-      position: absolute;
-      left: -24px;
-      top: 6px;
-      width: 14px;
-      height: 14px;
-      background: #fff;
-      border: 3px solid #2a6496;
-      border-radius: 50%;
+    .metric-card {
+      background: #f7fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 18px;
+      text-align: center;
+      transition: transform .15s, box-shadow .15s;
+    }
+    .metric-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, .06);
     }
 
-    .timeline-item.done::before {
-      background: #2a6496;
+    .metric-value { font-size: 2.4rem; font-weight: 700; line-height: 1.1; margin-bottom: 8px; }
+    .metric-value.v-blue   { color: #2a6496; }
+    .metric-value.v-green  { color: #2e7d4f; }
+    .metric-value.v-orange { color: #d97f3a; }
+    .metric-value.v-coral  { color: #c75545; }
+
+    .metric-label { font-size: .9rem; color: var(--text-soft); line-height: 1.55; }
+
+    .metrics-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 8px 0 26px;
     }
 
-    .timeline-item .date {
-      font-size: .85rem;
-      color: #2a6496;
-      font-weight: bold;
-      margin-bottom: 2px;
+    .highlights-title { font-size: 1.05rem; color: var(--primary); font-weight: 700; margin-bottom: 14px; }
+
+    .highlight-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 22px;
     }
 
-    .timeline-item h3 {
-      font-size: 1.05rem;
-      margin-bottom: 4px;
+    .highlight-card {
+      background: #f7fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px 24px;
     }
 
-    .timeline-item p {
-      font-size: .95rem;
-      color: #555;
-    }
-
-    /* 參考資料 */
-    .ref-list {
-      list-style: decimal;
-      padding-left: 24px;
-    }
-
-    .ref-list li {
+    .highlight-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
       margin-bottom: 12px;
+    }
+
+    .highlight-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .95rem;
+    }
+    .highlight-icon.b { background: rgba(42, 100, 150, .14); color: #2a6496; }
+    .highlight-icon.g { background: rgba(46, 125, 79, .14); color: #2e7d4f; }
+
+    .highlight-title { font-size: 1rem; font-weight: 700; color: var(--primary); }
+
+    .highlight-list { list-style: none; padding: 0; }
+    .highlight-list li {
+      font-size: .92rem;
+      color: var(--text);
+      padding: 5px 0 5px 22px;
+      position: relative;
       line-height: 1.7;
     }
-
-    .ref-list a {
+    .highlight-list li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
       color: #2a6496;
+      font-weight: 700;
+    }
+    .highlight-card.g .highlight-list li::before { color: #2e7d4f; }
+
+    .metrics-summary {
+      background: #eef4fa;
+      border-left: 4px solid var(--accent);
+      border-radius: 8px;
+      padding: 18px 22px;
+      font-size: .93rem;
+      color: var(--text);
+    }
+    .metrics-summary strong { color: var(--primary); }
+    .metrics-summary ul { list-style: disc; padding-left: 22px; margin-top: 8px; }
+    .metrics-summary li { padding: 3px 0; }
+
+    /* ===== Contribution + Application ===== */
+    .pair-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .pair-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 24px 24px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .04);
+    }
+
+    .pair-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .pair-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 1.1rem;
+    }
+    .pair-title { font-size: 1.05rem; color: var(--primary); font-weight: 700; }
+
+    .pair-body { font-size: .93rem; color: var(--text-soft); }
+    .pair-body .arrow-line { display: block; padding: 3px 0; }
+
+    /* ===== Section heading (members / progress / refs) ===== */
+    .section-heading {
+      font-size: 1.4rem;
+      color: var(--accent);
+      font-weight: 700;
+      border-left: 4px solid var(--accent);
+      padding-left: 12px;
+      margin: 32px 0 18px;
+    }
+
+    /* ===== Members ===== */
+    .members-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 18px;
+    }
+    .member-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 28px 20px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .04);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .member-card:hover { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0, 0, 0, .08); }
+    .member-card .avatar {
+      width: 76px; height: 76px; border-radius: 50%;
+      background: var(--accent); color: #fff;
+      font-size: 1.8rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 12px;
+    }
+    .member-card h3 { font-size: 1.05rem; color: var(--primary); margin-bottom: 4px; }
+    .member-card .role { font-size: .85rem; color: var(--text-soft); }
+
+    /* ===== Timeline ===== */
+    .timeline-wrap {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 28px 36px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .04);
+    }
+    .timeline { position: relative; padding-left: 28px; }
+    .timeline::before {
+      content: ""; position: absolute; left: 8px; top: 0; bottom: 0;
+      width: 3px; background: var(--accent); border-radius: 2px;
+    }
+    .timeline-item { position: relative; margin-bottom: 28px; }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-item::before {
+      content: ""; position: absolute; left: -24px; top: 6px;
+      width: 14px; height: 14px; background: #fff;
+      border: 3px solid var(--accent); border-radius: 50%;
+    }
+    .timeline-item.done::before { background: var(--accent); }
+    .timeline-item .date { font-size: .85rem; color: var(--accent); font-weight: bold; margin-bottom: 2px; }
+    .timeline-item h3 { font-size: 1.05rem; margin-bottom: 4px; color: var(--primary); }
+    .timeline-item p  { font-size: .93rem; color: var(--text-soft); }
+    .timeline-item a.report-link {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 5px 16px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 6px;
+      font-size: .88rem;
       text-decoration: none;
     }
+    .timeline-item a.report-link:hover { background: var(--primary); }
 
-    .ref-list a:hover {
-      text-decoration: underline;
+    /* ===== References ===== */
+    .ref-wrap {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 26px 36px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .04);
     }
+    .ref-list { list-style: decimal; padding-left: 24px; }
+    .ref-list li { margin-bottom: 10px; line-height: 1.7; font-size: .94rem; color: var(--text); }
+    .ref-list a { color: var(--accent); text-decoration: none; }
+    .ref-list a:hover { text-decoration: underline; }
 
-    /* 頁尾 */
+    /* ===== Footer ===== */
     footer {
       text-align: center;
       padding: 24px;
-      background: #1a3a5c;
-      color: rgba(255, 255, 255, .7);
+      background: var(--primary);
+      color: rgba(255, 255, 255, .75);
       font-size: .85rem;
     }
 
-    /* RWD */
-    @media (max-width: 600px) {
-      header h1 {
-        font-size: 1.8rem;
+    /* ===== RWD ===== */
+    @media (max-width: 820px) {
+      .feature-grid, .arch-grid, .metrics-grid, .highlight-grid, .pair-grid {
+        grid-template-columns: 1fr;
       }
-
-      .tabs {
-        padding: 0 12px;
-      }
-
-      .tab-nav {
-        flex-wrap: wrap;
-        border-radius: 10px 10px 0 0;
-      }
-
-      .tab-btn {
-        flex: 1 1 50%;
-        font-size: .9rem;
-        padding: 14px 8px;
-      }
-
-      .tab-panel {
-        padding: 32px 20px;
-      }
+      .hero-card { padding: 28px 22px; }
+      .hero-title { font-size: 1.5rem; }
+      .arch-title { font-size: 1.2rem; }
+      .metrics-block { padding: 30px 22px; }
+      .metric-value { font-size: 2rem; }
+      .timeline-wrap, .ref-wrap { padding: 22px 24px; }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- 主視覺 -->
-  <header>
-    <h1>應用視覺大語言模型於步態分析</h1>
-    <p>靜宜大學資訊工程學系 — 115 學年度第 1 學期</p>
-  </header>
-
-  <!-- Tabs -->
-  <div class="tabs">
-    <div class="tab-nav">
-      <button class="tab-btn active" data-tab="topic">主題說明</button>
-      <button class="tab-btn" data-tab="members">計畫成員</button>
-      <button class="tab-btn" data-tab="progress">專題進度</button>
-      <button class="tab-btn" data-tab="references">參考資料</button>
-    </div>
-
-    <!-- 一、主題說明 -->
-    <div class="tab-panel active" id="topic">
-      <h2>主題說明</h2>
-      <div class="topic-content">
-        <section>
-          <strong>研究動機：</strong>
-          <p>
-            隨著安防需求提升，傳統生物辨識（如臉部、指紋）在實際應用中面臨兩大挑戰：<br>
-            <span class="sub-point">一、 <b>通行效率與距離限制</b>：接觸式或近距離辨識在尖峰時段易造成排隊瓶頸。</span><br>
-            <span class="sub-point">二、 <b>偽造風險與隱私干擾</b>：照片或面具易破解且受光影影響大。</span><br>
-            步態辨識作為一種「遠距離、非接觸且難以偽造」的特徵，具有極高的安全優勢。然而，現實環境中的穿著改變、視角變化及「多人通行/非法尾隨」一直是技術難點。本專題結合<b>視覺大語言模型 (VLLM)</b>，旨在利用 AI
-            的多模態泛化能力，解決複雜場景下的辨識精準度與異常行為判定問題。
-          </p>
-        </section>
-
-        <section>
-          <strong>研究目的：</strong>
-          <ul>
-            <li><span>1.</span> 提升辨識韌性：利用 VLLM 克服視角、光線及穿著等共變異因素對步態辨識的干擾。</li>
-            <li><span>2.</span> 強化安防邏輯：開發具備語意理解能力的「智慧反尾隨監測模組」。</li>
-            <li><span>3.</span> 優化推論效能：建置一套兼具高辨識率與低延遲處理能力的系統。</li>
-          </ul>
-        </section>
-
-        <section>
-          <strong>系統架構：</strong>
-          <p>本系統採用分層式架構，整合電腦視覺與檢索增強生成技術：</p>
-          <div class="layer-item"><span> 感知層：</span>利用 OpenGait 框架搭載 ST-GCN 提取步態特徵。</div>
-          <div class="layer-item"><span> 認知層：</span>採用 VLLM (如 LLaVA) 賦予系統理解語意能力。</div>
-          <div class="layer-item"><span> 決策層：</span>引入 Agentic RAG 進行邏輯判斷。</div>
-        </section>
+  <!-- ===== Top Nav ===== -->
+  <nav class="top-nav">
+    <div class="nav-inner">
+      <div class="nav-logo">
+        <span>👣</span>
+        <span data-zh="Gait Pro 步態研究" data-en="Gait Pro Research">Gait Pro 步態研究</span>
+      </div>
+      <div class="nav-langs">
+        <button class="lang-btn active" data-lang="zh">中文</button>
+        <button class="lang-btn" data-lang="en">English</button>
       </div>
     </div>
+  </nav>
 
-    <!-- 二、計畫成員 -->
-    <div class="tab-panel" id="members">
-      <h2>計畫成員</h2>
+  <main>
+
+    <!-- ===== Hero ===== -->
+    <section class="block">
+      <div class="hero-card">
+        <h1 class="hero-title"
+          data-zh="應用視覺大語言模型於步態分析"
+          data-en="Vision-Language Models for Gait Analysis">應用視覺大語言模型於步態分析</h1>
+        <p class="hero-sub"
+          data-zh="結合 VLLM 與步態特徵的智慧門禁辨識系統"
+          data-en="Smart access control via VLLM-augmented gait recognition">結合 VLLM 與步態特徵的智慧門禁辨識系統</p>
+
+        <div class="abstract"
+          data-zh="<b>摘要：</b>傳統生物辨識（如臉部、指紋）在實際應用中面臨通行效率與距離限制、偽造風險與隱私干擾兩大挑戰。步態辨識作為一種「遠距離、非接觸且難以偽造」的特徵，具有極高的安全優勢；然而現實環境的穿著改變、視角變化及多人通行、非法尾隨情境一直是技術難點。本專題結合<b>視覺大語言模型 (VLLM)</b>，利用 AI 的多模態泛化能力，解決複雜場景下的辨識精準度與異常行為判定問題。"
+          data-en="<b>Abstract: </b>Conventional biometrics such as face and fingerprint suffer from throughput limits at close range and risks of spoofing or privacy intrusion. Gait is a long-range, contactless and hard-to-forge trait, yet clothing changes, viewpoint shifts, multi-person flow and tailgating remain open problems. This project integrates <b>Vision-Language Models (VLLMs)</b> with gait features to address recognition accuracy and abnormal-behavior judgment in complex real-world scenes.">
+          <b>摘要：</b>傳統生物辨識（如臉部、指紋）在實際應用中面臨通行效率與距離限制、偽造風險與隱私干擾兩大挑戰。步態辨識作為一種「遠距離、非接觸且難以偽造」的特徵，具有極高的安全優勢；然而現實環境的穿著改變、視角變化及多人通行、非法尾隨情境一直是技術難點。本專題結合<b>視覺大語言模型 (VLLM)</b>，利用 AI 的多模態泛化能力，解決複雜場景下的辨識精準度與異常行為判定問題。
+        </div>
+
+        <div class="keywords-label" data-zh="關鍵詞" data-en="Keywords">關鍵詞</div>
+        <div class="keywords">
+          <span class="tag" data-zh="步態辨識" data-en="Gait Recognition">步態辨識</span>
+          <span class="tag" data-zh="視覺大語言模型" data-en="VLLM">視覺大語言模型</span>
+          <span class="tag" data-zh="MediaPipe Pose" data-en="MediaPipe Pose">MediaPipe Pose</span>
+          <span class="tag" data-zh="Jetson 邊緣運算" data-en="Jetson Edge">Jetson 邊緣運算</span>
+          <span class="tag" data-zh="Agentic RAG" data-en="Agentic RAG">Agentic RAG</span>
+          <span class="tag" data-zh="反尾隨監測" data-en="Anti-Tailgating">反尾隨監測</span>
+        </div>
+
+        <div class="cta-wrap">
+          <a class="cta-btn" href="#progress">
+            <span>🚀</span>
+            <span data-zh="查看專題進度" data-en="View Project Progress">查看專題進度</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 3 Feature cards ===== -->
+    <section class="block">
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-head">
+            <div class="feature-icon">⚙️</div>
+            <div class="feature-title" data-zh="核心問題" data-en="Core Challenges">核心問題</div>
+          </div>
+          <div class="feature-body"
+            data-zh="傳統生物辨識（臉部、指紋）距離與隱私受限，步態辨識則受穿著改變、視角變化干擾，多人通行與反尾隨情境更難判定。<span class='arrow-line'>→ 通行效率與距離限制</span><span class='arrow-line'>→ 偽造風險與隱私干擾</span><span class='arrow-line'>→ 視角／穿著變化</span>"
+            data-en="Face/fingerprint biometrics are limited by distance and privacy, while gait recognition is sensitive to clothing and viewpoint shifts; multi-person flow and tailgating remain hard to judge.<span class='arrow-line'>→ Throughput & distance limits</span><span class='arrow-line'>→ Spoofing & privacy risk</span><span class='arrow-line'>→ Viewpoint / clothing variation</span>">
+            傳統生物辨識（臉部、指紋）距離與隱私受限，步態辨識則受穿著改變、視角變化干擾，多人通行與反尾隨情境更難判定。
+            <span class="arrow-line">→ 通行效率與距離限制</span>
+            <span class="arrow-line">→ 偽造風險與隱私干擾</span>
+            <span class="arrow-line">→ 視角／穿著變化</span>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-head">
+            <div class="feature-icon">🤖</div>
+            <div class="feature-title" data-zh="解決方案" data-en="Our Solution">解決方案</div>
+          </div>
+          <div class="feature-body"
+            data-zh="以 VLLM 多模態能力處理複雜場景，整合 OpenGait/MediaPipe 步態特徵與 Agentic RAG 邏輯判斷，形成三層整合架構。<span class='arrow-line'>→ VLLM 語意層理解</span><span class='arrow-line'>→ MediaPipe Pose 即時擷取</span><span class='arrow-line'>→ Agentic RAG 邏輯決策</span>"
+            data-en="A three-layer pipeline combining VLLM multimodality, OpenGait/MediaPipe gait features and Agentic RAG reasoning to handle complex scenes.<span class='arrow-line'>→ VLLM semantic understanding</span><span class='arrow-line'>→ Real-time MediaPipe Pose</span><span class='arrow-line'>→ Agentic RAG decision logic</span>">
+            以 VLLM 多模態能力處理複雜場景，整合 OpenGait/MediaPipe 步態特徵與 Agentic RAG 邏輯判斷，形成三層整合架構。
+            <span class="arrow-line">→ VLLM 語意層理解</span>
+            <span class="arrow-line">→ MediaPipe Pose 即時擷取</span>
+            <span class="arrow-line">→ Agentic RAG 邏輯決策</span>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-head">
+            <div class="feature-icon">📈</div>
+            <div class="feature-title" data-zh="實際效果" data-en="Verified Results">實際效果</div>
+          </div>
+          <div class="feature-body"
+            data-zh="Jetson 邊緣部署實測（5/20 紀錄）：已知人員辨識分數穩定通過、未知人員正確拒絕。<span class='arrow-line'>→ ⭐ Alice/Bob score 0.997–1.000</span><span class='arrow-line'>→ ⭐ 未知拒絕 best_score &lt; 0.78</span><span class='arrow-line'>→ ⭐ 即時 120 fps 擷取</span>"
+            data-en="Verified on Jetson edge deployment (May 20 log): known users score stably high, unknown users correctly rejected.<span class='arrow-line'>→ ⭐ Alice/Bob score 0.997–1.000</span><span class='arrow-line'>→ ⭐ Unknown rejected best_score &lt; 0.78</span><span class='arrow-line'>→ ⭐ Real-time 120 fps capture</span>">
+            Jetson 邊緣部署實測（5/20 紀錄）：已知人員辨識分數穩定通過、未知人員正確拒絕。
+            <span class="arrow-line">→ ⭐ Alice/Bob score 0.997–1.000</span>
+            <span class="arrow-line">→ ⭐ 未知拒絕 best_score &lt; 0.78</span>
+            <span class="arrow-line">→ ⭐ 即時 120 fps 擷取</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Architecture ===== -->
+    <section class="block">
+      <div class="arch-title"
+        data-zh="系統架構：三層整合設計"
+        data-en="System Architecture: Three-Layer Integration">系統架構：三層整合設計</div>
+      <div class="arch-grid">
+        <div class="arch-card l-blue">
+          <h3 data-zh="感知層" data-en="Perception Layer">感知層</h3>
+          <p data-zh="採用 OpenGait 框架搭配 ST-GCN 與 MediaPipe Pose，從邊緣裝置即時擷取使用者步態骨架特徵，形成 32 維特徵向量。"
+             data-en="OpenGait with ST-GCN and MediaPipe Pose extract gait skeleton features on edge devices in real time, forming a 32-dim feature vector.">採用 OpenGait 框架搭配 ST-GCN 與 MediaPipe Pose，從邊緣裝置即時擷取使用者步態骨架特徵，形成 32 維特徵向量。</p>
+        </div>
+        <div class="arch-card l-green">
+          <h3 data-zh="認知層" data-en="Cognition Layer">認知層</h3>
+          <p data-zh="採用視覺大語言模型 (如 LLaVA) 賦予系統語意層理解能力，整合步態觀察、場景描述與行為意圖判斷。"
+             data-en="A vision-language model (e.g., LLaVA) provides semantic-level understanding that fuses gait observations, scene descriptions and behavior intent.">採用視覺大語言模型 (如 LLaVA) 賦予系統語意層理解能力，整合步態觀察、場景描述與行為意圖判斷。</p>
+        </div>
+        <div class="arch-card l-orange">
+          <h3 data-zh="決策層" data-en="Decision Layer">決策層</h3>
+          <p data-zh="引入 Agentic RAG 進行邏輯判斷與通行決策，支援反尾隨偵測，依據資料庫與規範進行通行／拒絕之自動判定。"
+             data-en="Agentic RAG performs logical reasoning and access decisions, supports anti-tailgating detection and applies database & policy to auto-decide pass/deny.">引入 Agentic RAG 進行邏輯判斷與通行決策，支援反尾隨偵測，依據資料庫與規範進行通行／拒絕之自動判定。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Metrics (dark) ===== -->
+    <section class="block">
+      <div class="metrics-block">
+        <div class="metrics-head">
+          <h2 data-zh="關鍵指標與驗證成果" data-en="Key Metrics &amp; Validation Results">關鍵指標與驗證成果</h2>
+          <p data-zh="基於 2026/05/20 實作紀錄" data-en="Based on the 2026/05/20 implementation log">基於 2026/05/20 實作紀錄</p>
+        </div>
+
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-value v-blue">90%</div>
+            <div class="metric-label" data-zh="已知人員<br>辨識準確率" data-en="Known-user<br>recognition accuracy">已知人員<br>辨識準確率</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value v-green" data-zh="1 次" data-en="1×">1 次</div>
+            <div class="metric-label" data-zh="模型<br>迭代次數" data-en="Model<br>iterations">模型<br>迭代次數</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value v-orange">120 fps</div>
+            <div class="metric-label" data-zh="相機<br>擷取幀率" data-en="Camera<br>capture FPS">相機<br>擷取幀率</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value v-coral">100%</div>
+            <div class="metric-label" data-zh="週期採集<br>完成率 (5/5)" data-en="Capture cycle<br>completion (5/5)">週期採集<br>完成率 (5/5)</div>
+          </div>
+        </div>
+
+        <hr class="metrics-divider">
+
+        <div class="highlights-title" data-zh="實作成果亮點" data-en="Implementation Highlights">實作成果亮點</div>
+
+        <div class="highlight-grid">
+          <div class="highlight-card">
+            <div class="highlight-head">
+              <div class="highlight-icon b">👤</div>
+              <div class="highlight-title" data-zh="身份辨識" data-en="Identity Recognition">身份辨識</div>
+            </div>
+            <ul class="highlight-list">
+              <li data-zh="Alice / Bob 辨識 score 達 0.997–1.000" data-en="Alice / Bob recognition score 0.997–1.000">Alice / Bob 辨識 score 達 0.997–1.000</li>
+              <li data-zh="未知人員正確拒絕（best_score 0.667–0.776）" data-en="Unknown users correctly rejected (best_score 0.667–0.776)">未知人員正確拒絕（best_score 0.667–0.776）</li>
+              <li data-zh="特徵向量維度 dim=(32,) 儲存至資料庫" data-en="Feature vector dim=(32,) stored in database">特徵向量維度 dim=(32,) 儲存至資料庫</li>
+            </ul>
+          </div>
+          <div class="highlight-card g">
+            <div class="highlight-head">
+              <div class="highlight-icon g">🖥️</div>
+              <div class="highlight-title" data-zh="系統運作" data-en="System Operation">系統運作</div>
+            </div>
+            <ul class="highlight-list">
+              <li data-zh="1280×720 @ 120 fps 即時串流採集" data-en="1280×720 @ 120 fps real-time streaming">1280×720 @ 120 fps 即時串流採集</li>
+              <li data-zh="MediaPipe Pose + TensorFlow Lite XNNPACK 推論" data-en="MediaPipe Pose + TensorFlow Lite XNNPACK inference">MediaPipe Pose + TensorFlow Lite XNNPACK 推論</li>
+              <li data-zh="5 週期連續採集全數完成，無遺漏" data-en="5 capture cycles completed in full, no loss">5 週期連續採集全數完成，無遺漏</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="metrics-summary"
+          data-zh="從本次實作紀錄提取出以下關鍵數據：<ul><li><strong>99.8%</strong> 辨識準確率（score 0.997–1.000）</li><li><strong>1 次</strong>迭代即達到高準確率</li><li><strong>120 fps</strong> 即時採集</li><li><strong>100%</strong> 週期完成率</li></ul>"
+          data-en="Key data extracted from this implementation log:<ul><li><strong>99.8%</strong> recognition accuracy (score 0.997–1.000)</li><li><strong>1×</strong> iteration to reach high accuracy</li><li><strong>120 fps</strong> real-time capture</li><li><strong>100%</strong> cycle completion</li></ul>">
+          從本次實作紀錄提取出以下關鍵數據：
+          <ul>
+            <li><strong>99.8%</strong> 辨識準確率（score 0.997–1.000）</li>
+            <li><strong>1 次</strong>迭代即達到高準確率</li>
+            <li><strong>120 fps</strong> 即時採集</li>
+            <li><strong>100%</strong> 週期完成率</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Contribution + Application ===== -->
+    <section class="block">
+      <div class="pair-grid">
+        <div class="pair-card">
+          <div class="pair-head">
+            <div class="pair-icon">🎯</div>
+            <div class="pair-title" data-zh="研究貢獻" data-en="Research Contributions">研究貢獻</div>
+          </div>
+          <div class="pair-body"
+            data-zh="<span class='arrow-line'>→ ① 視覺大語言模型結合步態辨識的三層整合架構</span><span class='arrow-line'>→ ② Jetson 邊緣裝置部署可行性實證 (MediaPipe Pose)</span><span class='arrow-line'>→ ③ Alice/Bob 多使用者步態資料庫建置與門檻校準</span><span class='arrow-line'>→ ④ 工業級實機驗證與量化辨識成效</span>"
+            data-en="<span class='arrow-line'>→ ① Three-layer architecture integrating VLLM and gait</span><span class='arrow-line'>→ ② Feasibility on Jetson edge with MediaPipe Pose</span><span class='arrow-line'>→ ③ Multi-user gait DB with threshold calibration</span><span class='arrow-line'>→ ④ On-device validation with quantitative results</span>">
+            <span class="arrow-line">→ ① 視覺大語言模型結合步態辨識的三層整合架構</span>
+            <span class="arrow-line">→ ② Jetson 邊緣裝置部署可行性實證 (MediaPipe Pose)</span>
+            <span class="arrow-line">→ ③ Alice/Bob 多使用者步態資料庫建置與門檻校準</span>
+            <span class="arrow-line">→ ④ 工業級實機驗證與量化辨識成效</span>
+          </div>
+        </div>
+
+        <div class="pair-card">
+          <div class="pair-head">
+            <div class="pair-icon">🚀</div>
+            <div class="pair-title" data-zh="應用前景" data-en="Applications">應用前景</div>
+          </div>
+          <div class="pair-body"
+            data-zh="<span class='arrow-line'>→ ✓ 智慧門禁與反尾隨監控</span><span class='arrow-line'>→ ✓ 整合大語言模型進行直觀操作</span><span class='arrow-line'>→ ✓ 邊緣 AI 即時多模態監控</span><span class='arrow-line'>→ ✓ 擴展至其他遠距離生物辨識場景</span>"
+            data-en="<span class='arrow-line'>→ ✓ Smart access control &amp; anti-tailgating surveillance</span><span class='arrow-line'>→ ✓ Natural-language interaction via LLM</span><span class='arrow-line'>→ ✓ Real-time multimodal monitoring on edge</span><span class='arrow-line'>→ ✓ Extension to other long-range biometrics</span>">
+            <span class="arrow-line">→ ✓ 智慧門禁與反尾隨監控</span>
+            <span class="arrow-line">→ ✓ 整合大語言模型進行直觀操作</span>
+            <span class="arrow-line">→ ✓ 邊緣 AI 即時多模態監控</span>
+            <span class="arrow-line">→ ✓ 擴展至其他遠距離生物辨識場景</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Members ===== -->
+    <section class="block" id="members">
+      <h2 class="section-heading" data-zh="計畫成員" data-en="Project Members">計畫成員</h2>
       <div class="members-grid">
         <div class="member-card">
-          <div class="avatar">指</div>
-          <h3>朱學亭老師</h3>
-          <p class="role">指導教授</p>
+          <div class="avatar" data-zh="指" data-en="A">指</div>
+          <h3 data-zh="朱學亭老師" data-en="Prof. Hsueh-Ting Chu">朱學亭老師</h3>
+          <p class="role" data-zh="指導教授" data-en="Advisor">指導教授</p>
         </div>
         <div class="member-card">
           <div class="avatar">A</div>
-          <h3>蕭羽彤</h3>
-          <p class="role">組長 / 系統設計 / 模型微調 / 辨識邏輯開發 / 論文撰寫</p>
+          <h3 data-zh="蕭羽彤" data-en="Yu-Tung Hsiao">蕭羽彤</h3>
+          <p class="role"
+             data-zh="組長 / 系統設計 / 模型微調 / 辨識邏輯開發 / 論文撰寫"
+             data-en="Team Leader / System Design / Model Tuning / Recognition Logic / Paper Writing">組長 / 系統設計 / 模型微調 / 辨識邏輯開發 / 論文撰寫</p>
         </div>
         <div class="member-card">
           <div class="avatar">B</div>
-          <h3>劉映岑</h3>
-          <p class="role">數據蒐集 / RAG資料庫建置 / 法規設計 / 文件與簡報</p>
+          <h3 data-zh="劉映岑" data-en="Yingcen Liu">劉映岑</h3>
+          <p class="role"
+             data-zh="數據蒐集 / RAG 資料庫建置 / 法規設計 / 文件與簡報"
+             data-en="Data Collection / RAG DB Setup / Compliance / Documentation &amp; Slides">數據蒐集 / RAG資料庫建置 / 法規設計 / 文件與簡報</p>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- 三、專題進度 -->
-    <div class="tab-panel" id="progress">
-      <h2>專題進度</h2>
-      <div class="timeline">
-        <div class="timeline-item done">
-          <div class="date">2026/3/19</div>
-          <h3>題目確認與文獻蒐集</h3>
-          <p>確定專題方向，蒐集相關論文與技術資料。</p>
-        </div>
-        <div class="timeline-item done">
-          <div class="date">2026/3/28</div>
-          <h3>建立專題進度網站</h3>
-          <p>專題網站架設完成，專案進度透明化紀錄。</p>
-        </div>
-        <div class="timeline-item done">
-          <div class="date">2026 / 4 / 23</div>
-          <h3>專題維護</h3>
-          <p>設定 Claude Code 環境，練習使用 Claude Code 進行專題維護。</p>
-          <a href="report-2026-04-23.html"
-            style="display:inline-block;margin-top:8px;padding:5px 16px;background:#2a6496;color:#fff;border-radius:6px;font-size:.88rem;text-decoration:none;">查看完整報告
-            →</a>
-        </div>
-        <div class="timeline-item done">
-          <div class="date">2026 / 4 / 24</div>
-          <h3>Jetson Nano 部署與問題排查</h3>
-          <p>進行邊緣運算設備環境建置，記錄 SD 卡不穩定及 OpenCV／MediaPipe 版本衝突問題並規劃解決方案。</p>
-          <a href="report-2026-04-24.html"
-            style="display:inline-block;margin-top:8px;padding:5px 16px;background:#2a6496;color:#fff;border-radius:6px;font-size:.88rem;text-decoration:none;">查看完整報告
-            →</a>
-        </div>
-        <div class="timeline-item done">
-          <div class="date">2026 / 4 / 27</div>
-          <h3>CSI 鏡頭驅動成功與 GStreamer 整合</h3>
-          <p>解決 CSI 鏡頭驅動問題，透過 GStreamer Pipeline 驗證硬體連接，並完成 Python/OpenCV 即時影像串流整合。</p>
-          <a href="report-2026-04-27.html"
-            style="display:inline-block;margin-top:8px;padding:5px 16px;background:#2a6496;color:#fff;border-radius:6px;font-size:.88rem;text-decoration:none;">查看完整報告
-            →</a>
-        </div>
-        <div class="timeline-item done">
-          <div class="date">2026 / 5 / 14</div>
-          <h3>Jetson Nano 步態辨識系統部署與相容性排查</h3>
-          <p>完成 ultralytics、torch、OpenCV 等套件安裝，修正 Python 3.8 型別標註與聯合型別等不相容語法，並排查 CSI 鏡頭 GStreamer 支援問題。</p>
-          <a href="report-2026-05-14.html"
-            style="display:inline-block;margin-top:8px;padding:5px 16px;background:#2a6496;color:#fff;border-radius:6px;font-size:.88rem;text-decoration:none;">查看完整報告
-            →</a>
-        </div>
-        <div class="timeline-item done">
-          <div class="date">2026 / 5 / 20</div>
-          <h3>步態辨識門禁系統使用者登錄與即時辨識實測</h3>
-          <p>於 Jetson 平台以 MediaPipe Pose 完成 Alice、Bob 兩位使用者步態特徵登錄，並通過單人與混合通行情境的即時辨識測試，已知使用者分數穩定通過、未知人員均被正確拒絕。</p>
-          <a href="report-2026-05-20.html"
-            style="display:inline-block;margin-top:8px;padding:5px 16px;background:#2a6496;color:#fff;border-radius:6px;font-size:.88rem;text-decoration:none;">查看完整報告
-            →</a>
-        </div>
-        <div class="timeline-item">
-          <div class="date">2026 年 5 月</div>
-          <h3>系統整合與測試</h3>
-          <p>前後端整合、撰寫測試案例並修正問題。</p>
-        </div>
-        <div class="timeline-item">
-          <div class="date">2026 年 6 月</div>
-          <h3>報告撰寫與成果展示</h3>
-          <p>撰寫專題報告，準備口頭報告與展示。</p>
+    <!-- ===== Progress ===== -->
+    <section class="block" id="progress">
+      <h2 class="section-heading" data-zh="專題進度" data-en="Project Progress">專題進度</h2>
+      <div class="timeline-wrap">
+        <div class="timeline">
+          <div class="timeline-item done">
+            <div class="date">2026 / 3 / 19</div>
+            <h3 data-zh="題目確認與文獻蒐集" data-en="Topic confirmation &amp; literature review">題目確認與文獻蒐集</h3>
+            <p data-zh="確定專題方向，蒐集相關論文與技術資料。" data-en="Finalized the project topic and collected relevant papers and technical references.">確定專題方向，蒐集相關論文與技術資料。</p>
+          </div>
+          <div class="timeline-item done">
+            <div class="date">2026 / 3 / 28</div>
+            <h3 data-zh="建立專題進度網站" data-en="Project progress site launched">建立專題進度網站</h3>
+            <p data-zh="專題網站架設完成，專案進度透明化紀錄。" data-en="Project site set up to make progress transparent.">專題網站架設完成，專案進度透明化紀錄。</p>
+          </div>
+          <div class="timeline-item done">
+            <div class="date">2026 / 4 / 23</div>
+            <h3 data-zh="專題維護" data-en="Claude Code environment setup">專題維護</h3>
+            <p data-zh="設定 Claude Code 環境，練習使用 Claude Code 進行專題維護。"
+               data-en="Set up Claude Code environment and practiced project maintenance with it.">設定 Claude Code 環境，練習使用 Claude Code 進行專題維護。</p>
+            <a class="report-link" href="report-2026-04-23.html"
+              data-zh="查看完整報告 →" data-en="View Full Report →">查看完整報告 →</a>
+          </div>
+          <div class="timeline-item done">
+            <div class="date">2026 / 4 / 24</div>
+            <h3 data-zh="Jetson Nano 部署與問題排查"
+                data-en="Jetson Nano deployment &amp; troubleshooting">Jetson Nano 部署與問題排查</h3>
+            <p data-zh="進行邊緣運算設備環境建置，記錄 SD 卡不穩定及 OpenCV／MediaPipe 版本衝突問題並規劃解決方案。"
+               data-en="Edge-device environment setup; logged SD-card instability and OpenCV/MediaPipe version conflicts with mitigation plans.">進行邊緣運算設備環境建置，記錄 SD 卡不穩定及 OpenCV／MediaPipe 版本衝突問題並規劃解決方案。</p>
+            <a class="report-link" href="report-2026-04-24.html"
+              data-zh="查看完整報告 →" data-en="View Full Report →">查看完整報告 →</a>
+          </div>
+          <div class="timeline-item done">
+            <div class="date">2026 / 4 / 27</div>
+            <h3 data-zh="CSI 鏡頭驅動成功與 GStreamer 整合"
+                data-en="CSI camera driver success &amp; GStreamer integration">CSI 鏡頭驅動成功與 GStreamer 整合</h3>
+            <p data-zh="解決 CSI 鏡頭驅動問題，透過 GStreamer Pipeline 驗證硬體連接，並完成 Python/OpenCV 即時影像串流整合。"
+               data-en="Resolved CSI camera driver issues, verified hardware via GStreamer Pipeline, and integrated real-time streaming through Python/OpenCV.">解決 CSI 鏡頭驅動問題，透過 GStreamer Pipeline 驗證硬體連接，並完成 Python/OpenCV 即時影像串流整合。</p>
+            <a class="report-link" href="report-2026-04-27.html"
+              data-zh="查看完整報告 →" data-en="View Full Report →">查看完整報告 →</a>
+          </div>
+          <div class="timeline-item done">
+            <div class="date">2026 / 5 / 14</div>
+            <h3 data-zh="Jetson Nano 步態辨識系統部署與相容性排查"
+                data-en="Jetson Nano gait system deployment &amp; compatibility fixes">Jetson Nano 步態辨識系統部署與相容性排查</h3>
+            <p data-zh="完成 ultralytics、torch、OpenCV 等套件安裝，修正 Python 3.8 型別標註與聯合型別等不相容語法，並排查 CSI 鏡頭 GStreamer 支援問題。"
+               data-en="Installed ultralytics, torch, OpenCV, etc.; fixed Python 3.8 typing incompatibilities; investigated GStreamer support for the CSI camera.">完成 ultralytics、torch、OpenCV 等套件安裝，修正 Python 3.8 型別標註與聯合型別等不相容語法，並排查 CSI 鏡頭 GStreamer 支援問題。</p>
+            <a class="report-link" href="report-2026-05-14.html"
+              data-zh="查看完整報告 →" data-en="View Full Report →">查看完整報告 →</a>
+          </div>
+          <div class="timeline-item done">
+            <div class="date">2026 / 5 / 20</div>
+            <h3 data-zh="步態辨識門禁系統使用者登錄與即時辨識實測"
+                data-en="User enrollment &amp; real-time recognition test">步態辨識門禁系統使用者登錄與即時辨識實測</h3>
+            <p data-zh="於 Jetson 平台以 MediaPipe Pose 完成 Alice、Bob 兩位使用者步態特徵登錄，並通過單人與混合通行情境的即時辨識測試，已知使用者分數穩定通過、未知人員均被正確拒絕。"
+               data-en="On the Jetson platform, enrolled Alice and Bob via MediaPipe Pose and ran real-time recognition for single and mixed-flow scenarios: known users passed with stable scores, unknown users correctly rejected.">於 Jetson 平台以 MediaPipe Pose 完成 Alice、Bob 兩位使用者步態特徵登錄，並通過單人與混合通行情境的即時辨識測試，已知使用者分數穩定通過、未知人員均被正確拒絕。</p>
+            <a class="report-link" href="report-2026-05-20.html"
+              data-zh="查看完整報告 →" data-en="View Full Report →">查看完整報告 →</a>
+          </div>
+          <div class="timeline-item">
+            <div class="date" data-zh="2026 年 5 月" data-en="May 2026">2026 年 5 月</div>
+            <h3 data-zh="系統整合與測試" data-en="System integration &amp; testing">系統整合與測試</h3>
+            <p data-zh="前後端整合、撰寫測試案例並修正問題。" data-en="Integrate front/back-end, write test cases and fix issues.">前後端整合、撰寫測試案例並修正問題。</p>
+          </div>
+          <div class="timeline-item">
+            <div class="date" data-zh="2026 年 6 月" data-en="June 2026">2026 年 6 月</div>
+            <h3 data-zh="報告撰寫與成果展示" data-en="Report writing &amp; final presentation">報告撰寫與成果展示</h3>
+            <p data-zh="撰寫專題報告，準備口頭報告與展示。" data-en="Write the project report and prepare the oral presentation/demo.">撰寫專題報告，準備口頭報告與展示。</p>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- 四、參考資料 -->
-    <div class="tab-panel" id="references">
-      <h2>參考資料</h2>
-      <ol class="ref-list">
-        <li>作者（年份）。論文名稱。<em>期刊名稱</em>，卷(期)，頁碼。</li>
-        <li>作者（年份）。書名。出版社。</li>
-        <li>網站名稱。<a href="https://example.com" target="_blank">https://example.com</a>（存取日期：2026 年 2 月）。</li>
-        <li>請依照指導教授要求的引用格式，持續新增參考文獻。</li>
-      </ol>
-    </div>
-  </div>
+    <!-- ===== References ===== -->
+    <section class="block" id="references">
+      <h2 class="section-heading" data-zh="參考資料" data-en="References">參考資料</h2>
+      <div class="ref-wrap">
+        <ol class="ref-list">
+          <li data-zh="作者（年份）。論文名稱。<em>期刊名稱</em>，卷(期)，頁碼。"
+              data-en="Author (Year). Paper Title. <em>Journal Name</em>, Vol(Issue), pages.">作者（年份）。論文名稱。<em>期刊名稱</em>，卷(期)，頁碼。</li>
+          <li data-zh="作者（年份）。書名。出版社。"
+              data-en="Author (Year). Book Title. Publisher.">作者（年份）。書名。出版社。</li>
+          <li data-zh="網站名稱。<a href='https://example.com' target='_blank'>https://example.com</a>（存取日期：2026 年 2 月）。"
+              data-en="Site Name. <a href='https://example.com' target='_blank'>https://example.com</a> (accessed Feb 2026).">網站名稱。<a href="https://example.com" target="_blank">https://example.com</a>（存取日期：2026 年 2 月）。</li>
+          <li data-zh="請依照指導教授要求的引用格式，持續新增參考文獻。"
+              data-en="Continue adding references in the citation style required by the advisor.">請依照指導教授要求的引用格式，持續新增參考文獻。</li>
+        </ol>
+      </div>
+    </section>
 
-  <!-- 頁尾 -->
+  </main>
+
   <footer>
-    &copy; 靜宜大學資訊工程學系 — 115 學年度第 1 學期 專題製作
+    <span data-zh="© 靜宜大學資訊工程學系 — 115 學年度第 1 學期 專題製作"
+          data-en="© Providence University, Department of Computer Science &amp; Information Engineering — 2026 Senior Capstone Project">&copy; 靜宜大學資訊工程學系 — 115 學年度第 1 學期 專題製作</span>
   </footer>
 
   <script>
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById(btn.dataset.tab).classList.add('active');
+    (function () {
+      function setLang(lang) {
+        if (lang !== 'zh' && lang !== 'en') lang = 'zh';
+        document.documentElement.lang = lang === 'zh' ? 'zh-Hant' : 'en';
+        document.querySelectorAll('[data-zh]').forEach(function (el) {
+          var v = el.dataset[lang];
+          if (typeof v === 'string') el.innerHTML = v;
+        });
+        document.querySelectorAll('.lang-btn').forEach(function (b) {
+          b.classList.toggle('active', b.dataset.lang === lang);
+        });
+        try { localStorage.setItem('gaitpro-lang', lang); } catch (e) {}
+      }
+
+      document.querySelectorAll('.lang-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () { setLang(btn.dataset.lang); });
       });
-    });
+
+      var saved = null;
+      try { saved = localStorage.getItem('gaitpro-lang'); } catch (e) {}
+      if (saved === 'en') setLang('en');
+    })();
   </script>
 
 </body>
