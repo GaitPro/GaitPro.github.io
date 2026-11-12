@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>進度報告 — 2026/11/12</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+      color: #333;
+      line-height: 1.8;
+      background: #f5f7fa;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1a3a5c, #2a6496);
+      color: #fff;
+      text-align: center;
+      padding: 50px 20px 36px;
+    }
+    header h1 { font-size: 2rem; margin-bottom: 10px; }
+    header p  { font-size: 1rem; opacity: .85; }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px 60px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: 28px 0 0 0;
+      color: #2a6496;
+      text-decoration: none;
+      font-size: .95rem;
+      font-weight: bold;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 36px 40px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.08);
+      margin-top: 28px;
+    }
+
+    .meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      background: #f0f4f8;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 28px;
+      font-size: .92rem;
+      color: #555;
+    }
+    .meta span strong { color: #1a3a5c; }
+
+    section { margin-bottom: 36px; }
+
+    section h3 {
+      font-size: 1.05rem;
+      color: #0056b3;
+      border-left: 3px solid #0056b3;
+      padding-left: 10px;
+      margin-bottom: 14px;
+    }
+
+    section h4 {
+      font-size: .98rem;
+      color: #1a3a5c;
+      margin: 16px 0 8px 0;
+    }
+
+    .summary-text {
+      background: #f0f4f8;
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-size: .96rem;
+      color: #444;
+      border-left: 4px solid #2a6496;
+    }
+
+    .code-block {
+      background: #1e1e2e;
+      color: #cdd6f4;
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: .88rem;
+      line-height: 1.7;
+      overflow-x: auto;
+      margin: 10px 0;
+      white-space: pre;
+    }
+    .code-block .comment { color: #6c7086; }
+    .code-block .cmd     { color: #89dceb; }
+    .code-block .kw      { color: #cba6f7; }
+    .code-block .str     { color: #a6e3a1; }
+    .code-block .fn      { color: #89b4fa; }
+    .code-block .ok      { color: #a6e3a1; }
+    .code-block .err     { color: #f38ba8; }
+
+    .result-box {
+      background: #f0fff4;
+      border: 1px solid #68d391;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: .93rem;
+      color: #276749;
+      margin-top: 10px;
+    }
+    .result-box strong { color: #1a5236; }
+
+    .warning-box {
+      background: #fff8e1;
+      border: 1px solid #f0c040;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: .93rem;
+      color: #555;
+      margin-top: 14px;
+    }
+    .warning-box strong { color: #856404; }
+
+    .inline-code {
+      background: #eef1f5;
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: .9em;
+    }
+
+    table.issue-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: .92rem;
+    }
+    table.issue-table th,
+    table.issue-table td {
+      border: 1px solid #e0e6ef;
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    table.issue-table th {
+      background: #f0f4f8;
+      color: #1a3a5c;
+      font-weight: bold;
+    }
+    table.issue-table tr:nth-child(even) td {
+      background: #fafbfd;
+    }
+
+    .bullet-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 8px;
+    }
+    .bullet-list li {
+      padding: 6px 0 6px 20px;
+      position: relative;
+      font-size: .95rem;
+      border-bottom: 1px solid #eef1f5;
+    }
+    .bullet-list li:last-child { border-bottom: none; }
+    .bullet-list li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: #2a6496;
+    }
+
+    .next-steps {
+      background: #eef4ff;
+      border-radius: 10px;
+      padding: 20px 24px;
+    }
+    .next-steps h4 {
+      font-size: 1rem;
+      color: #1a3a5c;
+      margin-bottom: 10px;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      background: #000;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0,0,0,.15);
+      margin: 12px 0;
+    }
+    .video-wrapper video {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .video-caption {
+      font-size: .88rem;
+      color: #666;
+      text-align: center;
+      margin-top: 6px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      background: #1a3a5c;
+      color: rgba(255,255,255,.7);
+      font-size: .85rem;
+    }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.5rem; }
+      .container { padding: 0 14px 48px; }
+      .card { padding: 24px 20px; }
+      .meta { flex-direction: column; gap: 8px; }
+      table.issue-table { font-size: .82rem; }
+      table.issue-table th, table.issue-table td { padding: 8px 6px; }
+    }
+    .figure { margin: 16px 0; text-align: center; }
+    .figure img {
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 14px rgba(0,0,0,.15);
+    }
+    .figure-row { display: flex; gap: 16px; align-items: flex-start; }
+    .figure-row .figure { flex: 1; }
+    .figure figcaption { font-size: .88rem; color: #666; margin-top: 6px; }
+
+    .fps-chart { width: 100%; height: auto; font-family: inherit; }
+    .fps-label { font-size: 13px; fill: #333; }
+    .fps-value { font-size: 13px; fill: #333; font-weight: bold; }
+    .fps-tick  { font-size: 12px; fill: #777; }
+    .fps-mark  { fill: #2a78d6; }
+    .fps-axis  { stroke: #c9ced6; stroke-width: 1; }
+    .fps-ref   { stroke: #8a8984; stroke-width: 1; stroke-dasharray: 4 4; }
+    .fps-bar:hover .fps-mark, .fps-bar:focus .fps-mark { fill: #1f5fae; }
+    .fps-bar:focus { outline: none; }
+
+    @media (max-width: 600px) { .figure-row { flex-direction: column; } }
+
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>步態資料集錄製：鏡頭架設、FPS 實測與第一場次錄影</h1>
+  <p>應用視覺大語言模型於步態分析 — 2026 年 11 月 12 日</p>
+</header>
+
+<div class="container">
+  <a class="back-link" href="index.html">← 返回主頁</a>
+
+  <div class="card">
+    <div class="meta">
+      <span><strong>日期：</strong>2026 年 11 月 12 日</span>
+      <span><strong>指導教授：</strong>朱學亭老師</span>
+      <span><strong>目前階段：</strong>階段 1～2：環境與資料品質、建立資料集</span>
+    </div>
+
+    <!-- 進度摘要 -->
+    <section>
+      <h3>進度摘要</h3>
+      <div class="summary-text">
+        本次完成尾隨偵測研究所需的第一份正式步態資料集。實測 Jetson Nano 即時執行 MediaPipe Pose 只有約 6～7 FPS，一步僅拍到約 3 張，不足以量測步幅與步態週期，因此改採「<strong>先錄原始影片＋每幀時間戳，再離線抽取骨架</strong>」。錄影時發現 960×540 受 CPU 壓縮限制只有 16 FPS，改用 640×360 後達到穩定的 30 FPS。鏡頭改為側拍（距行走路線 3.35 m、離地 50 cm），完成場次 S0 共 10 趟（左右各 5 趟）錄影，<strong>每趟 30 FPS、掉幀 0 次</strong>，影片幀數與時間戳筆數完全一致。
+      </div>
+    </section>
+
+    <!-- 一、基本資訊 -->
+    <section>
+      <h3>一、基本資訊</h3>
+      <table class="issue-table">
+        <thead>
+          <tr><th>項目</th><th>說明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>實作日期</td><td>2026 年 11 月 12 日</td></tr>
+          <tr><td>硬體</td><td>Jetson Nano + CSI 鏡頭（IMX219），側面拍攝</td></tr>
+          <tr><td>Python 版本</td><td>Python 3.8（MediaPipe 0.10.9）</td></tr>
+          <tr><td>使用程式</td><td><span class="inline-code">tools/measure_fps.py</span>（PR #3）、<span class="inline-code">tools/recorder.py</span>（PR #4）、臨時預覽工具 <span class="inline-code">preview.py</span></td></tr>
+          <tr><td>錄影設定</td><td>640 × 360 @ 30 FPS，MJPG（.avi）＋每幀時間戳（.csv）</td></tr>
+          <tr><td>本次產出</td><td>場次 S0、受試者 P01，共 10 趟（約 95 MB，資料屬個資，不上傳 Git）</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 二、流程總覽 -->
+    <section>
+      <h3>二、今日流程總覽</h3>
+      <ul class="bullet-list">
+        <li>同步程式：確認 PR #4（recorder.py）已合併，MacBook 與 Jetson 皆 <span class="inline-code">git pull</span> 到最新 main。</li>
+        <li>量測 FPS：分別量「只有鏡頭」與「鏡頭＋MediaPipe」兩種情況。</li>
+        <li>排查偵測率 0%：撰寫即時預覽工具，找出原因並重新架設鏡頭。</li>
+        <li>試錄與解析度取捨：960×540 只有 16 FPS，改用 640×360 達 30 FPS。</li>
+        <li>正式錄製 S0／P01 共 10 趟，傳回 MacBook 檢查幀數、時間戳與構圖。</li>
+        <li>記錄架設參數，供 11/16 錄製其他受試者時重現。</li>
+      </ul>
+    </section>
+
+    <!-- 三、FPS 實測 -->
+    <section>
+      <h3>三、FPS 實測</h3>
+      <p style="margin-bottom:8px;">使用 <span class="inline-code">tools/measure_fps.py</span>，A 階段只讀鏡頭，B 階段模擬主程式（讀畫面 → MediaPipe），各量 10 秒：</p>
+      <div class="code-block"><span class="cmd">python3.8 tools/measure_fps.py</span>
+[A] 鏡頭：要求 60 FPS，實際 <span class="ok">60.0 FPS</span>（讀取失敗 0 次）
+[B] 鏡頭+MediaPipe：實際 <span class="err">6.1 FPS</span>（共 61 幀）
+    MediaPipe 每幀：平均 164 ms（中位數 158 / 最快 119 / 最慢 308）
+
+<span class="cmd">python3.8 tools/measure_fps.py --width 960 --height 540 --fps 30</span>
+[A] 鏡頭：要求 30 FPS，實際 <span class="ok">30.0 FPS</span>（讀取失敗 0 次）
+[B] 鏡頭+MediaPipe：實際 <span class="err">6.9 FPS</span>（共 70 幀）
+    MediaPipe 每幀：平均 143 ms</div>
+      <table class="issue-table">
+        <thead>
+          <tr><th>情況</th><th>實測 FPS</th><th>說明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>只開鏡頭（1280×720，要求 60）</td><td>60.0</td><td>鏡頭本身沒有瓶頸</td></tr>
+          <tr><td>只開鏡頭（960×540，要求 30）</td><td>30.0</td><td>錄影解析度下鏡頭穩定</td></tr>
+          <tr><td>鏡頭＋MediaPipe 即時推論</td><td>6.1～6.9</td><td>每幀 143～164 ms，瓶頸在骨架推論</td></tr>
+        </tbody>
+      </table>
+      <figure class="figure">
+<svg class="fps-chart" viewBox="0 0 760 240" role="img" aria-label="各情況實測 FPS 長條圖">
+  <line x1="465.0" y1="6" x2="465.0" y2="212" class="fps-ref"/>
+  <line x1="230" y1="6" x2="230" y2="212" class="fps-axis"/>
+  <g class="fps-bar" tabindex="0"><title>只開鏡頭 1280×720：要求 60 FPS，實際 60.0 FPS</title>
+    <rect x="0" y="7" width="760" height="40" fill="transparent"/>
+    <text x="220" y="32" text-anchor="end" class="fps-label">只開鏡頭 1280×720</text>
+    <path d="M230,16 H696.0 Q700.0,16 700.0,20 V34 Q700.0,38 696.0,38 H230 Z" class="fps-mark"/>
+    <text x="706.0" y="32" class="fps-value">60.0</text>
+  </g>
+  <g class="fps-bar" tabindex="0"><title>只開鏡頭 960×540：要求 30 FPS，實際 30.0 FPS</title>
+    <rect x="0" y="47" width="760" height="40" fill="transparent"/>
+    <text x="220" y="72" text-anchor="end" class="fps-label">只開鏡頭 960×540</text>
+    <path d="M230,56 H461.0 Q465.0,56 465.0,60 V74 Q465.0,78 461.0,78 H230 Z" class="fps-mark"/>
+    <text x="471.0" y="72" class="fps-value">30.0</text>
+  </g>
+  <g class="fps-bar" tabindex="0"><title>錄影 640×360（MJPG）：S0 共 10 趟，皆 30.0 FPS，掉幀 0 次</title>
+    <rect x="0" y="87" width="760" height="40" fill="transparent"/>
+    <text x="220" y="112" text-anchor="end" class="fps-label">錄影 640×360（MJPG）</text>
+    <path d="M230,96 H461.0 Q465.0,96 465.0,100 V114 Q465.0,118 461.0,118 H230 Z" class="fps-mark"/>
+    <text x="471.0" y="112" class="fps-value">30.0</text>
+  </g>
+  <g class="fps-bar" tabindex="0"><title>錄影 960×540（MJPG）：CPU 壓縮每幀約 61 ms，只有 16.4 FPS</title>
+    <rect x="0" y="127" width="760" height="40" fill="transparent"/>
+    <text x="220" y="152" text-anchor="end" class="fps-label">錄影 960×540（MJPG）</text>
+    <path d="M230,136 H354.5 Q358.5,136 358.5,140 V154 Q358.5,158 354.5,158 H230 Z" class="fps-mark"/>
+    <text x="364.5" y="152" class="fps-value">16.4</text>
+  </g>
+  <g class="fps-bar" tabindex="0"><title>鏡頭＋MediaPipe 即時：每幀推論 143～164 ms</title>
+    <rect x="0" y="167" width="760" height="40" fill="transparent"/>
+    <text x="220" y="192" text-anchor="end" class="fps-label">鏡頭＋MediaPipe 即時</text>
+    <path d="M230,176 H280.1 Q284.1,176 284.1,180 V194 Q284.1,198 280.1,198 H230 Z" class="fps-mark"/>
+    <text x="290.1" y="192" class="fps-value">6.1～6.9</text>
+  </g>
+  <text x="230" y="230" text-anchor="middle" class="fps-tick">0</text>
+  <text x="465.0" y="230" text-anchor="middle" class="fps-tick">30（目標）</text>
+  <text x="700" y="230" text-anchor="middle" class="fps-tick">60 FPS</text>
+</svg>
+        <figcaption>▲ 各情況實測 FPS（虛線為目標 30 FPS；滑鼠移到長條上可看說明）</figcaption>
+      </figure>
+      <div class="result-box">
+        <strong>結論：</strong>一步約 0.5 秒，6 FPS 下一步只有約 3 張畫面，無法精確量測步幅與步態週期。因此錄影時<strong>不跑 MediaPipe</strong>，只存原始影片與時間戳，之後離線抽骨架；同一份影片也能重複用於單人辨識與多人（尾隨）姿態模型。
+      </div>
+    </section>
+
+    <!-- 四、偵測率 0% 排查 -->
+    <section>
+      <h3>四、偵測率 0% 排查與鏡頭重新架設</h3>
+      <p style="margin-bottom:8px;">第二次量測時「有偵測到人的幀」為 <strong>0%（0/70）</strong>，且每幀推論時間非常平均（140～152 ms），代表 MediaPipe 整段都沒有找到人。為了看見原因，撰寫即時預覽工具：在 Jetson 螢幕上顯示鏡頭畫面、MediaPipe 骨架，以及左上角的偵測狀態。</p>
+      <table class="issue-table">
+        <thead>
+          <tr><th>預覽顯示</th><th>意義</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><span style="color:#c0392b;font-weight:bold;">PERSON: NO</span></td><td>MediaPipe 沒找到人</td></tr>
+          <tr><td><span style="color:#d68910;font-weight:bold;">PERSON: YES，legs vis &lt; 0.50</span></td><td>找到人但腿部可信度不足，會被 <span class="inline-code">pose.py</span> 門檻濾掉</td></tr>
+          <tr><td><span style="color:#27ae60;font-weight:bold;">PERSON: YES，legs vis ≥ 0.50</span></td><td>正常，計入偵測率</td></tr>
+        </tbody>
+      </table>
+      <h4>4.1 找到的原因</h4>
+      <ul class="bullet-list">
+        <li><strong>太靠近鏡頭、頭部出畫面</strong>：程式的「下半身模式」只是輸出時只保留下半身點，MediaPipe 找人時仍依賴臉與上半身，只拍到腰部以下就完全偵測不到。</li>
+        <li><strong>椅子遮擋</strong>：鏡頭右前方的椅背擋住畫面右側約 45%。</li>
+        <li><strong>行走方向錯誤</strong>：原本是朝鏡頭走（正拍），步幅、腿擺動都是前後方向，畫面上幾乎看不出來；步態特徵需要<strong>側拍</strong>（人從畫面左走到右）。</li>
+      </ul>
+      <h4>4.2 調整後</h4>
+      <div class="result-box">
+        <strong>結果：</strong>移開遮擋的椅子、受試者距鏡頭 2～3 m 以上並側身橫走後，畫面大部分時間為綠色，腳踝可信度（ankles）約 <strong>0.79～0.84</strong>，遠高於先前記錄的 0.2～0.4；左右方向各可拍到約 3 步。
+      </div>
+      <figure class="figure" style="max-width:460px;margin-left:auto;margin-right:auto;">
+        <img src="images/report-1112-fig3-preview.jpg" alt="即時預覽工具畫面：左上角綠字代表偵測成功，紅點與連線為 MediaPipe 骨架（調整中途拍攝，右側仍有椅背遮擋；頭部已模糊處理）" loading="lazy">
+        <figcaption>▲ 即時預覽工具畫面：左上角綠字代表偵測成功，紅點與連線為 MediaPipe 骨架（調整中途拍攝，右側仍有椅背遮擋；頭部已模糊處理）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 五、解析度取捨 -->
+    <section>
+      <h3>五、錄影解析度取捨：960×540 → 640×360</h3>
+      <p style="margin-bottom:8px;">以 <span class="inline-code">recorder.py</span> 試錄（場次 TEST），發現預設 960×540 達不到 30 FPS：</p>
+      <div class="code-block"><span class="cmd">python3.8 tools/recorder.py --session TEST --person P01 --trials 2</span>
+✓ 246 幀、15.0 秒、實際 <span class="err">16.4 FPS</span>
+⚠ 實際 FPS 明顯低於要求的 30，可考慮降低解析度
+
+<span class="cmd">python3.8 tools/recorder.py --session TEST --person P01 --start-trial 3 --trials 3 --width 640 --height 360</span>
+✓ 451 幀、15.0 秒、實際 <span class="ok">30.0 FPS</span></div>
+      <table class="issue-table">
+        <thead>
+          <tr><th>解析度</th><th>15 秒幀數</th><th>每幀間隔</th><th>實際 FPS</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>960 × 540</td><td>246</td><td>約 61 ms</td><td>16.4</td></tr>
+          <tr><td><strong>640 × 360</strong></td><td><strong>451</strong></td><td><strong>33.3 ms</strong></td><td><strong>30.0</strong></td></tr>
+        </tbody>
+      </table>
+      <figure class="figure" style="max-width:520px;margin-left:auto;margin-right:auto;">
+        <img src="images/report-1112-fig4-fps-compare.jpg" alt="Jetson 終端機：上方兩趟 960×540 只有 16.4／16.3 FPS 並出現警告；最下方 640×360 達 30.0 FPS" loading="lazy">
+        <figcaption>▲ Jetson 終端機：上方兩趟 960×540 只有 16.4／16.3 FPS 並出現警告；最下方 640×360 達 30.0 FPS</figcaption>
+      </figure>
+      <div class="result-box">
+        <strong>原因與取捨：</strong>只開鏡頭可達 30 FPS，瓶頸在每幀以 CPU 壓縮成 MJPG（960×540 約 60 ms／幀）。640×360 像素只有原本的 44%，即可達 30 FPS。由於 MediaPipe 推論前會將畫面縮至 256×256，人在 640×360 畫面中仍約有 250～300 像素高，<strong>降低解析度不影響骨架品質，卻讓時間解析度提升近一倍</strong>（一步由約 8 張增加到約 15 張）。
+      </div>
+    </section>
+
+    <!-- 六、正式錄製 -->
+    <section>
+      <h3>六、正式錄製：場次 S0／受試者 P01</h3>
+      <div class="code-block"><span class="cmd">python3.8 tools/recorder.py --session S0 --person P01 --width 640 --height 360</span></div>
+      <p style="margin:10px 0 8px;">單數趟由左往右（LR）、雙數趟由右往左（RL），左右各 5 趟。傳回 MacBook 後逐趟檢查：</p>
+      <table class="issue-table">
+        <thead>
+          <tr><th>趟次</th><th>方向</th><th>幀數</th><th>秒數</th><th>FPS</th><th>每幀間隔（最小～最大）</th><th>掉幀</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>LR</td><td>440</td><td>14.6</td><td>30.0</td><td>31.8～34.8 ms</td><td>0</td></tr>
+          <tr><td>2</td><td>RL</td><td>334</td><td>11.1</td><td>30.0</td><td>30.2～36.8 ms</td><td>0</td></tr>
+          <tr><td>3</td><td>LR</td><td>351</td><td>11.7</td><td>30.0</td><td>27.8～36.2 ms</td><td>0</td></tr>
+          <tr><td>4</td><td>RL</td><td>387</td><td>12.9</td><td>30.0</td><td>30.7～35.7 ms</td><td>0</td></tr>
+          <tr><td>5</td><td>LR</td><td>360</td><td>12.0</td><td>30.0</td><td>29.9～36.5 ms</td><td>0</td></tr>
+          <tr><td>6</td><td>RL</td><td>369</td><td>12.3</td><td>30.0</td><td>28.9～41.8 ms</td><td>0</td></tr>
+          <tr><td>7</td><td>LR</td><td>413</td><td>13.7</td><td>30.0</td><td>32.2～34.6 ms</td><td>0</td></tr>
+          <tr><td>8</td><td>RL</td><td>362</td><td>12.0</td><td>30.0</td><td>27.2～45.2 ms</td><td>0</td></tr>
+          <tr><td>9</td><td>LR</td><td>343</td><td>11.4</td><td>30.0</td><td>30.3～36.2 ms</td><td>0</td></tr>
+          <tr><td>10</td><td>RL</td><td>397</td><td>13.2</td><td>30.0</td><td>29.1～38.0 ms</td><td>0</td></tr>
+        </tbody>
+      </table>
+      <div class="result-box">
+        <strong>結果：</strong>10 趟皆 30 FPS，平均每幀間隔 33.3 ms，<strong>掉幀（間隔 &gt; 50 ms）0 次</strong>；每支影片幀數與時間戳 CSV 筆數完全一致。過去「資料沒有時間戳與人員標籤、無法離線評估」的問題已解決，每趟都有 <span class="inline-code">frame_idx, t_mono, t_wall</span> 與 <span class="inline-code">log.csv</span> 標籤（場次、人員、方向、幀數、實際 FPS）。
+      </div>
+      <figure class="figure" style="max-width:520px;margin-left:auto;margin-right:auto;">
+        <img src="images/report-1112-fig5-s0-terminal.jpg" alt="S0 正式錄製終端機輸出：每趟皆為實際 30.0 FPS，無警告" loading="lazy">
+        <figcaption>▲ S0 正式錄製終端機輸出：每趟皆為實際 30.0 FPS，無警告</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="images/report-1112-fig6-side-sequence.jpg" alt="S0 第 5 趟（由左往右）側拍連續畫面，每 0.4 秒一張：可清楚看到雙腿交替跨步（僅保留腰部以下）" loading="lazy">
+        <figcaption>▲ S0 第 5 趟（由左往右）側拍連續畫面，每 0.4 秒一張：可清楚看到雙腿交替跨步（僅保留腰部以下）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 七、架設參數 -->
+    <section>
+      <h3>七、架設參數（供 11/16 重現）</h3>
+      <table class="issue-table">
+        <thead>
+          <tr><th>項目</th><th>數值</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>拍攝方式</td><td>側拍，鏡頭與行走路線垂直</td></tr>
+          <tr><td>鏡頭離地高度</td><td>50 cm（平放於辦公椅座墊）</td></tr>
+          <tr><td>鏡頭到行走路線</td><td>3.35 m</td></tr>
+          <tr><td>行走路線</td><td>膠帶標記 90 cm；畫面可見行走範圍 &gt; 1 m</td></tr>
+          <tr><td>每趟可見步數</td><td>左右方向各約 3 步</td></tr>
+          <tr><td>對位方法</td><td>椅輪貼膠帶定位；以預覽畫面對照背景隔板、電風扇、海報位置</td></tr>
+        </tbody>
+      </table>
+      <div class="figure-row">
+      <figure class="figure">
+        <img src="images/report-1112-fig1-camera.jpg" alt="鏡頭（IMX219）平放於辦公椅座墊上，離地約 50 cm" loading="lazy">
+        <figcaption>▲ 鏡頭（IMX219）平放於辦公椅座墊上，離地約 50 cm</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="images/report-1112-fig2-view.jpg" alt="從鏡頭高度往前看：行走路線在遠處隔板與電風扇前方" loading="lazy">
+        <figcaption>▲ 從鏡頭高度往前看：行走路線在遠處隔板與電風扇前方</figcaption>
+      </figure>
+      </div>
+    </section>
+
+    <!-- 八、已知問題與限制 -->
+    <section>
+      <h3>八、已知問題與限制</h3>
+      <ul class="bullet-list">
+        <li><strong>每趟頭尾有非側面畫面</strong>：受試者走回起點時會經過鏡頭前方或朝鏡頭走，離線處理時需自動擷取「側面、全身入鏡」的片段。</li>
+        <li><strong>行走範圍較短</strong>：受實驗室走道寬度限制，每趟約 3 步（約 1.5 個步態週期）；若 11/16 前能找到更寬的場地，資料品質會更好。</li>
+        <li><strong>頭頂接近畫面上緣</strong>：較高的受試者頭頂可能被切到；步態只用髖、膝、踝，影響不大，必要時鏡頭可再後退。</li>
+        <li><strong>目前只有 1 位受試者、1 個場次</strong>：今天的資料先用於「同一人一致性」驗證，跨人比較需等 11/16 錄製其他受試者。</li>
+      </ul>
+      <div class="warning-box">
+        <strong>⚠️ 注意：</strong>即時預覽工具目前放在 Jetson 的 <span class="inline-code">/tmp</span>，重開機會被清除；<span class="inline-code">recorder.py</span> 預設解析度仍為 960×540，錄影時需加上 <span class="inline-code">--width 640 --height 360</span>。兩者將在下一個 PR 修正。
+      </div>
+    </section>
+
+    <!-- 九、後續規劃 -->
+    <section>
+      <h3>九、後續規劃</h3>
+      <div class="next-steps">
+        <ul class="bullet-list">
+          <li><strong>11/13</strong>：撰寫「影片轉骨架」離線程式（自動擷取側面片段）與 <span class="inline-code">evaluate.py</span>（Rank-1、FAR、FRR、EER）。</li>
+          <li><strong>11/14</strong>：導入公式（行走方向統一、z-score 正規化＋歐氏距離），以 S0 資料做同一人一致性驗證。</li>
+          <li><strong>11/15</strong>：尾隨偵測離線程式（多人姿態模型＋時間差／間距規則）。</li>
+          <li><strong>11/16</strong>：錄製其他受試者（≥3 人）與兩人緊跟的尾隨片段。</li>
+          <li>將預覽工具正式加入 <span class="inline-code">tools/</span>，並把 <span class="inline-code">recorder.py</span> 預設解析度改為 640×360。</li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<footer>
+  &copy; 靜宜大學資訊工程學系 — 115 學年度第 1 學期 專題製作
+</footer>
+
+</body>
+</html>
