@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>進度報告 — 2026/11/14</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+      color: #333;
+      line-height: 1.8;
+      background: #f5f7fa;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1a3a5c, #2a6496);
+      color: #fff;
+      text-align: center;
+      padding: 50px 20px 36px;
+    }
+    header h1 { font-size: 2rem; margin-bottom: 10px; }
+    header p  { font-size: 1rem; opacity: .85; }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px 60px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: 28px 0 0 0;
+      color: #2a6496;
+      text-decoration: none;
+      font-size: .95rem;
+      font-weight: bold;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 36px 40px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.08);
+      margin-top: 28px;
+    }
+
+    .meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      background: #f0f4f8;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 28px;
+      font-size: .92rem;
+      color: #555;
+    }
+    .meta span strong { color: #1a3a5c; }
+
+    section { margin-bottom: 36px; }
+
+    section h3 {
+      font-size: 1.05rem;
+      color: #0056b3;
+      border-left: 3px solid #0056b3;
+      padding-left: 10px;
+      margin-bottom: 14px;
+    }
+
+    section h4 {
+      font-size: .98rem;
+      color: #1a3a5c;
+      margin: 16px 0 8px 0;
+    }
+
+    .summary-text {
+      background: #f0f4f8;
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-size: .96rem;
+      color: #444;
+      border-left: 4px solid #2a6496;
+    }
+
+    .code-block {
+      background: #1e1e2e;
+      color: #cdd6f4;
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: .88rem;
+      line-height: 1.7;
+      overflow-x: auto;
+      margin: 10px 0;
+      white-space: pre;
+    }
+    .code-block .comment { color: #6c7086; }
+    .code-block .cmd     { color: #89dceb; }
+    .code-block .kw      { color: #cba6f7; }
+    .code-block .str     { color: #a6e3a1; }
+    .code-block .fn      { color: #89b4fa; }
+    .code-block .ok      { color: #a6e3a1; }
+    .code-block .err     { color: #f38ba8; }
+
+    .result-box {
+      background: #f0fff4;
+      border: 1px solid #68d391;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: .93rem;
+      color: #276749;
+      margin-top: 10px;
+    }
+    .result-box strong { color: #1a5236; }
+
+    .warning-box {
+      background: #fff8e1;
+      border: 1px solid #f0c040;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: .93rem;
+      color: #555;
+      margin-top: 14px;
+    }
+    .warning-box strong { color: #856404; }
+
+    .inline-code {
+      background: #eef1f5;
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: .9em;
+    }
+
+    table.issue-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: .92rem;
+    }
+    table.issue-table th,
+    table.issue-table td {
+      border: 1px solid #e0e6ef;
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    table.issue-table th {
+      background: #f0f4f8;
+      color: #1a3a5c;
+      font-weight: bold;
+    }
+    table.issue-table tr:nth-child(even) td {
+      background: #fafbfd;
+    }
+
+    .bullet-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 8px;
+    }
+    .bullet-list li {
+      padding: 6px 0 6px 20px;
+      position: relative;
+      font-size: .95rem;
+      border-bottom: 1px solid #eef1f5;
+    }
+    .bullet-list li:last-child { border-bottom: none; }
+    .bullet-list li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: #2a6496;
+    }
+
+    .next-steps {
+      background: #eef4ff;
+      border-radius: 10px;
+      padding: 20px 24px;
+    }
+    .next-steps h4 {
+      font-size: 1rem;
+      color: #1a3a5c;
+      margin-bottom: 10px;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      background: #000;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0,0,0,.15);
+      margin: 12px 0;
+    }
+    .video-wrapper video {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .video-caption {
+      font-size: .88rem;
+      color: #666;
+      text-align: center;
+      margin-top: 6px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      background: #1a3a5c;
+      color: rgba(255,255,255,.7);
+      font-size: .85rem;
+    }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.5rem; }
+      .container { padding: 0 14px 48px; }
+      .card { padding: 24px 20px; }
+      .meta { flex-direction: column; gap: 8px; }
+      table.issue-table { font-size: .82rem; }
+      table.issue-table th, table.issue-table td { padding: 8px 6px; }
+    }
+    .figure { margin: 16px 0; text-align: center; }
+    .figure img {
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 14px rgba(0,0,0,.15);
+    }
+    .figure-row { display: flex; gap: 16px; align-items: flex-start; }
+    .figure-row .figure { flex: 1; }
+    .figure figcaption { font-size: .88rem; color: #666; margin-top: 6px; }
+
+    .fps-chart { width: 100%; height: auto; font-family: inherit; }
+    .fps-label { font-size: 13px; fill: #333; }
+    .fps-value { font-size: 13px; fill: #333; font-weight: bold; }
+    .fps-tick  { font-size: 12px; fill: #777; }
+    .fps-mark  { fill: #2a78d6; }
+    .fps-axis  { stroke: #c9ced6; stroke-width: 1; }
+    .fps-ref   { stroke: #8a8984; stroke-width: 1; stroke-dasharray: 4 4; }
+    .fps-bar:hover .fps-mark, .fps-bar:focus .fps-mark { fill: #1f5fae; }
+    .fps-bar:focus { outline: none; }
+
+    @media (max-width: 600px) { .figure-row { flex-direction: column; } }
+
+  
+    .sw-chart { width: 100%; height: auto; font-family: inherit; --s1: #2a78d6; --s2: #eb6834; }
+    .sw-title { font-size: 15px; font-weight: bold; fill: #1a3a5c; }
+    .sw-cat   { font-size: 13px; fill: #555; }
+    .sw-val   { font-size: 12px; fill: #333; font-weight: bold; }
+    .sw-zero  { stroke: #8a8984; stroke-width: 1; }
+    .sw-bar:hover path, .sw-bar:focus path { opacity: .8; }
+    .sw-bar:focus { outline: none; }
+    .formula {
+      background: #f7f9fc; border: 1px solid #e0e6ef; border-radius: 8px;
+      padding: 12px 16px; margin: 10px 0; font-family: "Cambria Math", "Times New Roman", serif;
+      font-size: 1.05rem; text-align: center; color: #1a3a5c;
+    }
+    .pipeline { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 12px 0; font-size: .9rem; }
+    .pipeline span.step { background: #eef4ff; border: 1px solid #c9d8f0; border-radius: 6px; padding: 6px 10px; color: #1a3a5c; }
+    .pipeline span.arrow { color: #2a6496; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>離線分析流程、公式 1 方向統一與尾隨偵測規則</h1>
+  <p>應用視覺大語言模型於步態分析 — 2026 年 11 月 14 日</p>
+</header>
+
+<div class="container">
+  <a class="back-link" href="index.html">← 返回主頁</a>
+
+  <div class="card">
+    <div class="meta">
+      <span><strong>日期：</strong>2026 年 11 月 14 日</span>
+      <span><strong>指導教授：</strong>朱學亭老師</span>
+      <span><strong>目前階段：</strong>階段 3～5：改前基準、公式消融、尾隨偵測</span>
+    </div>
+
+    <section>
+      <h3>進度摘要</h3>
+      <div class="summary-text">
+        本次以 11/12 錄製的 S0 資料，在 MacBook 建立完整的<strong>離線分析流程</strong>：影片轉骨架 → 改前基準評估 → 公式消融 → 尾隨判定。
+        轉骨架時發現 MediaPipe 追蹤模式會<strong>鎖死在椅子上</strong>，改為每幀重新偵測並加入「腿長」與「左右髖重疊比」條件，只保留側面全身的行走畫面。
+        以現有系統（26 維特徵＋cosine）量得改前基準後，導入<strong>公式 1 方向統一</strong>：自動判斷行走方向準確率 100%，往左走的大腿擺動角由 −0.035 翻正為 +0.035，方向造成的相似度差距縮小 59%。
+        同時完成<strong>尾隨偵測規則</strong>（授權者已驗證、跟隨者未驗證、通過時間差 ≤ T），9 個模擬情境全部正確，以 S0 實測 5 趟授權通行全部正確放行、無假警報。共 7 個 PR（#6～#12）皆已合併。
+      </div>
+    </section>
+
+    <section>
+      <h3>一、今日完成項目</h3>
+      <table class="issue-table">
+        <thead><tr><th>PR</th><th>內容</th><th>用途</th></tr></thead>
+        <tbody>
+          <tr><td>#6</td><td>.gitignore 排除 <span class="inline-code">.venv/</span></td><td>MacBook 離線 Python 環境不進版本控制</td></tr>
+          <tr><td>#7</td><td><span class="inline-code">extract_skeleton.py</span> 影片轉骨架</td><td>30 FPS 影片逐幀抽骨架＋時間戳，標記可用幀</td></tr>
+          <tr><td>#8</td><td><span class="inline-code">evaluate.py</span> 離線評估</td><td>以現有系統方法量「改前基準」</td></tr>
+          <tr><td>#9</td><td><span class="inline-code">gait_formulas.py</span> 公式 1 方向統一</td><td>第一個消融實驗</td></tr>
+          <tr><td>#10</td><td><span class="inline-code">tailgate.py</span> 尾隨偵測規則＋模擬測試</td><td>專題核心</td></tr>
+          <tr><td>#11</td><td><span class="inline-code">extract_multi.py</span> 多人轉骨架</td><td>尾隨需同時抓兩人</td></tr>
+          <tr><td>#12</td><td><span class="inline-code">run_tailgate.py</span>＋門線方向與側走條件</td><td>串起整條尾隨流程，以 S0 實測</td></tr>
+        </tbody>
+      </table>
+      <div class="pipeline">
+        <span class="step">Jetson 錄影 30 FPS</span><span class="arrow">→</span>
+        <span class="step">轉骨架（單人／多人）</span><span class="arrow">→</span>
+        <span class="step">正規化＋公式</span><span class="arrow">→</span>
+        <span class="step">步態比對（身分）</span><span class="arrow">→</span>
+        <span class="step">尾隨規則判定</span>
+      </div>
+      <p style="font-size:.93rem;color:#555;">離線流程用於「找出有效的公式並以數據證明」；驗證有效的公式之後搬回 Jetson 即時系統（兩邊共用同一份 <span class="inline-code">pose.py</span> 點位、同樣的 lite 模型與門檻）。</p>
+    </section>
+
+    <section>
+      <h3>二、MacBook 離線環境</h3>
+      <table class="issue-table">
+        <thead><tr><th>項目</th><th>說明</th></tr></thead>
+        <tbody>
+          <tr><td>環境</td><td>專案內虛擬環境 <span class="inline-code">.venv</span>，Python 3.12、MediaPipe 0.10.21、OpenCV 4.11</td></tr>
+          <tr><td>版本選擇原因</td><td>最新版 MediaPipe 1.2.3 已移除舊式 <span class="inline-code">mp.solutions.pose</span>（現有 <span class="inline-code">pose.py</span> 使用的寫法）；0.10.21 與 Jetson 上的 0.10.9 寫法與 lite 模型相同，離線結果才能代表 Jetson 系統</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h3>三、影片轉骨架與可用幀判斷</h3>
+      <p style="margin-bottom:8px;">每趟錄影的頭尾都有「走近鏡頭、只拍到腿」或正面、背面的畫面，只有<strong>側面、全身入鏡</strong>的幀能量步態。可用幀需同時符合：</p>
+      <table class="issue-table">
+        <thead><tr><th>#</th><th>條件</th><th>排除什麼</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>偵測到人</td><td>空畫面</td></tr>
+          <tr><td>2</td><td>髖、膝、踝平均可信度 ≥ 0.5（與 <span class="inline-code">pose.py</span> 相同）</td><td>腿被遮住、看不清楚</td></tr>
+          <tr><td>3</td><td>髖、膝、踝 6 點都在畫面內</td><td>只拍到局部</td></tr>
+          <tr><td>4</td><td>腿長 ≥ 0.25 × 畫面高度</td><td>誤把椅腳當成人（假骨架只有 0.08～0.16）</td></tr>
+          <tr><td>5</td><td>左右髖水平距離 ÷ 腿長 ≤ 0.15</td><td>正面／背面（側面時兩髖重疊 0.00～0.12；正背面 0.21～0.33）</td></tr>
+        </tbody>
+      </table>
+      <h4>3.1 問題：追蹤模式鎖死在椅子上</h4>
+      <p>MediaPipe 預設會「追蹤」上一幀找到的人。S0 第 6 趟一開始只拍到腿，模型誤抓椅腳後就一路追著椅子（可信度高達 0.97），真人走過也不換回來。改為<strong>每幀重新偵測</strong>後即可抓到真人。</p>
+      <figure class="figure">
+        <img src="images/report-1114-fig1-chair-lock.jpg" alt="上：追蹤模式，骨架（紅）卡在椅腳；下：每幀重新偵測，骨架（綠）正確落在受試者腿上（僅保留腰部以下畫面）" loading="lazy">
+        <figcaption>▲ 上：追蹤模式，骨架（紅）卡在椅腳；下：每幀重新偵測，骨架（綠）正確落在受試者腿上（僅保留腰部以下畫面）</figcaption>
+      </figure>
+
+      <h4>3.2 側面判斷：左右髖重疊比</h4>
+      <figure class="figure">
+        <img src="images/report-1114-fig2-side-filter.jpg" alt="同一趟中的背面、側面、正面：只有側面（重疊比 0.07）被判為可用；背面 0.21、正面 0.24 被排除" loading="lazy">
+        <figcaption>▲ 同一趟中的背面、側面、正面：只有側面（重疊比 0.07）被判為可用；背面 0.21、正面 0.24 被排除</figcaption>
+      </figure>
+
+      <table class="issue-table">
+        <thead><tr><th>S0（10 趟）</th><th>修正前（追蹤＋只看可信度）</th><th>修正後</th></tr></thead>
+        <tbody>
+          <tr><td>可用幀比例</td><td>40～75%（含大量假骨架與正背面）</td><td>17～31%</td></tr>
+          <tr><td>每趟最長連續可用</td><td>3.1～8.7 秒</td><td>1.8～2.8 秒（約 1～2 個步態週期）</td></tr>
+        </tbody>
+      </table>
+      <div class="result-box"><strong>結果：</strong>可用幀變少，是因為修正前混了大量假資料；修正後保留的都是真正可量步態的側面行走。</div>
+    </section>
+
+    <section>
+      <h3>四、改前基準（現有系統）</h3>
+      <p style="margin-bottom:8px;"><span class="inline-code">evaluate.py</span> 直接匯入 Jetson 上的 <span class="inline-code">pose.py</span>／<span class="inline-code">main.py</span>，不重寫，量到的就是現有系統的表現：</p>
+      <div class="formula">正規化座標 = (關節像素座標 − 左右髖中點) ÷ 平均腿長　→　26 維特徵　→　cosine 相似度 ≥ 0.80</div>
+      <p style="font-size:.93rem;">每連續 30 個可用幀（30 FPS 約 1 秒，約一個步態週期）為一個樣本，S0 共 33 個樣本（左走 17、右走 16）。</p>
+    </section>
+
+    <section>
+      <h3>五、公式 1：方向統一</h3>
+      <p style="margin-bottom:8px;">往右走時往前跨的腿 x 為正，往左走時變成負，同一個人只因方向不同，特徵就正負顛倒（已知問題 #6）。</p>
+      <h4>5.1 公式</h4>
+      <div class="formula">方向：髖中點像素 x 對時間的最小平方斜率 &gt; 0 → 往右（LR）；&lt; 0 → 往左（RL）</div>
+      <div class="formula">x′ = x（往右走）　　x′ = −x（往左走）　　y′ = y</div>
+      <p style="font-size:.93rem;">方向由骨架自動判斷而非人工標籤，因此可直接搬回 Jetson 即時系統。程式模組：<span class="inline-code">gait_formulas.py</span> 的 <span class="inline-code">walking_direction()</span>、<span class="inline-code">unify_direction()</span>。</p>
+      <h4>5.2 結果</h4>
+      <figure class="figure">
+<svg class="sw-chart" viewBox="0 0 780 265" role="img" aria-label="大腿擺動角平均值，改前與方向統一後，依行走方向分組"><text x="190" y="58" text-anchor="middle" class="sw-title">改前基準</text><line x1="40" y1="175" x2="340" y2="175" class="sw-zero"/><text x="125.0" y="250" text-anchor="middle" class="sw-cat">左大腿</text><g class="sw-bar" tabindex="0"><title>改前基準｜左→右｜左大腿：+0.0315 π</title><rect x="98" y="117.6" width="28" height="63.4" fill="transparent"/><path d="M100,175 V139.6 Q100,135.6 104,135.6 H120 Q124,135.6 124,139.6 V175 Z" fill="var(--s1)"/><text x="124" y="129.6" text-anchor="end" class="sw-val">+0.032</text></g><g class="sw-bar" tabindex="0"><title>改前基準｜右→左｜左大腿：-0.0354 π</title><rect x="124" y="175.0" width="28" height="68.2" fill="transparent"/><path d="M126,175 V215.2 Q126,219.2 130,219.2 H146 Q150,219.2 150,215.2 V175 Z" fill="var(--s2)"/><text x="126" y="234.2" text-anchor="start" class="sw-val">-0.035</text></g><text x="275.0" y="250" text-anchor="middle" class="sw-cat">右大腿</text><g class="sw-bar" tabindex="0"><title>改前基準｜左→右｜右大腿：+0.0674 π</title><rect x="248" y="72.8" width="28" height="108.2" fill="transparent"/><path d="M250,175 V94.8 Q250,90.8 254,90.8 H270 Q274,90.8 274,94.8 V175 Z" fill="var(--s1)"/><text x="274" y="84.8" text-anchor="end" class="sw-val">+0.067</text></g><g class="sw-bar" tabindex="0"><title>改前基準｜右→左｜右大腿：-0.0359 π</title><rect x="274" y="175.0" width="28" height="68.9" fill="transparent"/><path d="M276,175 V215.9 Q276,219.9 280,219.9 H296 Q300,219.9 300,215.9 V175 Z" fill="var(--s2)"/><text x="276" y="234.9" text-anchor="start" class="sw-val">-0.036</text></g><text x="560" y="58" text-anchor="middle" class="sw-title">＋公式 1 方向統一</text><line x1="410" y1="175" x2="710" y2="175" class="sw-zero"/><text x="495.0" y="250" text-anchor="middle" class="sw-cat">左大腿</text><g class="sw-bar" tabindex="0"><title>＋公式 1 方向統一｜左→右｜左大腿：+0.0393 π</title><rect x="468" y="107.9" width="28" height="73.1" fill="transparent"/><path d="M470,175 V129.9 Q470,125.9 474,125.9 H490 Q494,125.9 494,129.9 V175 Z" fill="var(--s1)"/><text x="494" y="119.9" text-anchor="end" class="sw-val">+0.039</text></g><g class="sw-bar" tabindex="0"><title>＋公式 1 方向統一｜右→左｜左大腿：+0.0354 π</title><rect x="494" y="112.8" width="28" height="68.2" fill="transparent"/><path d="M496,175 V134.8 Q496,130.8 500,130.8 H516 Q520,130.8 520,134.8 V175 Z" fill="var(--s2)"/><text x="496" y="124.8" text-anchor="start" class="sw-val">+0.035</text></g><text x="645.0" y="250" text-anchor="middle" class="sw-cat">右大腿</text><g class="sw-bar" tabindex="0"><title>＋公式 1 方向統一｜左→右｜右大腿：+0.0704 π</title><rect x="618" y="69.0" width="28" height="112.0" fill="transparent"/><path d="M620,175 V91.0 Q620,87.0 624,87.0 H640 Q644,87.0 644,91.0 V175 Z" fill="var(--s1)"/><text x="644" y="81.0" text-anchor="end" class="sw-val">+0.070</text></g><g class="sw-bar" tabindex="0"><title>＋公式 1 方向統一｜右→左｜右大腿：+0.0359 π</title><rect x="644" y="112.1" width="28" height="68.9" fill="transparent"/><path d="M646,175 V134.1 Q646,130.1 650,130.1 H666 Q670,130.1 670,134.1 V175 Z" fill="var(--s2)"/><text x="646" y="124.1" text-anchor="start" class="sw-val">+0.036</text></g><g transform="translate(275,16)"><rect x="0" y="-10" width="12" height="12" rx="2" fill="var(--s1)"/><text x="18" y="0" class="sw-cat">左→右（LR）</text><rect x="140" y="-10" width="12" height="12" rx="2" fill="var(--s2)"/><text x="158" y="0" class="sw-cat">右→左（RL）</text></g></svg>
+        <figcaption>▲ 大腿擺動角平均值（單位 π 弧度）：改前往左走（橘）為負值，方向統一後與往右走（藍）同號（滑鼠移到長條上可看數值）</figcaption>
+      </figure>
+      <table class="issue-table">
+        <thead><tr><th>指標（S0，33 樣本）</th><th>改前基準</th><th>＋方向統一</th></tr></thead>
+        <tbody>
+          <tr><td>方向自動判斷準確率</td><td>－</td><td><strong>100%</strong>（33/33）</td></tr>
+          <tr><td>擺動角：往左走（左／右大腿）</td><td>−0.035 ／ −0.036</td><td><strong>+0.035 ／ +0.036</strong></td></tr>
+          <tr><td>不同方向 cosine 平均</td><td>0.9860</td><td>0.9896</td></tr>
+          <tr><td>同方向 cosine 平均</td><td>0.9918</td><td>0.9920</td></tr>
+          <tr><td>方向造成的差距</td><td>0.0058</td><td><strong>0.0024（−59%）</strong></td></tr>
+          <tr><td>同一人比對分數</td><td>0.9943</td><td>0.9954</td></tr>
+          <tr><td>FRR@0.80</td><td>0%</td><td>0%</td></tr>
+        </tbody>
+      </table>
+      <div class="result-box"><strong>發現：</strong>自動判斷與檔名標籤唯一不符的一段，是受試者在同一趟中折返的側走段，人工檢查影片確認自動判斷正確 —— 自動判斷比整趟標籤更能反映實際行走方向。</div>
+      <div class="warning-box"><strong>⚠️ cosine 不敏感：</strong>擺動角整個正負翻轉，cosine 只從 0.992 降到 0.986。26 維特徵多為正值且由膝角等大數值主導，不同人可能也高於 0.98（已知問題 #4），將以公式 2「z-score＋歐氏距離」改善，並以 11/16 多人資料驗證 FAR、EER。</div>
+    </section>
+
+    <section>
+      <h3>六、尾隨偵測</h3>
+      <h4>6.1 判定規則（<span class="inline-code">tailgate.py</span>）</h4>
+      <ul class="bullet-list">
+        <li><strong>追蹤：</strong>每幀以髖中點 x 與上一幀最近的人配對，每人一個 ID，各自累積骨架（解決兩人骨架混在同一窗口的問題）。</li>
+        <li><strong>通過門線：</strong>朝進門方向越過虛擬門線才算通過，且越線前至少 10 幀側面行走。</li>
+        <li><strong>身分驗證：</strong>越線前累積 30 幀骨架即做步態比對（方向統一＋26 維特徵＋cosine）。</li>
+        <li><strong>每人各自判定：</strong>取消原系統的全域 5 秒冷卻（授權者開門後 5 秒內其他人被直接略過）。</li>
+      </ul>
+      <div class="formula">尾隨 ⇔ A 已驗證 ∧ B 未驗證 ∧ |t<sub>B</sub> − t<sub>A</sub>| ≤ T（T 暫定 3 秒）</div>
+      <p style="font-size:.93rem;">使用絕對值，是因為並排通過時尾隨者可能比授權者稍早越線。</p>
+      <h4>6.2 模擬測試：9/9 正確</h4>
+      <table class="issue-table">
+        <thead><tr><th>情境</th><th>判定</th></tr></thead>
+        <tbody>
+          <tr><td>授權者單獨通過</td><td>AUTH_PASS</td></tr>
+          <tr><td>陌生人緊跟 1 秒</td><td>AUTH_PASS → <strong>TAILGATE</strong>（+1.00 s）</td></tr>
+          <tr><td>陌生人隔 5 秒</td><td>AUTH_PASS → UNVERIFIED_PASS（不是尾隨）</td></tr>
+          <tr><td>並排，陌生人搶先 0.3 秒越線</td><td>UNVERIFIED_PASS → AUTH_PASS → <strong>TAILGATE</strong>（−0.30 s）</td></tr>
+          <tr><td>陌生人單獨通過</td><td>UNVERIFIED_PASS（闖入）</td></tr>
+          <tr><td>兩位授權者先後通過</td><td>AUTH_PASS × 2</td></tr>
+          <tr><td>反方向穿越門線（走位）</td><td>不算通過</td></tr>
+          <tr><td>加進門方向限制後陌生人緊跟</td><td>AUTH_PASS → <strong>TAILGATE</strong></td></tr>
+          <tr><td>正面朝鏡頭走過門線（無側走幀）</td><td>不算通過</td></tr>
+        </tbody>
+      </table>
+      <h4>6.3 多人姿態：與單人版一致</h4>
+      <p style="margin-bottom:8px;">改用 MediaPipe 新式 <span class="inline-code">PoseLandmarker</span>（每幀最多 2 人），以 S0 驗證與單人版的一致性：</p>
+      <table class="issue-table">
+        <thead><tr><th>項目</th><th>結果</th></tr></thead>
+        <tbody>
+          <tr><td>可用幀</td><td>單人版 897、多人版 893（差 0.4%）</td></tr>
+          <tr><td>關節位置差</td><td>平均 0.75 像素（中位數 0.72）</td></tr>
+          <tr><td>誤抓第 2 人</td><td>3,756 幀中 24 幀（0.6%），其中被判可用僅 2 幀，皆為單獨一幀，不會造成越線</td></tr>
+        </tbody>
+      </table>
+      <h4>6.4 S0 實測與修正</h4>
+      <table class="issue-table">
+        <thead><tr><th>發現</th><th>原因</th><th>修正</th></tr></thead>
+        <tbody>
+          <tr><td>往右走被判「未驗證通過」</td><td>畫面左側被桌子擋住，門線在畫面中間＝往右走的起點，來不及累積 30 幀</td><td>門線放在<strong>出口側</strong>，並只算進門方向</td></tr>
+          <tr><td>只有一人卻判為尾隨</td><td>通過後轉身走回鏡頭，追蹤中斷成新 ID，3 秒後再越線</td><td>越線前需 ≥ 10 幀側面行走</td></tr>
+        </tbody>
+      </table>
+      <div class="result-box"><strong>修正後結果（前 5 趟登錄、後 5 趟測試）：</strong>5 趟授權通行全部正確放行（cosine 0.981～0.996），<strong>假警報 0 次</strong>。門線放在出口側也符合實際門禁：鏡頭需拍到人走向門口的那一段，在到達門口前完成身分驗證。</div>
+    </section>
+
+    <section>
+      <h3>七、11/16 錄影規劃</h3>
+      <ul class="bullet-list">
+        <li>每位受試者單人 10 趟（左右各半），作為步態登錄與公式 2 的多人資料。</li>
+        <li>尾隨情境全部由左往右（門線在出口側）：A 單獨、A＋B 緊跟約 1 秒、A＋B 間隔約 5 秒、兩人並排。</li>
+        <li>從畫面外起步、由鏡頭後方繞到起點；通過後直接走出畫面，由旁人按 Enter。</li>
+        <li>鏡頭稍微後退或降低仰角，避免較高的受試者頭頂出畫面（頭部出畫面時 MediaPipe 偵測不到人）。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>八、已知問題與限制</h3>
+      <ul class="bullet-list">
+        <li>目前只有 1 位受試者：Rank-1、FAR、EER 需等 11/16 多人資料。</li>
+        <li>尾隨規則目前以模擬與單人資料驗證，兩人同框（特別是前後完全重疊）的效果待 11/16 驗證。</li>
+        <li>cosine 不敏感：陌生人可能被誤認為授權者而導致尾隨漏判，需公式 2 改善。</li>
+        <li>Jetson 即時系統仍使用追蹤模式，同樣可能鎖死在誤抓物體上，尚未修正。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>九、後續規劃</h3>
+      <div class="next-steps">
+        <ul class="bullet-list">
+          <li><strong>11/15</strong>：公式 2「z-score 正規化＋歐氏距離」，取代 cosine，並讓尾隨流程可切換比對方式。</li>
+          <li><strong>11/16</strong>：錄製其他受試者與尾隨情境，當天跑出尾隨判定結果，依實際資料決定時間窗 T。</li>
+          <li><strong>11/17～11/18</strong>：補完消融表（Rank-1、FAR、FRR、EER）、簡報與預演。</li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<footer>
+  &copy; 靜宜大學資訊工程學系 — 115 學年度第 1 學期 專題製作
+</footer>
+
+</body>
+</html>
