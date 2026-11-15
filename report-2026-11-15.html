@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>進度報告 — 2026/11/15</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+      color: #333;
+      line-height: 1.8;
+      background: #f5f7fa;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1a3a5c, #2a6496);
+      color: #fff;
+      text-align: center;
+      padding: 50px 20px 36px;
+    }
+    header h1 { font-size: 2rem; margin-bottom: 10px; }
+    header p  { font-size: 1rem; opacity: .85; }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px 60px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: 28px 0 0 0;
+      color: #2a6496;
+      text-decoration: none;
+      font-size: .95rem;
+      font-weight: bold;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 36px 40px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.08);
+      margin-top: 28px;
+    }
+
+    .meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      background: #f0f4f8;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 28px;
+      font-size: .92rem;
+      color: #555;
+    }
+    .meta span strong { color: #1a3a5c; }
+
+    section { margin-bottom: 36px; }
+
+    section h3 {
+      font-size: 1.05rem;
+      color: #0056b3;
+      border-left: 3px solid #0056b3;
+      padding-left: 10px;
+      margin-bottom: 14px;
+    }
+
+    section h4 {
+      font-size: .98rem;
+      color: #1a3a5c;
+      margin: 16px 0 8px 0;
+    }
+
+    .summary-text {
+      background: #f0f4f8;
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-size: .96rem;
+      color: #444;
+      border-left: 4px solid #2a6496;
+    }
+
+    .code-block {
+      background: #1e1e2e;
+      color: #cdd6f4;
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: .88rem;
+      line-height: 1.7;
+      overflow-x: auto;
+      margin: 10px 0;
+      white-space: pre;
+    }
+    .code-block .comment { color: #6c7086; }
+    .code-block .cmd     { color: #89dceb; }
+    .code-block .kw      { color: #cba6f7; }
+    .code-block .str     { color: #a6e3a1; }
+    .code-block .fn      { color: #89b4fa; }
+    .code-block .ok      { color: #a6e3a1; }
+    .code-block .err     { color: #f38ba8; }
+
+    .result-box {
+      background: #f0fff4;
+      border: 1px solid #68d391;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: .93rem;
+      color: #276749;
+      margin-top: 10px;
+    }
+    .result-box strong { color: #1a5236; }
+
+    .warning-box {
+      background: #fff8e1;
+      border: 1px solid #f0c040;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: .93rem;
+      color: #555;
+      margin-top: 14px;
+    }
+    .warning-box strong { color: #856404; }
+
+    .inline-code {
+      background: #eef1f5;
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: .9em;
+    }
+
+    table.issue-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: .92rem;
+    }
+    table.issue-table th,
+    table.issue-table td {
+      border: 1px solid #e0e6ef;
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    table.issue-table th {
+      background: #f0f4f8;
+      color: #1a3a5c;
+      font-weight: bold;
+    }
+    table.issue-table tr:nth-child(even) td {
+      background: #fafbfd;
+    }
+
+    .bullet-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 8px;
+    }
+    .bullet-list li {
+      padding: 6px 0 6px 20px;
+      position: relative;
+      font-size: .95rem;
+      border-bottom: 1px solid #eef1f5;
+    }
+    .bullet-list li:last-child { border-bottom: none; }
+    .bullet-list li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: #2a6496;
+    }
+
+    .next-steps {
+      background: #eef4ff;
+      border-radius: 10px;
+      padding: 20px 24px;
+    }
+    .next-steps h4 {
+      font-size: 1rem;
+      color: #1a3a5c;
+      margin-bottom: 10px;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      background: #000;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0,0,0,.15);
+      margin: 12px 0;
+    }
+    .video-wrapper video {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .video-caption {
+      font-size: .88rem;
+      color: #666;
+      text-align: center;
+      margin-top: 6px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      background: #1a3a5c;
+      color: rgba(255,255,255,.7);
+      font-size: .85rem;
+    }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.5rem; }
+      .container { padding: 0 14px 48px; }
+      .card { padding: 24px 20px; }
+      .meta { flex-direction: column; gap: 8px; }
+      table.issue-table { font-size: .82rem; }
+      table.issue-table th, table.issue-table td { padding: 8px 6px; }
+    }
+    .figure { margin: 16px 0; text-align: center; }
+    .figure img {
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 14px rgba(0,0,0,.15);
+    }
+    .figure-row { display: flex; gap: 16px; align-items: flex-start; }
+    .figure-row .figure { flex: 1; }
+    .figure figcaption { font-size: .88rem; color: #666; margin-top: 6px; }
+
+    .fps-chart { width: 100%; height: auto; font-family: inherit; }
+    .fps-label { font-size: 13px; fill: #333; }
+    .fps-value { font-size: 13px; fill: #333; font-weight: bold; }
+    .fps-tick  { font-size: 12px; fill: #777; }
+    .fps-mark  { fill: #2a78d6; }
+    .fps-axis  { stroke: #c9ced6; stroke-width: 1; }
+    .fps-ref   { stroke: #8a8984; stroke-width: 1; stroke-dasharray: 4 4; }
+    .fps-bar:hover .fps-mark, .fps-bar:focus .fps-mark { fill: #1f5fae; }
+    .fps-bar:focus { outline: none; }
+
+    @media (max-width: 600px) { .figure-row { flex-direction: column; } }
+
+  
+    .formula {
+      background: #f7f9fc; border: 1px solid #e0e6ef; border-radius: 8px;
+      padding: 12px 16px; margin: 10px 0; font-family: "Cambria Math", "Times New Roman", serif;
+      font-size: 1.05rem; text-align: center; color: #1a3a5c;
+    }
+    .pipeline { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 12px 0; font-size: .9rem; }
+    .pipeline span.step { background: #eef4ff; border: 1px solid #c9d8f0; border-radius: 6px; padding: 6px 10px; color: #1a3a5c; }
+    .pipeline span.arrow { color: #2a6496; font-weight: bold; }
+    .cv-chart { width: 100%; height: auto; font-family: inherit; --s1: #2a78d6; --s2: #eb6834; }
+    .cv-title { font-size: 15px; font-weight: bold; fill: #1a3a5c; }
+    .cv-txt   { font-size: 13px; fill: #555; }
+    .cv-val   { font-size: 13px; fill: #333; font-weight: bold; }
+    .cv-axis  { stroke: #c9ced6; stroke-width: 1; }
+    .cv-arrow { stroke-width: 2; fill: none; }
+    .cv-dist  { stroke: #333; stroke-width: 1.5; stroke-dasharray: 4 3; }
+    .cv-pt:hover circle, .cv-pt:focus circle { r: 8; }
+    .cv-pt:focus { outline: none; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>公式 2：z-score＋歐氏距離、錄影工具改良與 11/16 錄影規劃</h1>
+  <p>應用視覺大語言模型於步態分析 — 2026 年 11 月 15 日</p>
+</header>
+
+<div class="container">
+  <a class="back-link" href="index.html">← 返回主頁</a>
+
+  <div class="card">
+    <div class="meta">
+      <span><strong>日期：</strong>2026 年 11 月 15 日</span>
+      <span><strong>指導教授：</strong>朱學亭老師</span>
+      <span><strong>目前階段：</strong>階段 4：公式消融；階段 2：多人資料集準備</span>
+    </div>
+
+    <section>
+      <h3>進度摘要</h3>
+      <div class="summary-text">
+        11/14 發現現有比對方式（26 維特徵＋cosine）<strong>不敏感</strong>：大腿擺動角整個正負翻轉，相似度只降 0.006，陌生人可能被誤認為授權者，導致尾隨漏判。
+        本次導入<strong>公式 2「z-score 標準化＋歐氏距離」</strong>（並追加公式 1-3「鏡像後左右腳對調」，方向干擾再降約 30%）：先把每一維特徵換成「比平均多幾個標準差」，讓各特徵份量相同，再以兩點的直線距離比對。程式完成並以 S0 資料跑完四組消融設定，改前基準與公式 1 的數字與先前完全一致（沒有改壞）。
+        由於目前只有 1 位受試者，公式 2 能否降低誤認率（FAR、EER）須以 11/16 多人資料證明。
+        另外改良錄影程式：新增<strong>行走方向選項</strong>（尾隨情境每趟都朝門的方向）與<strong>錄影時的預覽視窗</strong>，並完成 11/16 錄影規劃。
+      </div>
+    </section>
+
+    <section>
+      <h3>一、今日完成項目</h3>
+      <table class="issue-table">
+        <thead><tr><th>PR</th><th>內容</th><th>狀態</th></tr></thead>
+        <tbody>
+          <tr><td>#13</td><td>公式 2：<span class="inline-code">gait_formulas.py</span> 新增 z-score 與歐氏距離；<span class="inline-code">evaluate.py</span> 可切換公式與比對方式</td><td>待組員審查合併</td></tr>
+          <tr><td>#15</td><td>公式 1-3：方向統一鏡像後左右腳對調（<span class="inline-code">--formulas dir,swap</span>）</td><td>待 #13 合併後審查</td></tr>
+          <tr><td>#14</td><td><span class="inline-code">recorder.py</span>：<span class="inline-code">--direction</span> 行走方向選項＋錄影預覽視窗</td><td>11/16 於 Jetson 實測後合併</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h3>二、公式 2 原理</h3>
+      <h4>2.1 問題：原始特徵的尺度差很多，而且幾乎都是正值</h4>
+      <table class="issue-table">
+        <thead><tr><th>特徵（舉例）</th><th>一般數值</th><th>影響</th></tr></thead>
+        <tbody>
+          <tr><td>膝角平均</td><td>較大</td><td rowspan="3">向量方向幾乎由大數值特徵決定；擺動角差一倍，對 cosine 幾乎沒影響。且特徵都為正值，每個人的向量擠在同一個方向，cosine 一律接近 0.99</td></tr>
+          <tr><td>大腿占腿長比例</td><td>約 0.5</td></tr>
+          <tr><td>大腿擺動角平均</td><td>約 0.03</td></tr>
+        </tbody>
+      </table>
+
+      <h4>2.2 公式 2-1：z-score 標準化</h4>
+      <div class="formula">z<sub>i</sub> = ( f<sub>i</sub> − μ<sub>i</sub> ) ÷ σ<sub>i</sub></div>
+      <p style="font-size:.93rem;">μ<sub>i</sub>、σ<sub>i</sub> 為第 i 維特徵在<strong>登錄資料</strong>中的平均與標準差。z 代表「這個人在這一項比一般人多（或少）幾個標準差」。換算後每一維平均 0、標準差 1：份量相同，而且有正有負。好比數學考 80 分（全班平均 60、標準差 10，z = +2）與英文考 80 分（平均 78、標準差 4，z = +0.5），換成 z 才能互相比較。</p>
+
+      <h4>2.3 公式 2-2：歐氏距離</h4>
+      <div class="formula">d(a, b) = √ Σ<sub>i</sub> ( z<sub>a,i</sub> − z<sub>b,i</sub> )²　　距離越小越像</div>
+
+      <h4>2.4 數值例子（3 維示意）</h4>
+      <p style="font-size:.93rem;margin-bottom:6px;">假設登錄資料 μ = (2.80, 0.50, 0.03)、σ = (0.10, 0.02, 0.01)：</p>
+      <table class="issue-table">
+        <thead><tr><th>樣本</th><th>原始特徵</th><th>z-score</th><th>改前 cosine</th><th>歐氏距離</th></tr></thead>
+        <tbody>
+          <tr><td>A：授權者登錄</td><td>(2.80, 0.50, 0.04)</td><td>(0, 0, +1)</td><td>－</td><td>－</td></tr>
+          <tr><td>A′：同一人再走一次</td><td>(2.82, 0.50, 0.04)</td><td>(0.2, 0, +1)</td><td>0.99999</td><td><strong>0.20</strong></td></tr>
+          <tr><td>B：陌生人</td><td>(2.78, 0.52, 0.01)</td><td>(−0.2, +1, −2)</td><td>0.99991</td><td><strong>3.17</strong></td></tr>
+        </tbody>
+      </table>
+      <div class="result-box"><strong>對照：</strong>改前 cosine 同一人與陌生人只差 0.00008，無法分辨；z-score＋歐氏距離為 0.20 對 3.17，相差約 16 倍。</div>
+
+      <h4>2.5 為什麼 z-score 之後還要改用歐氏距離</h4>
+      <p style="font-size:.93rem;margin-bottom:6px;">z-score 之後，原點代表「走路方式跟平均一樣的人」，方向代表哪些特徵偏大、偏小（走路的<strong>類型</strong>），離原點多遠代表偏多少（<strong>程度</strong>）。cosine 公式除以兩個向量的長度，<strong>只比方向、不看距離</strong>，因此有兩個漏洞：</p>
+      <figure class="figure">
+<svg class="cv-chart" viewBox="0 0 780 250" role="img" aria-label="cosine 只看方向的兩個漏洞：同方向不同遠近，以及原點附近方向翻轉">
+  <text x="190" y="26" text-anchor="middle" class="cv-title">漏洞 1：同方向、不同遠近</text>
+  <line x1="40" y1="130" x2="350" y2="130" class="cv-axis"/><line x1="70" y1="50" x2="70" y2="200" class="cv-axis"/>
+  <text x="190" y="46" text-anchor="middle" class="cv-txt">橫軸：大腿擺動角的 z 值</text>
+  <circle cx="70" cy="130" r="4" fill="#8a8984"/><text x="70" y="218" text-anchor="middle" class="cv-txt">原點（平均的人）</text>
+  <line x1="70" y1="164" x2="70" y2="204" class="cv-axis"/>
+  <path d="M70,118 H148" class="cv-arrow" stroke="var(--s1)"/><path d="M70,104 H304" class="cv-arrow" stroke="var(--s2)"/>
+  <g class="cv-pt" tabindex="0"><title>小明（授權者）z = (1, 0)：擺動稍大</title><circle cx="148" cy="130" r="6" fill="var(--s1)" stroke="#fff" stroke-width="2"/></g>
+  <text x="148" y="160" text-anchor="middle" class="cv-txt">小明 (1, 0)</text>
+  <g class="cv-pt" tabindex="0"><title>阿華（陌生人）z = (3, 0)：擺動大很多</title><circle cx="304" cy="130" r="6" fill="var(--s2)" stroke="#fff" stroke-width="2"/></g>
+  <text x="304" y="160" text-anchor="middle" class="cv-txt">阿華 (3, 0)</text>
+  <line x1="148" y1="182" x2="304" y2="182" class="cv-dist"/>
+  <text x="226" y="200" text-anchor="middle" class="cv-val">距離 d = 2.0 ✓ 分得出</text>
+  <text x="226" y="80" text-anchor="middle" class="cv-val">cosine = 1.0 ✗ 認成同一人</text>
+
+  <text x="590" y="26" text-anchor="middle" class="cv-title">漏洞 2：原點附近方向翻轉</text>
+  <line x1="440" y1="130" x2="740" y2="130" class="cv-axis"/><line x1="590" y1="50" x2="590" y2="200" class="cv-axis"/>
+  <text x="590" y="46" text-anchor="middle" class="cv-txt">橫軸：大腿擺動角的 z 值（放大顯示）</text>
+  <circle cx="590" cy="130" r="4" fill="#8a8984"/>
+  <path d="M590,118 H670" class="cv-arrow" stroke="var(--s1)"/><path d="M590,118 H510" class="cv-arrow" stroke="var(--s2)"/>
+  <g class="cv-pt" tabindex="0"><title>小美第 1 趟 z = (+0.1, 0)：只比平均大一點點</title><circle cx="670" cy="130" r="6" fill="var(--s1)" stroke="#fff" stroke-width="2"/></g>
+  <text x="670" y="160" text-anchor="middle" class="cv-txt">小美第 1 趟 (+0.1)</text>
+  <g class="cv-pt" tabindex="0"><title>小美第 2 趟 z = (−0.1, 0)：只比平均小一點點</title><circle cx="510" cy="130" r="6" fill="var(--s2)" stroke="#fff" stroke-width="2"/></g>
+  <text x="510" y="160" text-anchor="middle" class="cv-txt">小美第 2 趟 (−0.1)</text>
+  <line x1="510" y1="182" x2="670" y2="182" class="cv-dist"/>
+  <text x="590" y="200" text-anchor="middle" class="cv-val">距離 d = 0.2 ✓ 判定很近</text>
+  <text x="590" y="80" text-anchor="middle" class="cv-val">cosine = −1 ✗ 認成完全不同</text>
+</svg>
+        <figcaption>▲ 圖 1：cosine 只看從原點出發的方向。左：陌生人與授權者同方向但程度不同，cosine 誤認（尾隨者被放行，FAR）；右：走路接近平均的人，小誤差就讓方向翻轉，cosine 誤拒（假警報，FRR）。歐氏距離兩種情況都正確。（示意圖，滑鼠移到點上可看說明）</figcaption>
+      </figure>
+      <p style="font-size:.93rem;">因此消融實驗分成兩列：「＋z-score（仍用 cosine）」與「＋z-score＋歐氏距離」，分別證明「統一尺度」與「改看距離」各自的貢獻。</p>
+    </section>
+
+    <section>
+      <h3>三、程式實作</h3>
+      <table class="issue-table">
+        <thead><tr><th>模組</th><th>內容</th></tr></thead>
+        <tbody>
+          <tr><td><span class="inline-code">fit_zscore()</span></td><td>由登錄樣本計算每一維 μ、σ；σ 設下限 0.001，避免幾乎不變的維度被除到極大</td></tr>
+          <tr><td><span class="inline-code">apply_zscore()</span></td><td>z = (f − μ) ÷ σ</td></tr>
+          <tr><td><span class="inline-code">euclidean_distance()</span></td><td>d = √Σ(a − b)²</td></tr>
+          <tr><td><span class="inline-code">main.extract_feature(l2=...)</span></td><td>新增參數取得 L2 正規化前的原始特徵；預設不變，Jetson 即時系統不受影響</td></tr>
+          <tr><td><span class="inline-code">evaluate.py</span></td><td><span class="inline-code">--formulas dir,zscore</span>、<span class="inline-code">--metric cos|euc</span>；距離「越小越像」，門檻、EER、Rank-1 的判斷方向隨之反轉</td></tr>
+        </tbody>
+      </table>
+      <div class="warning-box"><strong>⚠️ 避免資料洩漏：</strong>μ、σ 只用「登錄趟次」計算，再套用到測試趟次。若把測試資料也算進去，等於考前先看考題，準確率會虛高。</div>
+    </section>
+
+    <section>
+      <h3>四、S0 結果（單人，33 樣本）</h3>
+      <table class="issue-table">
+        <thead><tr><th>設定</th><th>同方向</th><th>不同方向</th><th>與登錄模板比對</th><th>FRR@0.80</th></tr></thead>
+        <tbody>
+          <tr><td>① 改前基準（cosine）</td><td>0.9918</td><td>0.9860</td><td>0.9943</td><td>0%</td></tr>
+          <tr><td>② ＋方向統一（cosine）</td><td>0.9920</td><td>0.9896</td><td>0.9954</td><td>0%</td></tr>
+          <tr><td>③ ＋z-score（cosine）</td><td>0.111</td><td>−0.102</td><td>無定義（見下方說明）</td><td>－</td></tr>
+          <tr><td>④ ＋z-score＋歐氏距離</td><td>距離 7.02</td><td>距離 7.78</td><td>距離 5.51</td><td>待定門檻</td></tr>
+        </tbody>
+      </table>
+      <ul class="bullet-list">
+        <li><strong>① ② 沒有改壞：</strong>加入公式 2 的程式後，改前基準與公式 1 的數字與 11/14 完全相同。</li>
+        <li><strong>③ 單人時無法評估：</strong>只有 1 位受試者時，「一般人的平均」就是他自己的平均，登錄模板經 z-score 後<strong>剛好落在原點（長度 0）</strong>，cosine 對零向量沒有定義，算出的值只是浮點誤差，不能作為結論。多人時平均為全體受試者的平均，模板不在原點，需以 11/16 資料重跑。同一人不同趟之間互相比較（同方向 0.111、不同方向 −0.102）仍然有定義，分數從 −0.73 到 +0.91 都有，顯示走路接近平均時 cosine 方向不穩定（即圖 1 漏洞 2）。</li>
+        <li><strong>④ 距離的單位是「幾個標準差」：</strong>目前 σ 只代表同一人每趟之間的差異，沒有陌生人的距離可以比較，FAR、EER 待 11/16。</li>
+      </ul>
+      <h4>4.1 不同尺度之間的比較：方向干擾程度</h4>
+      <p style="font-size:.93rem;margin-bottom:6px;">cosine 與距離的單位不同，不能直接比大小。改用「不同方向與同方向的差距 ÷ 分數本身的標準差」比較，不受尺度影響：</p>
+      <table class="issue-table">
+        <thead><tr><th>設定</th><th>差距</th><th>÷ 平均標準差</th><th>方向干擾程度</th></tr></thead>
+        <tbody>
+          <tr><td>① 改前基準</td><td>0.0058</td><td>0.0095</td><td>0.61</td></tr>
+          <tr><td>② ＋方向統一</td><td>0.0024</td><td>0.0092</td><td><strong>0.27</strong></td></tr>
+          <tr><td>④ ＋z-score＋歐氏距離</td><td>0.76</td><td>2.01</td><td>0.38</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:.93rem;margin-top:10px;">④ 的方向干擾比 ② 大。推測原因：z-score 放大了原本數值很小的特徵，其中包含「近鏡頭腳與遠鏡頭腳」的差異 —— 往右走是左腳靠近鏡頭，往左走變成右腳靠近鏡頭，但方向統一只做左右鏡像、沒有對調左右腳，往左走的「左腳特徵」其實來自被遮擋較多的遠鏡頭腳。</p>
+
+      <h4>4.2 公式 1-3：鏡像後左右腳對調</h4>
+      <div class="formula">往左走（RL）：(左髖, 右髖, 左膝, 右膝, 左踝, 右踝) → (右髖, 左髖, 右膝, 左膝, 右踝, 左踝)</div>
+      <p style="font-size:.93rem;margin-bottom:6px;">讓同一個特徵欄位在兩個方向都來自同一側（近／遠鏡頭）的腳。程式模組：<span class="inline-code">gait_formulas.py</span> 的 <span class="inline-code">swap_legs()</span>，原本的方向統一不變，以新開關 <span class="inline-code">swap</span> 做消融。</p>
+      <table class="issue-table">
+        <thead><tr><th>設定</th><th>同方向</th><th>不同方向</th><th>方向干擾程度</th></tr></thead>
+        <tbody>
+          <tr><td>② 方向統一（cosine）</td><td>0.9920</td><td>0.9896</td><td>0.27</td></tr>
+          <tr><td>② ＋左右腳對調（cosine）</td><td>0.9923</td><td>0.9906</td><td><strong>0.19（−30%）</strong></td></tr>
+          <tr><td>④ z-score＋歐氏距離</td><td>距離 7.02</td><td>距離 7.78</td><td>0.38</td></tr>
+          <tr><td>④ ＋左右腳對調</td><td>距離 7.12</td><td>距離 7.66</td><td><strong>0.26（−32%）</strong></td></tr>
+        </tbody>
+      </table>
+      <div class="result-box"><strong>結果：</strong>兩種比對方式的方向干擾都降低約 30%，z-score 放大方向干擾的問題回到與只做方向統一相當；同一人比對分數不變（0.9954 → 0.9955），FRR 仍為 0%。</div>
+      <div class="warning-box"><strong>⚠️ 尚未完全解釋：</strong>往右走時右腿擺動角明顯大於左腿（0.073 對 0.037），往左走對調後兩腿卻相近（0.035 對 0.036），可能還有其他因素（例如 MediaPipe 在側面偶爾把左右腳認反），將以 11/16 多人資料再確認。</div>
+    </section>
+
+    <section>
+      <h3>五、消融實驗的解讀方式</h3>
+      <ul class="bullet-list">
+        <li><strong>一次只加一個公式，跟上一列比：</strong>數字的變化才能歸因於該公式。</li>
+        <li><strong>單人資料只能證明「認得自己」：</strong>改前 FRR 0% 看似完美，但 cosine 可能對任何人都給 0.99；要證明「分得出別人」需要 FAR。</li>
+        <li><strong>不同比對方式要用共通指標：</strong>cosine（越大越像）與距離（越小越像）的數字不能直接比，消融表以百分比指標為主。</li>
+      </ul>
+      <table class="issue-table">
+        <thead><tr><th>指標</th><th>意義</th><th>與尾隨偵測的關係</th></tr></thead>
+        <tbody>
+          <tr><td><strong>FAR</strong></td><td>陌生人被誤認為授權者的比例</td><td>尾隨者混入，最嚴重</td></tr>
+          <tr><td>FRR</td><td>授權者被拒絕的比例</td><td>假警報</td></tr>
+          <tr><td>EER</td><td>調整門檻使 FAR = FRR 時的錯誤率</td><td>以一個數字代表整體表現，越低越好</td></tr>
+          <tr><td>Rank-1</td><td>辨識成正確人員的比例</td><td>認人準確度</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h3>六、錄影工具改良（<span class="inline-code">recorder.py</span>）</h3>
+      <table class="issue-table">
+        <thead><tr><th>項目</th><th>說明</th></tr></thead>
+        <tbody>
+          <tr><td><span class="inline-code">--direction alt|LR|RL</span></td><td>原本固定單數趟往右、雙數趟往左；尾隨情境需每趟都朝門的方向，改用 <span class="inline-code">LR</span>。預設 <span class="inline-code">alt</span> 與原本相同</td></tr>
+          <tr><td>預覽視窗</td><td>錄影時直接顯示畫面，不必另外執行預覽程式；疊加趟次、方向箭頭、錄影中紅框與秒數、黃色門線</td></tr>
+          <tr><td>不顯示骨架</td><td>Nano 跑 MediaPipe 每幀約 150 ms，會拖慢錄影；骨架確認在架設時以 <span class="inline-code">preview.py</span> 做一次即可</td></tr>
+          <tr><td>疊加不錄進影片</td><td>只畫在畫面複本上；已檢查錄下的影片在門線與邊框位置沒有疊加圖案</td></tr>
+        </tbody>
+      </table>
+      <figure class="figure">
+        <img src="images/report-1115-fig2-recorder-preview.jpg" alt="錄影預覽視窗：左為待命畫面，右為錄影中（紅框、REC 秒數），黃線為門線；腰部以上已模糊處理" loading="lazy">
+        <figcaption>▲ 圖 2：預覽視窗（以 S0 影片在 MacBook 模擬）。左：待命；右：錄影中（紅框＋REC 秒數）；白色箭頭為行走方向，黃線為門線（x = 470）。</figcaption>
+      </figure>
+      <div class="warning-box"><strong>⚠️ 待驗證：</strong>Jetson 上開著預覽時是否仍維持 30 FPS，於 11/16 架設時實測；若 FPS 下降，可加 <span class="inline-code">--no-preview</span> 關閉預覽，方向選項照常使用。</div>
+    </section>
+
+    <section>
+      <h3>七、11/16 錄影規劃</h3>
+      <h4>7.1 錄影內容（場次 S1，受試者只以代號記錄）</h4>
+      <table class="issue-table">
+        <thead><tr><th>項目</th><th>趟數</th><th>預期系統結果</th><th>用途</th></tr></thead>
+        <tbody>
+          <tr><td>單人（每人，左右交替）</td><td>10</td><td>－</td><td>登錄、FAR／EER、補完消融表</td></tr>
+          <tr><td>尾隨：緊跟約 1 秒</td><td>4</td><td><strong>判定尾隨</strong></td><td>核心：能否抓到尾隨</td></tr>
+          <tr><td>尾隨：間隔約 5 秒</td><td>4</td><td>不算尾隨（超過 T）</td><td>決定時間窗 T、測試假警報</td></tr>
+          <tr><td>尾隨：並排</td><td>2</td><td>可能合併成一個 ID</td><td>測試已知限制</td></tr>
+          <tr><td>單獨通過</td><td>不另錄</td><td>授權通過</td><td>沿用單人錄影中往右走的趟次</td></tr>
+        </tbody>
+      </table>
+      <h4>7.2 注意事項</h4>
+      <ul class="bullet-list">
+        <li>先錄尾隨、再錄單人（尾隨是核心，趁時間充裕先完成）；有時間再角色互換錄一輪。</li>
+        <li>從畫面外起步；通過後直接走出畫面、不回頭；由旁人按 Enter。</li>
+        <li>鏡頭稍後退或降低仰角，以最高的受試者確認頭頂不出畫面；鏡頭移動後重新量測可見範圍並決定新門線。</li>
+        <li>受試者避免寬褲或長裙（膝、踝位置會抓不準）；事先取得同意，資料不公開。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>八、已知問題與限制</h3>
+      <ul class="bullet-list">
+        <li>只有 1 位受試者：z-score＋cosine 無法評估，公式 2 的 FAR、EER 改善須以多人資料證明。</li>
+        <li>左右腳對調後仍有殘留的方向干擾（0.19～0.26），原因尚未完全釐清。</li>
+        <li>歐氏距離的門檻尚未決定，將以多人資料的 EER 決定。</li>
+        <li>尾隨流程（<span class="inline-code">run_tailgate.py</span>）仍使用 cosine，待公式 2 驗證後再切換。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>九、後續規劃</h3>
+      <div class="next-steps">
+        <ul class="bullet-list">
+          <li><strong>11/16</strong>：Jetson 實測錄影預覽；錄製其他受試者與尾隨情境；當天跑出消融表（Rank-1、FAR、FRR、EER）與尾隨判定結果，決定時間窗 T 與距離門檻。</li>
+          <li><strong>11/17～11/18</strong>：尾隨流程支援 z-score＋歐氏距離</li>
+          <li><strong>11/19</strong>：口試。</li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<footer>
+  &copy; 靜宜大學資訊工程學系 — 115 學年度第 1 學期 專題製作
+</footer>
+
+</body>
+</html>
