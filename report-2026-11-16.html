@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>進度報告 — 2026/11/16</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+      color: #333;
+      line-height: 1.8;
+      background: #f5f7fa;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1a3a5c, #2a6496);
+      color: #fff;
+      text-align: center;
+      padding: 50px 20px 36px;
+    }
+    header h1 { font-size: 2rem; margin-bottom: 10px; }
+    header p  { font-size: 1rem; opacity: .85; }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px 60px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: 28px 0 0 0;
+      color: #2a6496;
+      text-decoration: none;
+      font-size: .95rem;
+      font-weight: bold;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 36px 40px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.08);
+      margin-top: 28px;
+    }
+
+    .meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      background: #f0f4f8;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 28px;
+      font-size: .92rem;
+      color: #555;
+    }
+    .meta span strong { color: #1a3a5c; }
+
+    section { margin-bottom: 36px; }
+
+    section h3 {
+      font-size: 1.05rem;
+      color: #0056b3;
+      border-left: 3px solid #0056b3;
+      padding-left: 10px;
+      margin-bottom: 14px;
+    }
+
+    section h4 {
+      font-size: .98rem;
+      color: #1a3a5c;
+      margin: 16px 0 8px 0;
+    }
+
+    .summary-text {
+      background: #f0f4f8;
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-size: .96rem;
+      color: #444;
+      border-left: 4px solid #2a6496;
+    }
+
+    .code-block {
+      background: #1e1e2e;
+      color: #cdd6f4;
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: .88rem;
+      line-height: 1.7;
+      overflow-x: auto;
+      margin: 10px 0;
+      white-space: pre;
+    }
+    .code-block .comment { color: #6c7086; }
+    .code-block .cmd     { color: #89dceb; }
+    .code-block .kw      { color: #cba6f7; }
+    .code-block .str     { color: #a6e3a1; }
+    .code-block .fn      { color: #89b4fa; }
+    .code-block .ok      { color: #a6e3a1; }
+    .code-block .err     { color: #f38ba8; }
+
+    .result-box {
+      background: #f0fff4;
+      border: 1px solid #68d391;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: .93rem;
+      color: #276749;
+      margin-top: 10px;
+    }
+    .result-box strong { color: #1a5236; }
+
+    .warning-box {
+      background: #fff8e1;
+      border: 1px solid #f0c040;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: .93rem;
+      color: #555;
+      margin-top: 14px;
+    }
+    .warning-box strong { color: #856404; }
+
+    .inline-code {
+      background: #eef1f5;
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: .9em;
+    }
+
+    table.issue-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: .92rem;
+    }
+    table.issue-table th,
+    table.issue-table td {
+      border: 1px solid #e0e6ef;
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    table.issue-table th {
+      background: #f0f4f8;
+      color: #1a3a5c;
+      font-weight: bold;
+    }
+    table.issue-table tr:nth-child(even) td {
+      background: #fafbfd;
+    }
+
+    .bullet-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 8px;
+    }
+    .bullet-list li {
+      padding: 6px 0 6px 20px;
+      position: relative;
+      font-size: .95rem;
+      border-bottom: 1px solid #eef1f5;
+    }
+    .bullet-list li:last-child { border-bottom: none; }
+    .bullet-list li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: #2a6496;
+    }
+
+    .next-steps {
+      background: #eef4ff;
+      border-radius: 10px;
+      padding: 20px 24px;
+    }
+    .next-steps h4 {
+      font-size: 1rem;
+      color: #1a3a5c;
+      margin-bottom: 10px;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      background: #000;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0,0,0,.15);
+      margin: 12px 0;
+    }
+    .video-wrapper video {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .video-caption {
+      font-size: .88rem;
+      color: #666;
+      text-align: center;
+      margin-top: 6px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      background: #1a3a5c;
+      color: rgba(255,255,255,.7);
+      font-size: .85rem;
+    }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.5rem; }
+      .container { padding: 0 14px 48px; }
+      .card { padding: 24px 20px; }
+      .meta { flex-direction: column; gap: 8px; }
+      table.issue-table { font-size: .82rem; }
+      table.issue-table th, table.issue-table td { padding: 8px 6px; }
+    }
+    .figure { margin: 16px 0; text-align: center; }
+    .figure img {
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 14px rgba(0,0,0,.15);
+    }
+    .figure-row { display: flex; gap: 16px; align-items: flex-start; }
+    .figure-row .figure { flex: 1; }
+    .figure figcaption { font-size: .88rem; color: #666; margin-top: 6px; }
+
+    .fps-chart { width: 100%; height: auto; font-family: inherit; }
+    .fps-label { font-size: 13px; fill: #333; }
+    .fps-value { font-size: 13px; fill: #333; font-weight: bold; }
+    .fps-tick  { font-size: 12px; fill: #777; }
+    .fps-mark  { fill: #2a78d6; }
+    .fps-axis  { stroke: #c9ced6; stroke-width: 1; }
+    .fps-ref   { stroke: #8a8984; stroke-width: 1; stroke-dasharray: 4 4; }
+    .fps-bar:hover .fps-mark, .fps-bar:focus .fps-mark { fill: #1f5fae; }
+    .fps-bar:focus { outline: none; }
+
+    @media (max-width: 600px) { .figure-row { flex-direction: column; } }
+
+  
+    .formula {
+      background: #f7f9fc; border: 1px solid #e0e6ef; border-radius: 8px;
+      padding: 12px 16px; margin: 10px 0; font-family: "Cambria Math", "Times New Roman", serif;
+      font-size: 1.05rem; text-align: center; color: #1a3a5c;
+    }
+    .pipeline { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 12px 0; font-size: .9rem; }
+    .pipeline span.step { background: #eef4ff; border: 1px solid #c9d8f0; border-radius: 6px; padding: 6px 10px; color: #1a3a5c; }
+    .pipeline span.arrow { color: #2a6496; font-weight: bold; }
+    .cv-chart { width: 100%; height: auto; font-family: inherit; --s1: #2a78d6; --s2: #eb6834; }
+    .cv-title { font-size: 15px; font-weight: bold; fill: #1a3a5c; }
+    .cv-txt   { font-size: 13px; fill: #555; }
+    .cv-val   { font-size: 13px; fill: #333; font-weight: bold; }
+    .cv-axis  { stroke: #c9ced6; stroke-width: 1; }
+    .cv-arrow { stroke-width: 2; fill: none; }
+    .cv-dist  { stroke: #333; stroke-width: 1.5; stroke-dasharray: 4 3; }
+    .cv-pt:hover circle, .cv-pt:focus circle { r: 8; }
+    .cv-pt:focus { outline: none; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>多人資料錄影、公式 2 同場次驗證與尾隨規則修正</h1>
+  <p>應用視覺大語言模型於步態分析 — 2026 年 11 月 16 日</p>
+</header>
+
+<div class="container">
+  <a class="back-link" href="index.html">← 返回主頁</a>
+
+  <div class="card">
+    <div class="meta">
+      <span><strong>日期：</strong>2026 年 11 月 16 日</span>
+      <span><strong>指導教授：</strong>朱學亭老師</span>
+      <span><strong>目前階段：</strong>階段 2：多人資料集；階段 4：公式消融；階段 5：尾隨偵測</span>
+    </div>
+
+    <section>
+      <h3>進度摘要</h3>
+      <div class="summary-text">
+        今天在 Jetson Nano 完成<strong>第一批多人資料（場次 S1）</strong>的錄影：3 位受試者的單人行走，以及兩人一前一後的尾隨影片，全部以 30 FPS 錄製。錄影預覽功能（PR #14）通過 Jetson 實測並已合併。
+        以同一場次的資料重新驗證公式 2：<strong>z-score＋歐氏距離使 EER 由約 40% 降到約 30%</strong>，方向是對的，但樣本很少（登錄 8、測試 10 個窗口），只能視為初步結果。
+        尾隨偵測方面，發現<strong>改前的 cosine 完全分不出授權者與陌生人</strong>（陌生人被當成授權者放行），並修正尾隨規則的「通過門線」條件；模擬 10/10 通過。
+        <strong>但現有 S1 尾隨影片仍偵測不到尾隨（0 次）</strong>：場地左右兩側被桌子擋住，可見的行走路徑只有約 1～1.5 秒，緊跟的第二個人幾乎偵測不到。以下如實記錄原因與對策。
+      </div>
+    </section>
+
+    <section>
+      <h3>一、今日完成項目</h3>
+      <table class="issue-table">
+        <thead><tr><th>PR</th><th>內容</th><th>狀態</th></tr></thead>
+        <tbody>
+          <tr><td>#14</td><td><span class="inline-code">recorder.py</span>：行走方向選項＋錄影預覽視窗，Jetson 實測通過</td><td>已合併</td></tr>
+          <tr><td>#16</td><td>尾隨偵測：<span class="inline-code">run_tailgate.py</span> 支援 z-score＋歐氏距離與指定授權者；<span class="inline-code">tailgate.py</span> 通過門線條件改為不依賴步態資料；模擬情境 9/9 → 10/10</td><td>已開，待組員審查</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h3>二、Jetson 實測錄影預覽（PR #14）</h3>
+      <table class="issue-table">
+        <thead><tr><th>檢查項目</th><th>結果</th></tr></thead>
+        <tbody>
+          <tr><td>開著預覽視窗是否維持 30 FPS</td><td>通過：每趟實測約 30.0 FPS（試錄與正式錄影皆是）</td></tr>
+          <tr><td>預覽視窗是否出現（趟次、REC 紅框、箭頭）</td><td>通過</td></tr>
+          <tr><td>黃色門線位置</td><td>合理</td></tr>
+          <tr><td>在視窗上按 Enter／r 是否有反應</td><td>通過</td></tr>
+        </tbody>
+      </table>
+      <div class="warning-box"><strong>⚠️ 使用上的小問題：</strong>尾隨與補錄時，若沒有人按 Enter 停止，每趟會等到 15 秒自動停止，影片後半是空畫面。之後要求走出畫面就按 Enter。</div>
+    </section>
+
+    <section>
+      <h3>三、S1 錄影內容（受試者只以代號記錄，資料不公開）</h3>
+      <table class="issue-table">
+        <thead><tr><th>項目</th><th>趟數</th><th>備註</th></tr></thead>
+        <tbody>
+          <tr><td>P02 單人（左右交替）</td><td>10</td><td>資料品質良好</td></tr>
+          <tr><td>P01 單人（左右交替，與尾隨同場地）</td><td>10</td><td>用來同場次驗證公式</td></tr>
+          <tr><td>P03 單人</td><td>10＋重錄 10</td><td>走得快，可用資料很少（見第四節）；舊檔另存保留</td></tr>
+          <tr><td>尾隨（全部由左往右）</td><td>10</td><td>緊跟約 1 秒 ×4、間隔約 5 秒 ×4、並排 ×2</td></tr>
+        </tbody>
+      </table>
+      <div class="warning-box"><strong>⚠️ 走位順序要誠實標示：</strong>尾隨影片實際是<strong>未授權者（P03）在前、授權者（P01）在後</strong>，與錄影紀錄表的角色欄位相反。規則用「時間差的絕對值」判定，前後順序不影響判定，但這不是經典的「授權者在前、陌生人在後」情境，明天補錄。</div>
+    </section>
+
+    <section>
+      <h3>四、骨架資料品質</h3>
+      <table class="issue-table">
+        <thead><tr><th>人員</th><th>可用幀比例</th><th>最長連續可用</th><th>評語</th></tr></thead>
+        <tbody>
+          <tr><td>P02</td><td>57～80%</td><td>1.7～5.2 秒</td><td>良好，每趟都能切出多個 30 幀窗口</td></tr>
+          <tr><td>P01（S1）</td><td>12～29%</td><td>1.2～2.4 秒</td><td>勉強可用，每趟約 1 個步態週期</td></tr>
+          <tr><td>P03（重錄）</td><td>1～72%</td><td>僅 2 趟 ≥ 2 秒</td><td>往左走的 5 趟幾乎沒有資料（1～6 幀），不足以登錄</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:.93rem;margin-top:10px;">P03 走得很快（每趟只在畫面中約 2.5 秒），而且往左走時全部失敗，P02 同方向卻正常，判斷是這個人在此場地的走法，而非鏡頭問題。因此 P03 只當尾隨者，不當授權者，非授權者的比較以 P02 為主。</p>
+    </section>
+
+    <section>
+      <h3>五、公式 2 同場次驗證（S1）</h3>
+      <p style="font-size:.93rem;margin-bottom:8px;">設定：P01 前 5 趟登錄（8 個窗口），後 5 趟當本人測試（10 個窗口）；P02（56 個窗口）與 P03（10 個窗口）當冒充者；z-score 的 μ、σ 由 S1 三人合併計算。三組資料同一場次、同一架設，避免場次差異混入。</p>
+      <table class="issue-table">
+        <thead><tr><th>設定</th><th>P01 本人（中位）</th><th>P02（中位）</th><th>P03（中位）</th><th>FRR／FAR 交會點</th></tr></thead>
+        <tbody>
+          <tr><td>改前基準（cosine）</td><td>0.992</td><td>0.988</td><td>0.986</td><td>40%／41%</td></tr>
+          <tr><td>＋方向統一＋左右腳對調（cosine）</td><td>0.992</td><td>0.986</td><td>0.985</td><td>40%／38%</td></tr>
+          <tr><td>＋z-score＋歐氏距離（距離越小越像）</td><td>4.53</td><td>6.01</td><td>6.45</td><td><strong>30%／30%</strong></td></tr>
+        </tbody>
+      </table>
+
+      <figure class="figure">
+<svg class="fps-chart" viewBox="0 0 640 210" role="img" aria-label="三種設定的 FRR 與 FAR 交會點：約 40%、約 39%、30%">
+  <line x1="190" y1="20" x2="190" y2="170" class="fps-axis"/>
+  <line x1="190" y1="170" x2="600" y2="170" class="fps-axis"/>
+  <line x1="590" y1="20" x2="590" y2="170" class="fps-ref"/>
+  <text x="590" y="14" text-anchor="middle" class="fps-tick">50%（亂猜）</text>
+  <g class="fps-bar" tabindex="0"><title>改前基準（cosine）：約 40%</title>
+    <text x="182" y="52" text-anchor="end" class="fps-label">改前基準（cosine）</text>
+    <rect x="190" y="34" width="324" height="24" rx="3" class="fps-mark"/>
+    <text x="520" y="52" class="fps-value">約 40%</text></g>
+  <g class="fps-bar" tabindex="0"><title>＋方向統一＋左右腳對調（cosine）：約 39%</title>
+    <text x="182" y="94" text-anchor="end" class="fps-label">＋方向統一＋對調</text>
+    <rect x="190" y="76" width="312" height="24" rx="3" class="fps-mark"/>
+    <text x="508" y="94" class="fps-value">約 39%</text></g>
+  <g class="fps-bar" tabindex="0"><title>＋z-score＋歐氏距離：30%</title>
+    <text x="182" y="136" text-anchor="end" class="fps-label">＋z-score＋歐氏距離</text>
+    <rect x="190" y="118" width="240" height="24" rx="3" class="fps-mark"/>
+    <text x="436" y="136" class="fps-value">30%</text></g>
+  <text x="190" y="196" class="fps-tick">0%</text>
+  <text x="408" y="196" class="fps-tick">橫軸：錯誤率（越短越好）</text>
+</svg>
+        <figcaption>▲ 圖 1：FRR 與 FAR 交會點的錯誤率（近似 EER）。z-score＋歐氏距離由約 40% 降到 30%。</figcaption>
+      </figure>
+
+      <ul class="bullet-list">
+        <li><strong>公式 2 有幫助：</strong>cosine 下本人與陌生人只差 0.004（0.992 對 0.988），歐氏距離下本人中位 4.5、陌生人 6.0～6.5，趨勢分得開。公式 1（方向統一、左右腳對調）在 cosine 上幾乎沒差，因為 cosine 本身分不開。</li>
+        <li><strong>但還不夠好：</strong>EER 30% 離實用還遠（亂猜是 50%），單靠現有步態特徵還不能可靠認人。</li>
+        <li><strong>原因很可能是資料太少，不是公式沒用：</strong>登錄 8、本人測試 10 個窗口；每趟連續可用只有 1.2～2.4 秒，約一個步態週期；腳踝偵測不穩；只有 3 人，σ 估得很粗。</li>
+        <li>這些數字是估計，只能稱「初步結果」，不能寫成準確率。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>六、尾隨偵測</h3>
+
+      <h4>6.1 先修正參數：可見行走範圍變了</h4>
+      <p style="font-size:.93rem;">S0 時門線放在 x = 470；這次鏡頭位置不同，可用的髖中點 x 只落在約 250～410，門線 470 在 10 趟中<strong>沒有任何人越過</strong>。改用 x = 320～380 後才有越線事件。</p>
+
+      <h4>6.2 發現：cosine 讓陌生人被當成授權者</h4>
+      <p style="font-size:.93rem;">用 S0 的 P01 當模板跑尾隨影片，每個被驗證的人最像 P01，cosine 在 0.91～0.995，全部判「授權」。例如其中一趟，前後兩個人都被判授權（0.995、0.993）。畫面中只有 P01 與 P03 兩人，所以其中必有一位是未授權者 P03 被當成授權者放行，這是<strong>冒充成功（FAR）的真實例子</strong>，證明公式 2 有必要。</p>
+
+      <h4>6.3 修正尾隨規則：「通過」不能依賴步態資料</h4>
+      <table class="issue-table">
+        <thead><tr><th></th><th>舊規則</th><th>新規則</th></tr></thead>
+        <tbody>
+          <tr><td>通過門線條件</td><td>越線前要有 ≥ 10 幀「可用骨架」</td><td>追蹤 ≥ 10 幀，且沿進門方向位移 ≥ 40 像素（不看骨架可不可用）</td></tr>
+          <tr><td>被擋住或走太快的人</td><td>沒有骨架 → 不算通過（隱形）</td><td>算通過；驗證不了 → 未驗證</td></tr>
+          <tr><td>走回頭的人在門線附近抖動</td><td>可能被誤判為通過</td><td>淨位移為負 → 擋掉</td></tr>
+        </tbody>
+      </table>
+      <ul class="bullet-list">
+        <li><strong>為什麼要改：</strong>尾隨者的特性就是會緊貼著授權者、被擋住、走得快，這些人最容易沒有步態資料。舊規則讓他們「隱形」，邏輯上是錯的：有人跨過門線就是通過，驗證不成功才是未驗證。</li>
+        <li><strong>順帶發現舊規則的誤報來源：</strong>舊規則算出的 18 次越線有水分。追蹤其中一個 ID，11～15 秒由 x = 413 走到 262，淨位移 −151 像素，是走回頭的人，在門線附近抖動才被誤判成通過。新規則的位移條件正確擋掉。</li>
+        <li><strong>模擬測試 10/10 通過：</strong>其中情境 9 改為「正面走（髖 x 幾乎不動）不算通過」，並新增情境 10「完全沒有骨架的緊跟者仍算通過 → 判尾隨」；這是刻意改規格，並驗證拿掉位移條件時情境 9 會失敗（測試有鑑別力）。</li>
+      </ul>
+
+      <h4>6.4 真實 S1 尾隨影片結果：仍偵測不到尾隨</h4>
+      <table class="issue-table">
+        <thead><tr><th>情境</th><th>期望</th><th>實際</th></tr></thead>
+        <tbody>
+          <tr><td>間隔約 5 秒（4 趟）</td><td>不算尾隨（超過 T = 3 秒）</td><td>未誤報（符合期望，但第二個人也多半沒被追蹤到）</td></tr>
+          <tr><td>緊跟約 1 秒（4 趟）</td><td>判定尾隨</td><td><strong>0／4</strong>：只追蹤到一個人</td></tr>
+          <tr><td>並排（2 趟）</td><td>判定尾隨</td><td><strong>0／2</strong></td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:.93rem;margin-top:10px;">以其中一趟的軌跡為例：0～9 秒畫面左側 x ≈ 258～284 一直有人，但幾乎不動（人在畫面外的桌子旁等待，只露出一部分身體）；9～10 秒才在約 <strong>1 秒</strong>內從 x ≈ 259 走到 391 並走出畫面。整段只追蹤到一個人，兩人同時出現的畫面每趟只有 2～12 幀（共約 450 幀）。</p>
+      <div class="warning-box"><strong>⚠️ 原因是錄影環境，不是規則：</strong>場地左右兩側都有桌子擋住且無法移開，可見的側走路徑只有約 1～1.5 秒；緊跟 1 秒時兩個人幾乎同時擠在這一小段，側面看過去又互相遮擋，MediaPipe 只抓得到其中一人。門檻或規則都補不回「沒看到」的人。</div>
+    </section>
+
+    <section>
+      <h3>七、口試 Demo 規劃</h3>
+      <p style="font-size:.93rem;margin-bottom:8px;">目前流程是 Jetson 錄影、MacBook 離線分析，與專案架構（邊緣端擷取、另一端 AI 分析）一致。Jetson 即時跑 MediaPipe 只有約 6～7 FPS（每幀 143～164 ms），不足以即時追蹤兩人，這個實測數據即是採用「先錄再分析」的理由。</p>
+      <table class="issue-table">
+        <thead><tr><th>層級</th><th>內容</th><th>風險</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1. 保底</strong></td><td>播放事先處理好的<strong>標註影片</strong>（骨架、追蹤 ID、門線、事件文字），搭配簡報講公式與消融表</td><td>很低</td></tr>
+          <tr><td><strong>2. 半現場</strong></td><td>現場用 Jetson 錄一趟，傳到 MacBook 跑分析，當場看結果</td><td>中：傳檔與處理約 1～2 分鐘，出問題退回第 1 層</td></tr>
+          <tr><td>3. 即時</td><td>Jetson 即時辨識</td><td>高：FPS 不夠，列入未來工作（TensorRT、更輕的姿態模型）</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h3>八、已知問題與限制</h3>
+      <ul class="bullet-list">
+        <li>受試者只有 3 人，且 P03 的可用資料極少；登錄與測試窗口數很少，EER 約 30% 只是初步結果。</li>
+        <li>場地兩側被桌子擋住，可見行走路徑約 1～1.5 秒，緊跟型尾隨在此場地偵測不到；真實影片目前尾隨 0 次。</li>
+        <li>S1 尾隨影片走位是未授權者在前，與經典尾隨情境順序相反。</li>
+        <li>歐氏距離門檻尚未定案，同場次分析中，距離約 4.8 時 FRR 與 FAR 各約 30%；要降低冒充的風險可把門檻調小（授權者被擋的機率會上升）。</li>
+        <li>歐氏距離與 cosine 的單位不同，簡報以 FRR／FAR／EER 等百分比指標比較。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>九、後續規劃</h3>
+      <div class="next-steps">
+        <ul class="bullet-list">
+          <li><strong>11/17</strong>：補錄經典順序（P01 在前、P03 在後，緊跟 1 秒 ×4 趟），確認第二個人是否被偵測到；視結果決定是否改用人物偵測器（如 YOLOv8）輔助追蹤。</li>
+          <li><strong>11/17</strong>：製作標註影片（Demo 保底層）、整理消融表與簡報。</li>
+          <li><strong>11/18</strong>：預演與問答準備。</li>
+          <li><strong>11/19</strong>：口試。</li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<footer>
+  &copy; 靜宜大學資訊工程學系 — 115 學年度第 1 學期 專題製作
+</footer>
+
+</body>
+</html>
