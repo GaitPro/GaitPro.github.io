@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>進度報告 — 2026/11/18</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+      color: #333;
+      line-height: 1.8;
+      background: #f5f7fa;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1a3a5c, #2a6496);
+      color: #fff;
+      text-align: center;
+      padding: 50px 20px 36px;
+    }
+    header h1 { font-size: 2rem; margin-bottom: 10px; }
+    header p  { font-size: 1rem; opacity: .85; }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px 60px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: 28px 0 0 0;
+      color: #2a6496;
+      text-decoration: none;
+      font-size: .95rem;
+      font-weight: bold;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 36px 40px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.08);
+      margin-top: 28px;
+    }
+
+    .meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      background: #f0f4f8;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 28px;
+      font-size: .92rem;
+      color: #555;
+    }
+    .meta span strong { color: #1a3a5c; }
+
+    section { margin-bottom: 36px; }
+
+    section h3 {
+      font-size: 1.05rem;
+      color: #0056b3;
+      border-left: 3px solid #0056b3;
+      padding-left: 10px;
+      margin-bottom: 14px;
+    }
+
+    section h4 {
+      font-size: .98rem;
+      color: #1a3a5c;
+      margin: 16px 0 8px 0;
+    }
+
+    .summary-text {
+      background: #f0f4f8;
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-size: .96rem;
+      color: #444;
+      border-left: 4px solid #2a6496;
+    }
+
+    .code-block {
+      background: #1e1e2e;
+      color: #cdd6f4;
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: .88rem;
+      line-height: 1.7;
+      overflow-x: auto;
+      margin: 10px 0;
+      white-space: pre;
+    }
+    .code-block .comment { color: #6c7086; }
+    .code-block .cmd     { color: #89dceb; }
+    .code-block .kw      { color: #cba6f7; }
+    .code-block .str     { color: #a6e3a1; }
+    .code-block .fn      { color: #89b4fa; }
+    .code-block .ok      { color: #a6e3a1; }
+    .code-block .err     { color: #f38ba8; }
+
+    .result-box {
+      background: #f0fff4;
+      border: 1px solid #68d391;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: .93rem;
+      color: #276749;
+      margin-top: 10px;
+    }
+    .result-box strong { color: #1a5236; }
+
+    .warning-box {
+      background: #fff8e1;
+      border: 1px solid #f0c040;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: .93rem;
+      color: #555;
+      margin-top: 14px;
+    }
+    .warning-box strong { color: #856404; }
+
+    .inline-code {
+      background: #eef1f5;
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: .9em;
+    }
+
+    table.issue-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: .92rem;
+    }
+    table.issue-table th,
+    table.issue-table td {
+      border: 1px solid #e0e6ef;
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    table.issue-table th {
+      background: #f0f4f8;
+      color: #1a3a5c;
+      font-weight: bold;
+    }
+    table.issue-table tr:nth-child(even) td {
+      background: #fafbfd;
+    }
+
+    .bullet-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 8px;
+    }
+    .bullet-list li {
+      padding: 6px 0 6px 20px;
+      position: relative;
+      font-size: .95rem;
+      border-bottom: 1px solid #eef1f5;
+    }
+    .bullet-list li:last-child { border-bottom: none; }
+    .bullet-list li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: #2a6496;
+    }
+
+    .next-steps {
+      background: #eef4ff;
+      border-radius: 10px;
+      padding: 20px 24px;
+    }
+    .next-steps h4 {
+      font-size: 1rem;
+      color: #1a3a5c;
+      margin-bottom: 10px;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      background: #000;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0,0,0,.15);
+      margin: 12px 0;
+    }
+    .video-wrapper video {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .video-caption {
+      font-size: .88rem;
+      color: #666;
+      text-align: center;
+      margin-top: 6px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      background: #1a3a5c;
+      color: rgba(255,255,255,.7);
+      font-size: .85rem;
+    }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.5rem; }
+      .container { padding: 0 14px 48px; }
+      .card { padding: 24px 20px; }
+      .meta { flex-direction: column; gap: 8px; }
+      table.issue-table { font-size: .82rem; }
+      table.issue-table th, table.issue-table td { padding: 8px 6px; }
+    }
+    .figure { margin: 16px 0; text-align: center; }
+    .figure img {
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 14px rgba(0,0,0,.15);
+    }
+    .figure-row { display: flex; gap: 16px; align-items: flex-start; }
+    .figure-row .figure { flex: 1; }
+    .figure figcaption { font-size: .88rem; color: #666; margin-top: 6px; }
+
+    .fps-chart { width: 100%; height: auto; font-family: inherit; }
+    .fps-label { font-size: 13px; fill: #333; }
+    .fps-value { font-size: 13px; fill: #333; font-weight: bold; }
+    .fps-tick  { font-size: 12px; fill: #777; }
+    .fps-mark  { fill: #2a78d6; }
+    .fps-axis  { stroke: #c9ced6; stroke-width: 1; }
+    .fps-ref   { stroke: #8a8984; stroke-width: 1; stroke-dasharray: 4 4; }
+    .fps-bar:hover .fps-mark, .fps-bar:focus .fps-mark { fill: #1f5fae; }
+    .fps-bar:focus { outline: none; }
+
+    @media (max-width: 600px) { .figure-row { flex-direction: column; } }
+
+  
+    .formula {
+      background: #f7f9fc; border: 1px solid #e0e6ef; border-radius: 8px;
+      padding: 12px 16px; margin: 10px 0; font-family: "Cambria Math", "Times New Roman", serif;
+      font-size: 1.05rem; text-align: center; color: #1a3a5c;
+    }
+    .pipeline { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 12px 0; font-size: .9rem; }
+    .pipeline span.step { background: #eef4ff; border: 1px solid #c9d8f0; border-radius: 6px; padding: 6px 10px; color: #1a3a5c; }
+    .pipeline span.arrow { color: #2a6496; font-weight: bold; }
+    .cv-chart { width: 100%; height: auto; font-family: inherit; --s1: #2a78d6; --s2: #eb6834; }
+    .cv-title { font-size: 15px; font-weight: bold; fill: #1a3a5c; }
+    .cv-txt   { font-size: 13px; fill: #555; }
+    .cv-val   { font-size: 13px; fill: #333; font-weight: bold; }
+    .cv-axis  { stroke: #c9ced6; stroke-width: 1; }
+    .cv-arrow { stroke-width: 2; fill: none; }
+    .cv-dist  { stroke: #333; stroke-width: 1.5; stroke-dasharray: 4 3; }
+    .cv-pt:hover circle, .cv-pt:focus circle { r: 8; }
+    .cv-pt:focus { outline: none; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>尾隨補錄、S2 重錄、消融實驗結果與限制分析</h1>
+  <p>應用視覺大語言模型於步態分析 — 2026 年 11 月 17 日至 18 日（口試前）</p>
+</header>
+
+<div class="container">
+  <a class="back-link" href="index.html">← 返回主頁</a>
+
+  <div class="card">
+    <div class="meta">
+      <span><strong>日期：</strong>2026 年 11 月 17 日至 18 日</span>
+      <span><strong>指導教授：</strong>朱學亭老師</span>
+      <span><strong>目前階段：</strong>階段 4：公式消融；階段 5：尾隨偵測；階段 6：口試準備</span>
+    </div>
+
+    <section>
+      <h3>進度摘要</h3>
+      <div class="summary-text">
+        11/16 的尾隨影片因兩人走位與場地遮擋，第二個人幾乎偵測不到，所以 11/17 補錄、11/18 再重錄一次（場次 S2），並用 S1 三人資料跑完整消融表。
+        <strong>z-score＋歐氏距離使 3 人 Rank-1 由約 71–74% 提升到約 83–86%</strong>，cosine 在門檻 0.8 時 FAR 為 100%（無法設門檻）。
+        <strong>方向統一與左右腳對調在此資料集未見準確率提升</strong>，已查出方向自動判斷在 S1 失準的原因（站著不動的窗口、部分標籤與實際方向不符）。
+        尾隨方面，S2 已能<strong>同時追蹤兩人</strong>並輸出越線順序與時間差，但<strong>沒有任何單一門檻能同時避免擋下授權者與放行後面的人</strong>，所以尾隨的身分驗證準確度不宣稱。以下如實記錄。
+      </div>
+    </section>
+
+    <section>
+      <h3>一、完成項目</h3>
+      <table class="issue-table">
+        <thead><tr><th>項目</th><th>內容</th><th>狀態</th></tr></thead>
+        <tbody>
+          <tr><td>S1 尾隨補錄（11/17）</td><td>P01 在前、P03 在後共 10 趟；Jetson 連線逾時，11/18 才傳回</td><td>完成</td></tr>
+          <tr><td>S2 重錄（11/18）</td><td>兩人尾隨 10 趟（緊跟 1 秒 ×4、間隔 5 秒 ×4、並排 ×2）＋單人 P01、P03 各 10 趟</td><td>完成</td></tr>
+          <tr><td>消融實驗</td><td>S1 三人 84 樣本，5 種設定的 Rank-1 與 EER</td><td>完成</td></tr>
+          <tr><td>PR #16</td><td>尾隨偵測支援 z-score＋歐氏距離與指定授權者</td><td>已合併</td></tr>
+          <tr><td>PR #18</td><td><span class="inline-code">evaluate.py</span> 新增 <span class="inline-code">--min-travel</span>，過濾站著不動的窗口（預設不過濾，結果與舊版相同）</td><td>已開，待組員審查</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h3>二、為什麼要重錄：兩人貼近時，後面的人會被丟掉</h3>
+      <div class="warning-box">
+        <strong>S1（11/17）：</strong>10 趟中每趟最多只有 1 人被判定越線，0 趟判出尾隨。檢查畫面發現兩人近乎並肩、離鏡頭太近、腳出畫面，MediaPipe 在兩人重疊時只留住其中一人；
+        這是<strong>錄影條件的限制，不是尾隨規則的錯誤</strong>。
+      </div>
+      <ul class="bullet-list">
+        <li>S2 調整鏡頭位置並拉開前後距離後，兩人可以<strong>同時被追蹤</strong>（同一趟內兩個 ID 的出現時間重疊）。</li>
+        <li>但可見行走範圍縮到像素 x 約 150–490，人走到約 390–490 就被丟掉，所以門線由 520 改為 <strong>350</strong>。</li>
+        <li>通過後仍有人轉身走回來，以「只算進門方向（由左往右）」的條件濾掉。</li>
+        <li>標示「間隔 5 秒」的趟次，實測越線時間差只有約 1.6–1.8 秒，<strong>原因尚未查證</strong>。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>三、消融實驗（S1，3 人，84 樣本，測試 42）</h3>
+      <table class="issue-table">
+        <thead><tr><th>設定</th><th>比對</th><th>Rank-1</th><th>EER</th></tr></thead>
+        <tbody>
+          <tr><td>改前基準</td><td>cosine</td><td>71.4%</td><td>18.5%</td></tr>
+          <tr><td>＋方向統一</td><td>cosine</td><td>73.8%</td><td>20.8%</td></tr>
+          <tr><td>＋方向統一＋左右腳對調</td><td>cosine</td><td>69.0%</td><td>31.0%</td></tr>
+          <tr><td>＋方向統一＋左右腳對調＋z-score</td><td>歐氏距離</td><td>83.3%</td><td>26.2%（門檻 5.84）</td></tr>
+          <tr><td>只加 z-score</td><td>歐氏距離</td><td>85.7%</td><td>21.4%（門檻 6.33）</td></tr>
+        </tbody>
+      </table>
+      <ul class="bullet-list">
+        <li><strong>cosine 無法設門檻：</strong>同一人平均 0.9915、不同人 0.9820，門檻 0.8 時 FAR 為 100%（已知問題 #4 證實）。</li>
+        <li><strong>z-score＋歐氏距離有效：</strong>Rank-1 提升約 10–14 個百分點。</li>
+        <li><strong>方向統一與左右腳對調未見準確率提升：</strong>S0 單人曾證明方向干擾下降（差距 0.0058 → 0.0024，−59%），但在 3 人資料上看不到辨識率改善。</li>
+        <li><strong>差距不顯著：</strong>測試只有 42 個樣本，1 個樣本＝2.4%，相鄰兩列只差 1～2 個樣本，不宣稱誰較好。</li>
+      </ul>
+      <div class="result-box">
+        <strong>過濾站著不動的窗口（<span class="inline-code">--min-travel 40</span>）：</strong>樣本 84 → 36（測試 18，P03 只剩 2 個樣本）。
+        基準 cosine 88.9% / 16.7%、只加 z-score 94.4% / 22.2%。這是「改變了樣本」，不是改變公式，<strong>數字不可與上表直接比較</strong>。
+      </div>
+    </section>
+
+    <section>
+      <h3>四、方向自動判斷在 S1 為何失準（60.7%）</h3>
+      <p>S0 的方向判斷全對（33/33），S1 卻只有 60.7%。逐窗口檢查後查出兩個原因：</p>
+      <ul class="bullet-list">
+        <li><strong>站著不動的窗口：</strong>每趟開頭人站在 x 約 235–240 不動，30 幀窗口的斜率接近 0，正負號只是雜訊（例如 −4.9、+2.2 px/s 都被判成方向）。這種窗口本身也不是步態。</li>
+        <li><strong>部分趟次標籤與實際方向不符：</strong>P02 標為「往左」的趟次，真正在走的窗口 x 從 240 增加到 360 以上（往右）。P01 的標籤正確。</li>
+      </ul>
+      <p>方向判斷本來就不看檔名，所以標籤不符不影響特徵，但簡報會如實說明。過濾靜止窗口後準確率升到 69.4%，其餘主要來自標籤不符。</p>
+    </section>
+
+    <section>
+      <h3>五、S2 尾隨判定：歐氏距離門檻掃描</h3>
+      <p>登錄 S1 的 P01、公式 dir＋swap＋z-score、歐氏距離、門線 350、進門方向由左往右。</p>
+      <table class="issue-table">
+        <thead><tr><th>門檻</th><th>AUTH_PASS</th><th>TAILGATE</th><th>UNVERIFIED</th><th>現象</th></tr></thead>
+        <tbody>
+          <tr><td>5.0（嚴）</td><td>3</td><td>3</td><td>12</td><td>授權者 P01 也被擋下（FRR 高）</td></tr>
+          <tr><td>5.84（S1 的 EER 點）</td><td>4</td><td>2</td><td>12</td><td>同上</td></tr>
+          <tr><td>6.5（鬆）</td><td>8</td><td>1</td><td>8</td><td>P03 被放行，尾隨判不出來（FAR 高）</td></tr>
+        </tbody>
+      </table>
+      <div class="warning-box">
+        <strong>沒有任何單一門檻使 S2 的判定與預期一致。</strong>S2 中 P01 自己對 S1 模板的距離為 6.2–7.9，高於 S1 同一人的平均 5.13，
+        推測是登錄與測試的鏡頭設定不同造成模板失準（尚未驗證）。嘗試在 S2 同設定下補錄單人當登錄，但連續可用幀太短（P01 僅一趟有 54 幀、P03 最長 17 幀），湊不出 30 幀窗口樣本，因此不再補資料。
+      </div>
+      <p>已驗證的是尾隨<strong>規則本身</strong>：模擬情境 9/9 通過；S0 真步態 5 趟全部通過、無假警報；S2 能同時追蹤兩人並輸出越線順序與時間差。</p>
+    </section>
+
+    <section>
+      <h3>六、限制（如實說明）</h3>
+      <ul class="bullet-list">
+        <li>只有 3 人、P03 樣本極少，EER 約 21–26%、Rank-1 約 83–94%，差距不具統計顯著性。</li>
+        <li>S1 登錄、S2 測試的鏡頭設定不同；尾隨的身分驗證準確度不宣稱。</li>
+        <li>腳踝出畫面或被遮擋，連續可用幀僅 0.2–2.8 秒（已知問題 #2、#12）。</li>
+        <li>兩人貼近時 MediaPipe 會丟掉其中一人。</li>
+        <li>尾隨偵測為離線驗證，Jetson Nano 即時只有約 6–7 FPS，尚未即時執行。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>七、後續規劃</h3>
+      <div class="next-steps">
+        <ul class="bullet-list">
+          <li><strong>11/18</strong>：整理簡報表格、預演與問答準備。</li>
+          <li><strong>11/19</strong>：口試。</li>
+          <li><strong>口試後</strong>：以更多受試者、固定鏡頭設定重新錄製登錄與測試；評估其他多人姿態模型以降低兩人重疊時丟人的問題。</li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<footer>
+  &copy; 靜宜大學資訊工程學系 — 115 學年度第 1 學期 專題製作
+</footer>
+
+</body>
+</html>

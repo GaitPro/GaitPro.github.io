@@ -466,6 +466,40 @@
       .metric-value { font-size: 2rem; }
       .timeline-wrap, .ref-wrap { padding: 22px 24px; }
     }
+    /* ===== Results dashboard (2026-11-18) ===== */
+    .rs-card { background: #f7fafc; border: 1px solid var(--border); border-radius: 12px; padding: 22px 24px; margin-bottom: 22px; --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; }
+    .rs-card h3 { font-size: 1.05rem; color: var(--primary); margin-bottom: 2px; }
+    .rs-card .rs-sub { font-size: .85rem; color: var(--text-soft); margin-bottom: 14px; }
+    .rs-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: .85rem; color: var(--text); margin-bottom: 12px; }
+    .rs-legend span::before { content: ""; display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; background: var(--c); }
+    .rs-row { display: grid; grid-template-columns: 220px 1fr; gap: 12px; align-items: center; padding: 8px 0; border-top: 1px solid var(--border); }
+    .rs-row:first-of-type { border-top: 0; }
+    .rs-name { font-size: .88rem; color: var(--text); line-height: 1.4; }
+    .rs-name small { display: block; color: var(--text-soft); font-size: .78rem; }
+    .rs-bars { display: flex; flex-direction: column; gap: 2px; }
+    .rs-bar { position: relative; display: flex; align-items: center; height: 18px; outline: none; }
+    .rs-fill { display: block; height: 14px; min-width: 2px; background: var(--c); border-radius: 0 4px 4px 0; }
+    .rs-val { margin-left: 8px; font-size: .82rem; font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .rs-bar::after { content: attr(data-tip); position: absolute; left: 0; bottom: 22px; background: #1a1f2e; color: #fff; font-size: .78rem; line-height: 1.4; padding: 5px 9px; border-radius: 6px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .12s; z-index: 5; }
+    .rs-bar:hover::after, .rs-bar:focus::after { opacity: 1; }
+    .rs-bar:hover .rs-fill, .rs-bar:focus .rs-fill { filter: brightness(.92); }
+    .rs-note { font-size: .84rem; color: var(--text-soft); margin-top: 12px; }
+    .rs-note strong { color: var(--primary); }
+    .rs-two { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+    .rs-two .rs-card { margin-bottom: 0; }
+    .rs-two .rs-row { grid-template-columns: 1fr; gap: 4px; }
+    details.rs-table { margin-top: 12px; font-size: .85rem; }
+    details.rs-table summary { cursor: pointer; color: var(--accent); }
+    details.rs-table table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    details.rs-table th, details.rs-table td { border: 1px solid var(--border); padding: 5px 8px; text-align: left; background: #fff; }
+    details.rs-table th { background: var(--accent-soft); color: var(--primary); }
+    .rs-limits { list-style: disc; padding-left: 22px; font-size: .9rem; color: var(--text); }
+    .rs-limits li { padding: 3px 0; }
+    .rs-more { text-align: center; margin-top: 18px; }
+    @media (max-width: 760px) {
+      .rs-row { grid-template-columns: 1fr; gap: 4px; }
+      .rs-two { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 
@@ -514,9 +548,206 @@
         </div>
 
         <div class="cta-wrap">
+          <a class="cta-btn" href="#results">
+            <span>📊</span>
+            <span data-zh="查看成果數據" data-en="View Results">查看成果數據</span>
+          </a>
           <a class="cta-btn" href="#progress">
             <span>🚀</span>
             <span data-zh="查看專題進度" data-en="View Project Progress">查看專題進度</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Results dashboard (2026-11-18) ===== -->
+    <section class="block" id="results">
+      <div class="metrics-block">
+        <div class="metrics-head">
+          <h2 data-zh="成果數據展示" data-en="Results at a Glance">成果數據展示</h2>
+          <p data-zh="2026/11/12–11/18 實測｜離線評估｜3 位受試者（樣本少，數字為初步結果）"
+             data-en="Measured 2026/11/12–11/18 | offline evaluation | 3 subjects (small sample; preliminary results)">2026/11/12–11/18 實測｜離線評估｜3 位受試者（樣本少，數字為初步結果）</p>
+        </div>
+
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-value v-blue">83–86%</div>
+            <div class="metric-label" data-zh="Rank-1（3 人）<br>z-score＋歐氏距離<br>（改前基準 71–74%）" data-en="Rank-1 (3 people)<br>z-score + Euclidean<br>(baseline 71–74%)">Rank-1（3 人）<br>z-score＋歐氏距離<br>（改前基準 71–74%）</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value v-coral">FAR 100%</div>
+            <div class="metric-label" data-zh="cosine 在門檻 0.8<br>陌生人全被放行<br>（同 0.9915／異 0.9820）" data-en="cosine at threshold 0.8<br>accepts every stranger<br>(same 0.9915 / diff 0.9820)">cosine 在門檻 0.8<br>陌生人全被放行<br>（同 0.9915／異 0.9820）</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value v-green">−59%</div>
+            <div class="metric-label" data-zh="方向干擾（S0 單人）<br>方向統一後差距<br>0.0058 → 0.0024" data-en="Direction interference (S0)<br>gap after direction unification<br>0.0058 → 0.0024">方向干擾（S0 單人）<br>方向統一後差距<br>0.0058 → 0.0024</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value v-orange">9 / 9</div>
+            <div class="metric-label" data-zh="尾隨規則模擬情境通過<br>S0 真步態 5 趟<br>無假警報" data-en="Tailgating-rule simulations passed<br>5 real-gait trips on S0,<br>no false alarms">尾隨規則模擬情境通過<br>S0 真步態 5 趟<br>無假警報</div>
+          </div>
+        </div>
+
+        <!-- Chart 1: S1 ablation -->
+        <div class="rs-card">
+          <h3 data-zh="身分辨識消融實驗（S1，3 人，測試 42 樣本）" data-en="Identity-recognition ablation (S1, 3 people, 42 test samples)">身分辨識消融實驗（S1，3 人，測試 42 樣本）</h3>
+          <div class="rs-sub" data-zh="每導入一項處理就重新量測；同一組資料、同一種切分" data-en="Re-measured after each addition; same data, same split">每導入一項處理就重新量測；同一組資料、同一種切分</div>
+          <div class="rs-legend">
+            <span style="--c:#2a78d6" data-zh="Rank-1 準確率（越高越好）" data-en="Rank-1 accuracy (higher is better)">Rank-1 準確率（越高越好）</span>
+            <span style="--c:#eb6834" data-zh="EER 等錯誤率（越低越好）" data-en="EER (lower is better)">EER 等錯誤率（越低越好）</span>
+          </div>
+          <div class="rs-row">
+            <div class="rs-name"><span data-zh="改前基準" data-en="Baseline">改前基準</span><small>cosine</small></div>
+            <div class="rs-bars">
+              <div class="rs-bar" tabindex="0" data-tip="Rank-1 71.4%"><span class="rs-fill" style="--c:#2a78d6;width:71.4%"></span><span class="rs-val">71.4%</span></div>
+              <div class="rs-bar" tabindex="0" data-tip="EER 18.5%"><span class="rs-fill" style="--c:#eb6834;width:18.5%"></span><span class="rs-val">18.5%</span></div>
+            </div>
+          </div>
+          <div class="rs-row">
+            <div class="rs-name"><span data-zh="＋方向統一" data-en="+ direction unification">＋方向統一</span><small>cosine</small></div>
+            <div class="rs-bars">
+              <div class="rs-bar" tabindex="0" data-tip="Rank-1 73.8%"><span class="rs-fill" style="--c:#2a78d6;width:73.8%"></span><span class="rs-val">73.8%</span></div>
+              <div class="rs-bar" tabindex="0" data-tip="EER 20.8%"><span class="rs-fill" style="--c:#eb6834;width:20.8%"></span><span class="rs-val">20.8%</span></div>
+            </div>
+          </div>
+          <div class="rs-row">
+            <div class="rs-name"><span data-zh="＋方向統一＋左右腳對調" data-en="+ direction + leg swap">＋方向統一＋左右腳對調</span><small>cosine</small></div>
+            <div class="rs-bars">
+              <div class="rs-bar" tabindex="0" data-tip="Rank-1 69.0%"><span class="rs-fill" style="--c:#2a78d6;width:69%"></span><span class="rs-val">69.0%</span></div>
+              <div class="rs-bar" tabindex="0" data-tip="EER 31.0%"><span class="rs-fill" style="--c:#eb6834;width:31%"></span><span class="rs-val">31.0%</span></div>
+            </div>
+          </div>
+          <div class="rs-row">
+            <div class="rs-name"><span data-zh="＋方向統一＋左右腳對調＋z-score" data-en="+ direction + swap + z-score">＋方向統一＋左右腳對調＋z-score</span><small data-zh="歐氏距離" data-en="Euclidean distance">歐氏距離</small></div>
+            <div class="rs-bars">
+              <div class="rs-bar" tabindex="0" data-tip="Rank-1 83.3%"><span class="rs-fill" style="--c:#2a78d6;width:83.3%"></span><span class="rs-val">83.3%</span></div>
+              <div class="rs-bar" tabindex="0" data-tip="EER 26.2%"><span class="rs-fill" style="--c:#eb6834;width:26.2%"></span><span class="rs-val">26.2%</span></div>
+            </div>
+          </div>
+          <div class="rs-row">
+            <div class="rs-name"><span data-zh="只加 z-score" data-en="z-score only">只加 z-score</span><small data-zh="歐氏距離" data-en="Euclidean distance">歐氏距離</small></div>
+            <div class="rs-bars">
+              <div class="rs-bar" tabindex="0" data-tip="Rank-1 85.7%"><span class="rs-fill" style="--c:#2a78d6;width:85.7%"></span><span class="rs-val">85.7%</span></div>
+              <div class="rs-bar" tabindex="0" data-tip="EER 21.4%"><span class="rs-fill" style="--c:#eb6834;width:21.4%"></span><span class="rs-val">21.4%</span></div>
+            </div>
+          </div>
+          <div class="rs-note"
+            data-zh="<strong>可以宣稱：</strong>z-score＋歐氏距離使 Rank-1 由約 71–74% 提升到約 83–86%，且 cosine 無法設門檻。<strong>不宣稱：</strong>方向統一與左右腳對調在此資料集未見準確率提升；測試只有 42 個樣本，1 個樣本＝2.4%，相鄰兩列的差距只差 1～2 個樣本。"
+            data-en="<strong>Supported:</strong> z-score + Euclidean distance lifts Rank-1 from about 71–74% to about 83–86%, and cosine cannot be thresholded. <strong>Not claimed:</strong> direction unification and leg swap show no accuracy gain on this dataset; with 42 test samples one sample is 2.4%, so neighbouring rows differ by only 1–2 samples.">
+            <strong>可以宣稱：</strong>z-score＋歐氏距離使 Rank-1 由約 71–74% 提升到約 83–86%，且 cosine 無法設門檻。<strong>不宣稱：</strong>方向統一與左右腳對調在此資料集未見準確率提升；測試只有 42 個樣本，1 個樣本＝2.4%，相鄰兩列的差距只差 1～2 個樣本。
+          </div>
+          <details class="rs-table">
+            <summary data-zh="表格檢視" data-en="Table view">表格檢視</summary>
+            <table>
+              <tr><th data-zh="設定" data-en="Setting">設定</th><th data-zh="比對" data-en="Metric">比對</th><th>Rank-1</th><th>EER</th></tr>
+              <tr><td data-zh="改前基準" data-en="Baseline">改前基準</td><td>cosine</td><td>71.4%</td><td>18.5%</td></tr>
+              <tr><td data-zh="＋方向統一" data-en="+ direction unification">＋方向統一</td><td>cosine</td><td>73.8%</td><td>20.8%</td></tr>
+              <tr><td data-zh="＋方向統一＋左右腳對調" data-en="+ direction + leg swap">＋方向統一＋左右腳對調</td><td>cosine</td><td>69.0%</td><td>31.0%</td></tr>
+              <tr><td data-zh="＋方向統一＋左右腳對調＋z-score" data-en="+ direction + swap + z-score">＋方向統一＋左右腳對調＋z-score</td><td data-zh="歐氏" data-en="Euclid.">歐氏</td><td>83.3%</td><td>26.2%</td></tr>
+              <tr><td data-zh="只加 z-score" data-en="z-score only">只加 z-score</td><td data-zh="歐氏" data-en="Euclid.">歐氏</td><td>85.7%</td><td>21.4%</td></tr>
+            </table>
+          </details>
+        </div>
+
+        <div class="rs-two">
+          <!-- Chart 2: S0 direction interference -->
+          <div class="rs-card">
+            <h3 data-zh="方向干擾（S0，單人 33 樣本）" data-en="Direction interference (S0, one person, 33 samples)">方向干擾（S0，單人 33 樣本）</h3>
+            <div class="rs-sub" data-zh="往左走與往右走的 cosine 差距，越小代表方向影響越小" data-en="cosine gap between left- and right-walking; smaller means less direction effect">往左走與往右走的 cosine 差距，越小代表方向影響越小</div>
+            <div class="rs-row">
+              <div class="rs-name" data-zh="改前基準" data-en="Baseline">改前基準</div>
+              <div class="rs-bars"><div class="rs-bar" tabindex="0" data-tip="0.0058"><span class="rs-fill" style="--c:#2a78d6;width:100%"></span><span class="rs-val">0.0058</span></div></div>
+            </div>
+            <div class="rs-row">
+              <div class="rs-name" data-zh="＋方向統一" data-en="+ direction unification">＋方向統一</div>
+              <div class="rs-bars"><div class="rs-bar" tabindex="0" data-tip="0.0024（−59%）"><span class="rs-fill" style="--c:#2a78d6;width:41.4%"></span><span class="rs-val">0.0024（−59%）</span></div></div>
+            </div>
+            <div class="rs-row">
+              <div class="rs-name" data-zh="＋左右腳對調" data-en="+ leg swap">＋左右腳對調</div>
+              <div class="rs-bars"><div class="rs-bar" tabindex="0" data-tip="0.0017（−71%）"><span class="rs-fill" style="--c:#2a78d6;width:29.3%"></span><span class="rs-val">0.0017（−71%）</span></div></div>
+            </div>
+            <div class="rs-note" data-zh="單人資料只能證明「方向干擾下降」，不能證明辨識率提升。" data-en="One-person data can show reduced direction interference, not improved recognition.">單人資料只能證明「方向干擾下降」，不能證明辨識率提升。</div>
+          </div>
+
+          <!-- Chart 3: FPS -->
+          <div class="rs-card">
+            <h3 data-zh="為什麼「先錄影、再離線抽骨架」" data-en="Why record first, extract skeletons offline">為什麼「先錄影、再離線抽骨架」</h3>
+            <div class="rs-sub" data-zh="Jetson Nano 實測幀率（FPS，越高越流暢）" data-en="Measured frame rate on Jetson Nano (FPS, higher is smoother)">Jetson Nano 實測幀率（FPS，越高越流暢）</div>
+            <div class="rs-row">
+              <div class="rs-name" data-zh="鏡頭＋MediaPipe 即時" data-en="Camera + MediaPipe live">鏡頭＋MediaPipe 即時</div>
+              <div class="rs-bars"><div class="rs-bar" tabindex="0" data-tip="6.1–6.9 FPS"><span class="rs-fill" style="--c:#eb6834;width:21.7%"></span><span class="rs-val">6.1–6.9</span></div></div>
+            </div>
+            <div class="rs-row">
+              <div class="rs-name" data-zh="只錄影（640×360）" data-en="Record only (640×360)">只錄影（640×360）</div>
+              <div class="rs-bars"><div class="rs-bar" tabindex="0" data-tip="30.0 FPS，掉幀 0"><span class="rs-fill" style="--c:#2a78d6;width:100%"></span><span class="rs-val">30.0</span></div></div>
+            </div>
+            <div class="rs-note" data-zh="即時推論約 6–7 FPS，不足以做步態；改為 30 FPS 錄影、離線抽骨架。因此尾隨偵測為<strong>離線驗證</strong>。" data-en="Live inference at about 6–7 FPS is too slow for gait; we record at 30 FPS and extract skeletons offline, so tailgating detection is <strong>validated offline</strong>.">即時推論約 6–7 FPS，不足以做步態；改為 30 FPS 錄影、離線抽骨架。因此尾隨偵測為<strong>離線驗證</strong>。</div>
+          </div>
+        </div>
+
+        <!-- Chart 4: S2 threshold sweep -->
+        <div class="rs-card" style="margin-top:22px">
+          <h3 data-zh="尾隨判定：歐氏距離門檻掃描（S2，兩人一前一後 10 趟）" data-en="Tailgating decisions: Euclidean-threshold sweep (S2, 10 two-person trips)">尾隨判定：歐氏距離門檻掃描（S2，兩人一前一後 10 趟）</h3>
+          <div class="rs-sub" data-zh="授權者在前、未授權者在後；各事件在 10 趟中出現的次數" data-en="Authorized person first, unauthorized follower behind; event counts over 10 trips">授權者在前、未授權者在後；各事件在 10 趟中出現的次數</div>
+          <div class="rs-legend">
+            <span style="--c:#2a78d6" data-zh="授權通過 AUTH_PASS" data-en="Authorized pass (AUTH_PASS)">授權通過 AUTH_PASS</span>
+            <span style="--c:#eb6834" data-zh="判定尾隨 TAILGATE" data-en="Tailgating (TAILGATE)">判定尾隨 TAILGATE</span>
+            <span style="--c:#1baf7a" data-zh="未驗證通過 UNVERIFIED" data-en="Unverified pass (UNVERIFIED)">未驗證通過 UNVERIFIED</span>
+          </div>
+          <div class="rs-row">
+            <div class="rs-name"><span data-zh="門檻 5.0（嚴）" data-en="Threshold 5.0 (strict)">門檻 5.0（嚴）</span><small data-zh="授權者也被擋下" data-en="even the authorized person is rejected">授權者也被擋下</small></div>
+            <div class="rs-bars">
+              <div class="rs-bar" tabindex="0" data-tip="AUTH_PASS 3"><span class="rs-fill" style="--c:#2a78d6;width:25%"></span><span class="rs-val">3</span></div>
+              <div class="rs-bar" tabindex="0" data-tip="TAILGATE 3"><span class="rs-fill" style="--c:#eb6834;width:25%"></span><span class="rs-val">3</span></div>
+              <div class="rs-bar" tabindex="0" data-tip="UNVERIFIED 12"><span class="rs-fill" style="--c:#1baf7a;width:100%"></span><span class="rs-val">12</span></div>
+            </div>
+          </div>
+          <div class="rs-row">
+            <div class="rs-name"><span data-zh="門檻 5.84（S1 的 EER 點）" data-en="Threshold 5.84 (S1 EER point)">門檻 5.84（S1 的 EER 點）</span></div>
+            <div class="rs-bars">
+              <div class="rs-bar" tabindex="0" data-tip="AUTH_PASS 4"><span class="rs-fill" style="--c:#2a78d6;width:33.3%"></span><span class="rs-val">4</span></div>
+              <div class="rs-bar" tabindex="0" data-tip="TAILGATE 2"><span class="rs-fill" style="--c:#eb6834;width:16.7%"></span><span class="rs-val">2</span></div>
+              <div class="rs-bar" tabindex="0" data-tip="UNVERIFIED 12"><span class="rs-fill" style="--c:#1baf7a;width:100%"></span><span class="rs-val">12</span></div>
+            </div>
+          </div>
+          <div class="rs-row">
+            <div class="rs-name"><span data-zh="門檻 6.5（鬆）" data-en="Threshold 6.5 (loose)">門檻 6.5（鬆）</span><small data-zh="後面的人被放行" data-en="the follower is let through">後面的人被放行</small></div>
+            <div class="rs-bars">
+              <div class="rs-bar" tabindex="0" data-tip="AUTH_PASS 8"><span class="rs-fill" style="--c:#2a78d6;width:66.7%"></span><span class="rs-val">8</span></div>
+              <div class="rs-bar" tabindex="0" data-tip="TAILGATE 1"><span class="rs-fill" style="--c:#eb6834;width:8.3%"></span><span class="rs-val">1</span></div>
+              <div class="rs-bar" tabindex="0" data-tip="UNVERIFIED 8"><span class="rs-fill" style="--c:#1baf7a;width:66.7%"></span><span class="rs-val">8</span></div>
+            </div>
+          </div>
+          <div class="rs-note"
+            data-zh="<strong>結論：</strong>沒有任何單一門檻能同時避免擋下授權者與放行後面的人，與 EER 約 26% 一致，因此<strong>尾隨的身分驗證準確度不宣稱</strong>。可以展示的是：兩人同時追蹤、越線先後順序、通過時間差與事件輸出。"
+            data-en="<strong>Conclusion:</strong> no single threshold both keeps the authorized person in and the follower out, consistent with an EER of about 26%, so we <strong>do not claim identity-verification accuracy for tailgating</strong>. What can be shown: simultaneous two-person tracking, crossing order, time gap and event output.">
+            <strong>結論：</strong>沒有任何單一門檻能同時避免擋下授權者與放行後面的人，與 EER 約 26% 一致，因此<strong>尾隨的身分驗證準確度不宣稱</strong>。可以展示的是：兩人同時追蹤、越線先後順序、通過時間差與事件輸出。
+          </div>
+          <details class="rs-table">
+            <summary data-zh="表格檢視" data-en="Table view">表格檢視</summary>
+            <table>
+              <tr><th data-zh="歐氏門檻" data-en="Threshold">歐氏門檻</th><th>AUTH_PASS</th><th>TAILGATE</th><th>UNVERIFIED</th></tr>
+              <tr><td>5.0</td><td>3</td><td>3</td><td>12</td></tr>
+              <tr><td>5.84</td><td>4</td><td>2</td><td>12</td></tr>
+              <tr><td>6.5</td><td>8</td><td>1</td><td>8</td></tr>
+            </table>
+          </details>
+        </div>
+
+        <hr class="metrics-divider">
+
+        <div class="highlights-title" data-zh="資料規模與限制（如實說明）" data-en="Data Scale &amp; Limitations (stated plainly)">資料規模與限制（如實說明）</div>
+        <ul class="rs-limits">
+          <li data-zh="資料：S0 單人 10 趟（33 樣本）；S1 三人（84 樣本，測試 42）；S2 兩人尾隨 10 趟。人數少，所有差距<strong>不具統計顯著性</strong>。" data-en="Data: S0 one person, 10 trips (33 samples); S1 three people (84 samples, 42 test); S2 two-person tailgating, 10 trips. With so few people, none of the differences is <strong>statistically significant</strong>.">資料：S0 單人 10 趟（33 樣本）；S1 三人（84 樣本，測試 42）；S2 兩人尾隨 10 趟。人數少，所有差距<strong>不具統計顯著性</strong>。</li>
+          <li data-zh="S1 登錄、S2 測試的鏡頭設定不同，模板會失準；腳踝出畫面或被遮擋，連續可用幀僅 0.2–2.8 秒。" data-en="Enrolling on S1 and testing on S2 changes the camera setup, so templates drift; ankles leave the frame or are occluded, leaving only 0.2–2.8 s of continuous usable frames.">S1 登錄、S2 測試的鏡頭設定不同，模板會失準；腳踝出畫面或被遮擋，連續可用幀僅 0.2–2.8 秒。</li>
+          <li data-zh="兩人貼近時 MediaPipe 會丟掉其中一人；方向自動判斷在含站姿的窗口會失準（S1 準確率 60.7%，過濾靜止窗口後 69.4%）。" data-en="MediaPipe drops one person when two overlap; automatic direction detection fails on windows where the person stands still (S1 accuracy 60.7%, 69.4% after filtering static windows).">兩人貼近時 MediaPipe 會丟掉其中一人；方向自動判斷在含站姿的窗口會失準（S1 準確率 60.7%，過濾靜止窗口後 69.4%）。</li>
+          <li data-zh="尾隨偵測為<strong>離線驗證</strong>，尚未在 Jetson Nano 即時執行。" data-en="Tailgating detection is <strong>validated offline</strong>; it has not yet run in real time on the Jetson Nano.">尾隨偵測為<strong>離線驗證</strong>，尚未在 Jetson Nano 即時執行。</li>
+        </ul>
+
+        <div class="rs-more">
+          <a class="cta-btn" href="report-2026-11-18.html">
+            <span>📊</span>
+            <span data-zh="查看 11/17–11/18 完整報告" data-en="View the full 11/17–11/18 report">查看 11/17–11/18 完整報告</span>
           </a>
         </div>
       </div>
@@ -561,12 +792,12 @@
             <div class="feature-title" data-zh="實際效果" data-en="Verified Results">實際效果</div>
           </div>
           <div class="feature-body"
-            data-zh="Jetson 邊緣部署實測（5/20 紀錄）：已知人員辨識分數穩定通過、未知人員正確拒絕。<span class='arrow-line'>→ ⭐ Alice/Bob score 0.997–1.000</span><span class='arrow-line'>→ ⭐ 未知拒絕 best_score &lt; 0.78</span><span class='arrow-line'>→ ⭐ 即時 120 fps 擷取</span>"
-            data-en="Verified on Jetson edge deployment (May 20 log): known users score stably high, unknown users correctly rejected.<span class='arrow-line'>→ ⭐ Alice/Bob score 0.997–1.000</span><span class='arrow-line'>→ ⭐ Unknown rejected best_score &lt; 0.78</span><span class='arrow-line'>→ ⭐ Real-time 120 fps capture</span>">
-            Jetson 邊緣部署實測（5/20 紀錄）：已知人員辨識分數穩定通過、未知人員正確拒絕。
-            <span class="arrow-line">→ ⭐ Alice/Bob score 0.997–1.000</span>
-            <span class="arrow-line">→ ⭐ 未知拒絕 best_score &lt; 0.78</span>
-            <span class="arrow-line">→ ⭐ 即時 120 fps 擷取</span>
+            data-zh="離線評估（11/12–11/18，3 位受試者，樣本少，初步結果）：<span class='arrow-line'>→ ⭐ z-score＋歐氏距離：Rank-1 約 83–86%</span><span class='arrow-line'>→ ⭐ cosine 無法設門檻（門檻 0.8 時 FAR 100%）</span><span class='arrow-line'>→ ⭐ 尾隨規則模擬 9/9，真實兩人影片可同時追蹤</span>"
+            data-en="Offline evaluation (11/12–11/18, 3 subjects, small sample, preliminary):<span class='arrow-line'>→ ⭐ z-score + Euclidean: Rank-1 about 83–86%</span><span class='arrow-line'>→ ⭐ cosine cannot be thresholded (FAR 100% at 0.8)</span><span class='arrow-line'>→ ⭐ Tailgating rule 9/9 in simulation; real two-person clips tracked simultaneously</span>">
+            離線評估（11/12–11/18，3 位受試者，樣本少，初步結果）：
+            <span class="arrow-line">→ ⭐ z-score＋歐氏距離：Rank-1 約 83–86%</span>
+            <span class="arrow-line">→ ⭐ cosine 無法設門檻（門檻 0.8 時 FAR 100%）</span>
+            <span class="arrow-line">→ ⭐ 尾隨規則模擬 9/9，真實兩人影片可同時追蹤</span>
           </div>
         </div>
       </div>
@@ -596,76 +827,6 @@
       </div>
     </section>
 
-    <!-- ===== Metrics (dark) ===== -->
-    <section class="block">
-      <div class="metrics-block">
-        <div class="metrics-head">
-          <h2 data-zh="關鍵指標與驗證成果" data-en="Key Metrics &amp; Validation Results">關鍵指標與驗證成果</h2>
-          <p data-zh="基於 2026/05/20 實作紀錄" data-en="Based on the 2026/05/20 implementation log">基於 2026/05/20 實作紀錄</p>
-        </div>
-
-        <div class="metrics-grid">
-          <div class="metric-card">
-            <div class="metric-value v-blue">90%</div>
-            <div class="metric-label" data-zh="已知人員<br>辨識準確率" data-en="Known-user<br>recognition accuracy">已知人員<br>辨識準確率</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-value v-green" data-zh="1 次" data-en="1×">1 次</div>
-            <div class="metric-label" data-zh="模型<br>迭代次數" data-en="Model<br>iterations">模型<br>迭代次數</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-value v-orange">120 fps</div>
-            <div class="metric-label" data-zh="相機<br>擷取幀率" data-en="Camera<br>capture FPS">相機<br>擷取幀率</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-value v-coral">100%</div>
-            <div class="metric-label" data-zh="週期採集<br>完成率 (5/5)" data-en="Capture cycle<br>completion (5/5)">週期採集<br>完成率 (5/5)</div>
-          </div>
-        </div>
-
-        <hr class="metrics-divider">
-
-        <div class="highlights-title" data-zh="實作成果亮點" data-en="Implementation Highlights">實作成果亮點</div>
-
-        <div class="highlight-grid">
-          <div class="highlight-card">
-            <div class="highlight-head">
-              <div class="highlight-icon b">👤</div>
-              <div class="highlight-title" data-zh="身份辨識" data-en="Identity Recognition">身份辨識</div>
-            </div>
-            <ul class="highlight-list">
-              <li data-zh="Alice / Bob 辨識 score 達 0.997–1.000" data-en="Alice / Bob recognition score 0.997–1.000">Alice / Bob 辨識 score 達 0.997–1.000</li>
-              <li data-zh="未知人員正確拒絕（best_score 0.667–0.776）" data-en="Unknown users correctly rejected (best_score 0.667–0.776)">未知人員正確拒絕（best_score 0.667–0.776）</li>
-              <li data-zh="特徵向量維度 dim=(32,) 儲存至資料庫" data-en="Feature vector dim=(32,) stored in database">特徵向量維度 dim=(32,) 儲存至資料庫</li>
-            </ul>
-          </div>
-          <div class="highlight-card g">
-            <div class="highlight-head">
-              <div class="highlight-icon g">🖥️</div>
-              <div class="highlight-title" data-zh="系統運作" data-en="System Operation">系統運作</div>
-            </div>
-            <ul class="highlight-list">
-              <li data-zh="1280×720 @ 120 fps 即時串流採集" data-en="1280×720 @ 120 fps real-time streaming">1280×720 @ 120 fps 即時串流採集</li>
-              <li data-zh="MediaPipe Pose + TensorFlow Lite XNNPACK 推論" data-en="MediaPipe Pose + TensorFlow Lite XNNPACK inference">MediaPipe Pose + TensorFlow Lite XNNPACK 推論</li>
-              <li data-zh="5 週期連續採集全數完成，無遺漏" data-en="5 capture cycles completed in full, no loss">5 週期連續採集全數完成，無遺漏</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="metrics-summary"
-          data-zh="從本次實作紀錄提取出以下關鍵數據：<ul><li><strong>99.8%</strong> 辨識準確率（score 0.997–1.000）</li><li><strong>1 次</strong>迭代即達到高準確率</li><li><strong>120 fps</strong> 即時採集</li><li><strong>100%</strong> 週期完成率</li></ul>"
-          data-en="Key data extracted from this implementation log:<ul><li><strong>99.8%</strong> recognition accuracy (score 0.997–1.000)</li><li><strong>1×</strong> iteration to reach high accuracy</li><li><strong>120 fps</strong> real-time capture</li><li><strong>100%</strong> cycle completion</li></ul>">
-          從本次實作紀錄提取出以下關鍵數據：
-          <ul>
-            <li><strong>99.8%</strong> 辨識準確率（score 0.997–1.000）</li>
-            <li><strong>1 次</strong>迭代即達到高準確率</li>
-            <li><strong>120 fps</strong> 即時採集</li>
-            <li><strong>100%</strong> 週期完成率</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
     <!-- ===== Contribution + Application ===== -->
     <section class="block">
       <div class="pair-grid">
@@ -675,12 +836,12 @@
             <div class="pair-title" data-zh="研究貢獻" data-en="Research Contributions">研究貢獻</div>
           </div>
           <div class="pair-body"
-            data-zh="<span class='arrow-line'>→ ① 視覺大語言模型結合步態辨識的三層整合架構</span><span class='arrow-line'>→ ② Jetson 邊緣裝置部署可行性實證 (MediaPipe Pose)</span><span class='arrow-line'>→ ③ Alice/Bob 多使用者步態資料庫建置與門檻校準</span><span class='arrow-line'>→ ④ 工業級實機驗證與量化辨識成效</span>"
-            data-en="<span class='arrow-line'>→ ① Three-layer architecture integrating VLLM and gait</span><span class='arrow-line'>→ ② Feasibility on Jetson edge with MediaPipe Pose</span><span class='arrow-line'>→ ③ Multi-user gait DB with threshold calibration</span><span class='arrow-line'>→ ④ On-device validation with quantitative results</span>">
+            data-zh="<span class='arrow-line'>→ ① 視覺大語言模型結合步態辨識的三層整合架構</span><span class='arrow-line'>→ ② Jetson 邊緣裝置部署可行性實證 (MediaPipe Pose)</span><span class='arrow-line'>→ ③ 多人步態資料集與公式消融實驗（z-score＋歐氏距離使 Rank-1 約 71–74% → 83–86%）</span><span class='arrow-line'>→ ④ 離線尾隨判定（多人追蹤、越線順序、時間差）與限制分析</span>"
+            data-en="<span class='arrow-line'>→ ① Three-layer architecture integrating VLLM and gait</span><span class='arrow-line'>→ ② Feasibility on Jetson edge with MediaPipe Pose</span><span class='arrow-line'>→ ③ Multi-person gait dataset and formula ablation (z-score + Euclidean: Rank-1 about 71–74% → 83–86%)</span><span class='arrow-line'>→ ④ Offline tailgating decisions (multi-person tracking, crossing order, time gap) with limitation analysis</span>">
             <span class="arrow-line">→ ① 視覺大語言模型結合步態辨識的三層整合架構</span>
             <span class="arrow-line">→ ② Jetson 邊緣裝置部署可行性實證 (MediaPipe Pose)</span>
-            <span class="arrow-line">→ ③ Alice/Bob 多使用者步態資料庫建置與門檻校準</span>
-            <span class="arrow-line">→ ④ 工業級實機驗證與量化辨識成效</span>
+            <span class="arrow-line">→ ③ 多人步態資料集與公式消融實驗（z-score＋歐氏距離使 Rank-1 約 71–74% → 83–86%）</span>
+            <span class="arrow-line">→ ④ 離線尾隨判定（多人追蹤、越線順序、時間差）與限制分析</span>
           </div>
         </div>
 
@@ -820,6 +981,15 @@
             <p data-zh="完成 3 位受試者與尾隨情境的 Jetson 錄影；同場次驗證 z-score＋歐氏距離使 EER 由約 40% 降到約 30%（樣本少，初步結果）；發現 cosine 會把陌生人當成授權者，並修正尾隨規則使被擋住的尾隨者不再隱形，模擬 10/10；真實影片受場地遮擋，緊跟型尾隨尚未偵測到，已記錄原因與對策。"
                data-en="Recorded three subjects and tailgating scenarios on the Jetson; same-session validation shows z-score + Euclidean distance cuts EER from about 40% to about 30% (small sample, preliminary); found cosine accepts strangers as authorized and fixed the tailgating rule so occluded followers are no longer invisible (10/10 simulated); tailgating is not yet detected on real video due to occlusion at the site, with causes and countermeasures documented.">完成 3 位受試者與尾隨情境的 Jetson 錄影；同場次驗證 z-score＋歐氏距離使 EER 由約 40% 降到約 30%（樣本少，初步結果）；發現 cosine 會把陌生人當成授權者，並修正尾隨規則使被擋住的尾隨者不再隱形，模擬 10/10；真實影片受場地遮擋，緊跟型尾隨尚未偵測到，已記錄原因與對策。</p>
             <a class="report-link" href="report-2026-11-16.html"
+              data-zh="查看完整報告 →" data-en="View Full Report →">查看完整報告 →</a>
+          </div>
+          <div class="timeline-item done">
+            <div class="date">2026 / 11 / 18</div>
+            <h3 data-zh="尾隨補錄、S2 重錄、消融實驗結果與限制分析"
+                data-en="Tailgating re-recording, S2 session, ablation results &amp; limitations">尾隨補錄、S2 重錄、消融實驗結果與限制分析</h3>
+            <p data-zh="補錄並重錄兩人尾隨影片（S2），兩人已可同時追蹤；S1 三人消融：z-score＋歐氏距離使 Rank-1 由約 71–74% 提升到約 83–86%，cosine 無法設門檻；方向統一在此資料集未見提升，查出方向判斷失準的原因；尾隨身分驗證因鏡頭設定不同、樣本少而不宣稱準確度，如實整理限制。"
+               data-en="Re-recorded two-person tailgating clips (S2), now tracked simultaneously; S1 three-person ablation: z-score + Euclidean distance lifts Rank-1 from about 71–74% to about 83–86% while cosine cannot be thresholded; direction unification shows no gain here and the cause of unreliable direction detection was found; identity-verification accuracy for tailgating is not claimed because of the changed camera setup and small sample, with limitations documented.">補錄並重錄兩人尾隨影片（S2），兩人已可同時追蹤；S1 三人消融：z-score＋歐氏距離使 Rank-1 由約 71–74% 提升到約 83–86%，cosine 無法設門檻；方向統一在此資料集未見提升，查出方向判斷失準的原因；尾隨身分驗證因鏡頭設定不同、樣本少而不宣稱準確度，如實整理限制。</p>
+            <a class="report-link" href="report-2026-11-18.html"
               data-zh="查看完整報告 →" data-en="View Full Report →">查看完整報告 →</a>
           </div>
           <div class="timeline-item">
